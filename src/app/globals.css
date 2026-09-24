@@ -88,6 +88,77 @@
     "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
     "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+
+  /*
+   * Figma 텍스트 스타일. 크기는 rem(1rem = 16px), 자간은 Figma 값 그대로 px.
+   * text-*는 폰트 종류를 담지 못하므로 Display 계열은 font-display와 함께 쓴다.
+   */
+  --text-*: initial;
+
+  --text-heading-l-eb: 5.25rem;
+  --text-heading-l-eb--line-height: 1.3;
+  --text-heading-l-eb--letter-spacing: -1.8px;
+  --text-heading-l-eb--font-weight: 800;
+
+  --text-heading-m-b: 3rem;
+  --text-heading-m-b--line-height: 1.5;
+  --text-heading-m-b--letter-spacing: -2px;
+  --text-heading-m-b--font-weight: 700;
+
+  --text-heading-s-b: 2.75rem;
+  --text-heading-s-b--line-height: 1.5;
+  --text-heading-s-b--letter-spacing: -2px;
+  --text-heading-s-b--font-weight: 700;
+
+  --text-body-l-b: 2rem;
+  --text-body-l-b--line-height: 1.5;
+  --text-body-l-b--letter-spacing: -2px;
+  --text-body-l-b--font-weight: 700;
+
+  --text-body-l-m: 2rem;
+  --text-body-l-m--line-height: 1.3;
+  --text-body-l-m--letter-spacing: -1.2px;
+  --text-body-l-m--font-weight: 500;
+
+  --text-body-m-m: 1.5rem;
+  --text-body-m-m--line-height: 1.8;
+  --text-body-m-m--letter-spacing: -1.2px;
+  --text-body-m-m--font-weight: 500;
+
+  --text-body-s-b: 1.25rem;
+  --text-body-s-b--line-height: 1.4;
+  --text-body-s-b--letter-spacing: -0.8px;
+  --text-body-s-b--font-weight: 700;
+
+  --text-body-s-m: 1.25rem;
+  --text-body-s-m--line-height: 1.8;
+  --text-body-s-m--letter-spacing: -1.2px;
+  --text-body-s-m--font-weight: 500;
+
+  --text-detail-m-m: 1.125rem;
+  --text-detail-m-m--line-height: 1.45;
+  --text-detail-m-m--letter-spacing: -0.4px;
+  --text-detail-m-m--font-weight: 500;
+
+  --text-detail-s-m: 1rem;
+  --text-detail-s-m--line-height: 1.4;
+  --text-detail-s-m--letter-spacing: -0.8px;
+  --text-detail-s-m--font-weight: 500;
+
+  --text-display-l-b: 2rem;
+  --text-display-l-b--line-height: 1.4;
+  --text-display-l-b--letter-spacing: -0.8px;
+  --text-display-l-b--font-weight: 300;
+
+  --text-display-m-b: 1.25rem;
+  --text-display-m-b--line-height: 1.4;
+  --text-display-m-b--letter-spacing: -0.8px;
+  --text-display-m-b--font-weight: 300;
+
+  --text-display-s-b: 1rem;
+  --text-display-s-b--line-height: 1.4;
+  --text-display-s-b--letter-spacing: -0.8px;
+  --text-display-s-b--font-weight: 300;
 }
 
 /* --font-axiforma는 layout.tsx의 next/font가 <html>에 선언하므로 inline으로 풀어 쓴다. */
