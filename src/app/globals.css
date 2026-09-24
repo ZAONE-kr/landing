@@ -1,1 +1,13 @@
 @import "tailwindcss";
+
+@theme {
+  --font-sans:
+    "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic",
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+}
+
+/* --font-axiforma는 layout.tsx의 next/font가 <html>에 선언하므로 inline으로 풀어 쓴다. */
+@theme inline {
+  --font-display: var(--font-axiforma), var(--font-sans);
+}
