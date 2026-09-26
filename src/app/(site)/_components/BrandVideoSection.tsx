@@ -8,11 +8,13 @@ import posterImage from "@/assets/home/brand-video-poster.jpg";
 /*
  * 소리 없는 배경 영상. 원본(1분 57초 브랜드 영상, 맨 앞 검은 화면 1초는 잘라냄)을
  * H.264로 압축했다: 1080p 19MB, 720p 10MB. 1023px 이하는 720p를 받는다.
- * TODO: 지금은 public/videos에 둔다. 운영자가 바꿀 수 있도록 Sanity(Mux 등)로 옮길지는
+ * 파일은 Vercel Blob 공개 저장소에 있다. Blob은 30일 캐시를 걸어 주므로, 영상을 바꿀 때는
+ * 같은 이름으로 덮어쓰지 말고 새 이름으로 올린 뒤 아래 주소를 바꾼다.
+ * TODO: 운영자가 코드 없이 바꿀 수 있도록 Sanity(Mux 등)로 옮길지는
  * 편집 가능 범위가 정해지면 결정한다.
  */
-const VIDEO_1080 = "/videos/zaone-brand-1080.mp4";
-const VIDEO_720 = "/videos/zaone-brand-720.mp4";
+const VIDEO_1080 = "https://egvh4gzenf8xpitx.public.blob.vercel-storage.com/zaone-brand-1080.mp4";
+const VIDEO_720 = "https://egvh4gzenf8xpitx.public.blob.vercel-storage.com/zaone-brand-720.mp4";
 
 // 영역이 절반 이상 보이면 재생하고, 벗어나면 멈춘다. 모션 줄이기 설정이면 재생하지 않는다.
 const PLAY_THRESHOLD = 0.5;
