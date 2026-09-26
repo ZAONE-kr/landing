@@ -12,7 +12,8 @@ export function NewsletterSection() {
             함께 받아보세요
           </h2>
           <p className="text-body-xs-m text-text-quaternary lg:text-body-m-m">
-            물질과 교육, 지속가능성, 기업과 함께 만든 변화에 대한 새로운 기록을 보내드립니다.
+            물질과 교육, 지속가능성, 기업과 함께 만든 변화에 대한
+            <br className="lg:hidden" /> 새로운 기록을 보내드립니다.
           </p>
         </div>
         <NewsletterForm />

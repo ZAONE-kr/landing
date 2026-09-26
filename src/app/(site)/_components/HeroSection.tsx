@@ -37,8 +37,9 @@ export function HeroSection() {
                 <br className="hidden 2xl:inline" />
                 아이들이 살아갈 환경을 결정하고 있습니다.
               </p>
+              {/* 375 시안과 1440 시안은 여기서 줄을 바꾸고, 640 시안은 한 줄로 둔다. */}
               <p>
-                ZAONE은 이 문제를 다른 시각에서 바라보고, <br className="hidden 2xl:inline" />
+                ZAONE은 이 문제를 다른 시각에서 바라보고, <br className="sm:hidden 2xl:inline" />
                 새로운 변화를 만들어가고 있습니다.
               </p>
             </div>
