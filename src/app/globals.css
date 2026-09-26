@@ -1,7 +1,8 @@
 @import "tailwindcss";
 
 /*
- * Figma 디자인 시스템 변수. 이름은 Figma Dev Mode의 code syntax와 같다.
+ * Figma 디자인 시스템 변수. 이름은 Figma Dev Mode의 code syntax와 같고,
+ * code syntax가 없는 변수는 Figma 이름에서 만든다(/와 _는 -로).
  * Primitive는 원색 팔레트라 유틸리티를 만들지 않는다. 컴포넌트는 아래 @theme의 Semantic 토큰을 쓴다.
  */
 :root {
@@ -42,6 +43,7 @@
   --primitive-neutral-950-a18: #121b242e;
   --primitive-neutral-950-a42: #121b246b;
   --primitive-neutral-950-a54: #121b248a;
+  --primitive-neutral-950-a80: #121b24c7;
   --primitive-neutral-800-a10: #36414d1a;
   --primitive-neutral-0-a8: #ffffff14;
   --primitive-neutral-0-a16: #ffffff29;
@@ -57,30 +59,37 @@
   --color-bg-subtle: var(--primitive-neutral-50);
   --color-bg-soft: var(--primitive-neutral-100);
   --color-bg-muted: var(--primitive-neutral-200);
-  --color-bg-surface: var(--primitive-neutral-0);
+  --color-bg-surface: var(--primitive-neutral-100);
   --color-bg-strong: var(--primitive-neutral-950);
   --color-bg-navy: var(--primitive-blue-900);
+  --color-bg-inverse: var(--primitive-neutral-950);
   --color-bg-brand: var(--primitive-blue-700);
-  --color-bg-brand-soft: var(--primitive-blue-50);
-  --color-bg-highlight: var(--primitive-yellow-100);
+  --color-bg-brand-soft: var(--primitive-blue-200);
+  --color-bg-highlight: var(--primitive-yellow-50);
   --color-bg-accent: var(--primitive-pink-100);
+  --color-bg-overlay-a10: var(--primitive-neutral-800-a10);
   --color-bg-overlay: var(--primitive-neutral-950-a54);
+  --color-bg-overlay-a80: var(--primitive-neutral-950-a80);
 
   --color-text-primary: var(--primitive-neutral-950);
-  --color-text-secondary: var(--primitive-neutral-700);
+  --color-text-secondary: var(--primitive-neutral-800);
   --color-text-tertiary: var(--primitive-neutral-600);
+  --color-text-quaternary: var(--primitive-neutral-400);
   --color-text-inverse: var(--primitive-neutral-0);
-  --color-text-on-brand: var(--primitive-neutral-0);
   --color-text-brand: var(--primitive-blue-700);
+  --color-text-link: var(--primitive-blue-600);
 
   --color-icon-primary: var(--primitive-neutral-900);
   --color-icon-secondary: var(--primitive-neutral-600);
   --color-icon-brand: var(--primitive-blue-700);
+  --color-icon-inverse: var(--primitive-neutral-0);
 
-  --color-border-default: var(--primitive-neutral-200);
+  --color-border-default: var(--primitive-neutral-900);
   --color-border-strong: var(--primitive-neutral-400);
+  --color-border-soft: var(--primitive-neutral-0-a16);
   --color-border-brand: var(--primitive-blue-500);
   --color-border-focus: var(--primitive-blue-600);
+  --color-border-subtle: var(--primitive-neutral-100);
 }
 
 @theme {
@@ -90,7 +99,8 @@
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
 
   /*
-   * Figma 텍스트 스타일. 크기는 rem(1rem = 16px), 자간은 Figma 값 그대로 px.
+   * Figma 텍스트 스타일. 크기는 rem(1rem = 16px). 자간은 Figma가 px면 px,
+   * %면 글자 크기에 비례하도록 em(-2% → -0.02em).
    * text-*는 폰트 종류를 담지 못하므로 Display 계열은 font-display와 함께 쓴다.
    */
   --text-*: initial;
@@ -100,50 +110,120 @@
   --text-heading-l-eb--letter-spacing: -1.8px;
   --text-heading-l-eb--font-weight: 800;
 
+  --text-heading-m-eb: 3rem;
+  --text-heading-m-eb--line-height: 1.5;
+  --text-heading-m-eb--letter-spacing: -1.8px;
+  --text-heading-m-eb--font-weight: 800;
+
   --text-heading-m-b: 3rem;
   --text-heading-m-b--line-height: 1.5;
-  --text-heading-m-b--letter-spacing: -2px;
+  --text-heading-m-b--letter-spacing: -0.02em;
   --text-heading-m-b--font-weight: 700;
 
   --text-heading-s-b: 2.75rem;
   --text-heading-s-b--line-height: 1.5;
-  --text-heading-s-b--letter-spacing: -2px;
+  --text-heading-s-b--letter-spacing: -0.02em;
   --text-heading-s-b--font-weight: 700;
+
+  --text-title-l-b: 2.5rem;
+  --text-title-l-b--line-height: 1.5;
+  --text-title-l-b--letter-spacing: -0.02em;
+  --text-title-l-b--font-weight: 700;
+
+  --text-title-mm-sb: 1.75rem;
+  --text-title-mm-sb--line-height: 1.5;
+  --text-title-mm-sb--letter-spacing: -0.02em;
+  --text-title-mm-sb--font-weight: 600;
+
+  --text-title-m-b: 1.5rem;
+  --text-title-m-b--line-height: 1.5;
+  --text-title-m-b--letter-spacing: -0.02em;
+  --text-title-m-b--font-weight: 700;
+
+  --text-title-s-b: 1.25rem;
+  --text-title-s-b--line-height: 1.5;
+  --text-title-s-b--letter-spacing: -0.02em;
+  --text-title-s-b--font-weight: 700;
+
+  --text-title-s-sb: 1.25rem;
+  --text-title-s-sb--line-height: 1.5;
+  --text-title-s-sb--letter-spacing: -0.02em;
+  --text-title-s-sb--font-weight: 600;
+
+  --text-body-l-eb: 2rem;
+  --text-body-l-eb--line-height: 1.5;
+  --text-body-l-eb--letter-spacing: -1.8px;
+  --text-body-l-eb--font-weight: 800;
 
   --text-body-l-b: 2rem;
   --text-body-l-b--line-height: 1.5;
-  --text-body-l-b--letter-spacing: -2px;
+  --text-body-l-b--letter-spacing: -0.02em;
   --text-body-l-b--font-weight: 700;
 
-  --text-body-l-m: 2rem;
-  --text-body-l-m--line-height: 1.3;
-  --text-body-l-m--letter-spacing: -1.2px;
-  --text-body-l-m--font-weight: 500;
+  --text-body-m-sb: 1.5rem;
+  --text-body-m-sb--line-height: 1.8;
+  --text-body-m-sb--letter-spacing: -0.012em;
+  --text-body-m-sb--font-weight: 600;
 
   --text-body-m-m: 1.5rem;
   --text-body-m-m--line-height: 1.8;
-  --text-body-m-m--letter-spacing: -1.2px;
+  --text-body-m-m--letter-spacing: -0.012em;
   --text-body-m-m--font-weight: 500;
 
-  --text-body-s-b: 1.25rem;
+  --text-body-sm-b: 1.25rem;
+  --text-body-sm-b--line-height: 1.4;
+  --text-body-sm-b--letter-spacing: -0.8px;
+  --text-body-sm-b--font-weight: 700;
+
+  --text-body-sm-m: 1.25rem;
+  --text-body-sm-m--line-height: 1.8;
+  --text-body-sm-m--letter-spacing: -0.012em;
+  --text-body-sm-m--font-weight: 500;
+
+  --text-body-s-b: 1rem;
   --text-body-s-b--line-height: 1.4;
   --text-body-s-b--letter-spacing: -0.8px;
   --text-body-s-b--font-weight: 700;
 
-  --text-body-s-m: 1.25rem;
-  --text-body-s-m--line-height: 1.8;
-  --text-body-s-m--letter-spacing: -1.2px;
+  --text-body-s-m: 1rem;
+  --text-body-s-m--line-height: 1.65;
+  --text-body-s-m--letter-spacing: -0.4px;
   --text-body-s-m--font-weight: 500;
+
+  --text-body-xs-b: 0.875rem;
+  --text-body-xs-b--line-height: 1.4;
+  --text-body-xs-b--letter-spacing: -0.8px;
+  --text-body-xs-b--font-weight: 700;
+
+  --text-body-xs-m: 0.875rem;
+  --text-body-xs-m--line-height: 1.8;
+  --text-body-xs-m--letter-spacing: -0.012em;
+  --text-body-xs-m--font-weight: 500;
 
   --text-detail-m-m: 1.125rem;
   --text-detail-m-m--line-height: 1.45;
   --text-detail-m-m--letter-spacing: -0.4px;
   --text-detail-m-m--font-weight: 500;
 
+  --text-detail-s-b: 1rem;
+  --text-detail-s-b--line-height: 1.4;
+  --text-detail-s-b--letter-spacing: -0.8px;
+  --text-detail-s-b--font-weight: 700;
+
   --text-detail-s-m: 1rem;
   --text-detail-s-m--line-height: 1.4;
   --text-detail-s-m--letter-spacing: -0.8px;
   --text-detail-s-m--font-weight: 500;
+
+  --text-detail-xs-sb: 0.75rem;
+  --text-detail-xs-sb--line-height: 1.3;
+  --text-detail-xs-sb--letter-spacing: -0.012em;
+  --text-detail-xs-sb--font-weight: 600;
+
+  --text-detail-xs-m: 0.75rem;
+  --text-detail-xs-m--line-height: 1.45;
+  --text-detail-xs-m--letter-spacing: -0.4px;
+  --text-detail-xs-m--font-weight: 500;
 
   --text-display-l-b: 2rem;
   --text-display-l-b--line-height: 1.4;
@@ -159,6 +239,42 @@
   --text-display-s-b--line-height: 1.4;
   --text-display-s-b--letter-spacing: -0.8px;
   --text-display-s-b--font-weight: 300;
+
+  --text-display-xs-b: 0.75rem;
+  --text-display-xs-b--line-height: 1.4;
+  --text-display-xs-b--letter-spacing: -0.43px;
+  --text-display-xs-b--font-weight: 300;
+
+  /*
+   * Figma Spacing. p-md, gap-xl처럼 쓰고, Tailwind 숫자 간격(p-4)도 함께 쓸 수 있다.
+   * 이 이름은 max-w-md 같은 폭 유틸리티도 가져가므로 컨테이너 폭은 max-w-[28rem]처럼 쓴다.
+   */
+  --spacing-none: 0;
+  --spacing-xs: 0.25rem;
+  --spacing-s: 0.5rem;
+  --spacing-sm: 0.75rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.25rem;
+  --spacing-xl: 1.5rem;
+  --spacing-2xl: 2rem;
+  --spacing-3xl: 2.5rem;
+  --spacing-4xl: 3rem;
+  --spacing-5xl: 4rem;
+  --spacing-6xl: 5rem;
+  --spacing-7xl: 7.5rem;
+
+  /*
+   * Figma Radius. Tailwind 기본 크기(rounded-2xl 등)는 Figma 크기와 순서가 뒤섞이고
+   * rounded-s가 논리 속성 유틸리티와 겹치므로 막는다.
+   */
+  --radius-*: initial;
+  --radius-none: 0;
+  --radius-s: 0.25rem;
+  --radius-sm: 0.5rem;
+  --radius-md: 0.75rem;
+  --radius-lg: 1rem;
+  --radius-xl: 1.5rem;
+  --radius-full: 9999px;
 }
 
 /* --font-axiforma는 layout.tsx의 next/font가 <html>에 선언하므로 inline으로 풀어 쓴다. */

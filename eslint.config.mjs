@@ -14,6 +14,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // use_figma로 실행하는 코드라 맨 바깥에 return이 있다.
+    ".claude/skills/sync-design-tokens/scripts/dump-figma.js",
   ]),
 ]);
 
