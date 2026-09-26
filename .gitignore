@@ -39,3 +39,6 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Playwright MCP가 남기는 페이지 스냅숏·콘솔 로그
+/.playwright-mcp/
