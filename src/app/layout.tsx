@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "./globals.css";
+import { siteOpenGraph } from "./shared-metadata";
 
 // 라틴 전용 폰트(글리프 641개). 한글은 globals.css의 --font-display 스택에서 Pretendard로 넘어간다.
 const axiforma = localFont({
@@ -23,12 +24,10 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    type: "website",
+    ...siteOpenGraph,
     url: "/",
-    siteName: "자원(ZAONE)",
     title,
     description,
-    locale: "ko_KR",
   },
   verification: {
     google: "Ub2YfK6Tu8y1acSPadWYlytbjpxoTNjO7HVH1PY3Ybo",
