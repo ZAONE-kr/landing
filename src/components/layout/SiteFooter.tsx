@@ -3,13 +3,14 @@ import { Fragment, type ReactNode } from "react";
 
 import { Logo } from "@/components/ui/Logo";
 
-// TODO: 페이지·외부 링크 주소가 정해지면 채운다.
+// TODO: 시안이 없어 갈 곳을 임시로 정했다. 휴면자원·교육 협력은 메인의 같은 역할 카드와
+// 맞췄고, 문의 두 개는 폼이나 메일로 바뀔 수 있다. 시안이 나오면 다시 확인한다.
 const SERVICE_LINKS = [
-  { label: "휴면자원 연결하기", href: "#" },
-  { label: "교육·공간 협력하기", href: "#" },
-  { label: "후원하기", href: "#" },
-  { label: "일반문의", href: "#" },
-  { label: "채용문의", href: "#" },
+  { label: "휴면자원 연결하기", href: "/give-and-take" },
+  { label: "교육·공간 협력하기", href: "/zaone-lab" },
+  { label: "후원하기", href: "/donation" },
+  { label: "일반문의", href: "/contact" },
+  { label: "채용문의", href: "/contact" },
 ];
 
 const PUBLIC_INTEREST_URL =

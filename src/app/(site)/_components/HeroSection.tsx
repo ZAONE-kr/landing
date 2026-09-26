@@ -43,8 +43,7 @@ export function HeroSection() {
               </p>
             </div>
           </div>
-          {/* TODO: 소개 페이지 경로가 정해지면 채운다. */}
-          <Button href="#" className="px-4xl py-md text-detail-s-b 2xl:text-title-s-b">
+          <Button href="/about" className="px-4xl py-md text-detail-s-b 2xl:text-title-s-b">
             ZAONE이 만드는 변화 보기
           </Button>
         </div>

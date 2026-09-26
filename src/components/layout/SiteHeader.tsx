@@ -4,14 +4,13 @@ import { Button } from "@/components/ui/Button";
 import { MenuIcon, SearchIcon } from "@/components/ui/icons";
 import { Logo } from "@/components/ui/Logo";
 
-// TODO: 각 페이지가 생기면 경로를 채운다.
 const NAV_ITEMS = [
-  { label: "ABOUT", href: "#" },
-  { label: "GIVE & TAKE", href: "#" },
-  { label: "IMPACT", href: "#" },
-  { label: "INSIGHTS", href: "#" },
-  { label: "ZAONE LAB", href: "#" },
-  { label: "PARTNER WITH US", href: "#" },
+  { label: "ABOUT", href: "/about" },
+  { label: "GIVE & TAKE", href: "/give-and-take" },
+  { label: "IMPACT", href: "/impact" },
+  { label: "INSIGHTS", href: "/insights" },
+  { label: "ZAONE LAB", href: "/zaone-lab" },
+  { label: "PARTNER WITH US", href: "/partner-with-us" },
 ];
 
 // 1024에서 데스크톱 메뉴로 바뀐다. 시안 간격(1280 이상)으로는 1024에 들어가지 않아서
@@ -41,8 +40,11 @@ export function SiteHeader() {
           <SearchIcon className="size-6" />
         </button>
         <div className="hidden lg:block">
-          {/* TODO: 후원 페이지 경로가 정해지면 채운다. */}
-          <Button href="#" variant="outline" className="w-[150px] px-md py-sm text-body-s-m">
+          <Button
+            href="/donation"
+            variant="outline"
+            className="w-[150px] px-md py-sm text-body-s-m"
+          >
             후원하기
           </Button>
         </div>

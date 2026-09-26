@@ -16,27 +16,28 @@ type Insight = {
 
 // TODO: Sanity 블로그 스키마가 생기면 최신 글 3개를 불러온다.
 // 지금은 시안의 자리표시 내용이고, 읽는 시간(시안은 "%N%분")도 임시 값이다.
+// 글 페이지가 없어서 카드는 인사이트 목록으로 보낸다.
 const INSIGHTS: Insight[] = [
   {
     category: "Material",
     title: ["버려진 자원에서", "새로운 가능성을 보다"],
     readingMinutes: 5,
     image: heroImage,
-    href: "#",
+    href: "/insights",
   },
   {
     category: "Partnership",
     title: ["함께 만들어가는", "지속가능한 변화"],
     readingMinutes: 5,
     image: partnershipImage,
-    href: "#",
+    href: "/insights",
   },
   {
     category: "Education",
     title: ["물질이 만드는", "다른 배움의 장면"],
     readingMinutes: 5,
     image: educationImage,
-    href: "#",
+    href: "/insights",
   },
 ];
 
@@ -99,9 +100,8 @@ export function InsightsSection() {
           ))}
         </ul>
 
-        {/* TODO: 인사이트 목록 페이지가 생기면 경로를 채운다. */}
         <Button
-          href="#"
+          href="/insights"
           className="self-center px-4xl py-md text-body-s-b lg:px-6xl lg:py-xl lg:text-body-sm-b"
         >
           모든 인사이트 보기
