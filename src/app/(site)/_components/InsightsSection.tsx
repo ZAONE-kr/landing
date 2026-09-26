@@ -17,13 +17,13 @@ type Insight = {
 };
 
 // TODO: Sanity 블로그 스키마가 생기면 최신 글 3개를 불러온다.
-// 지금은 시안의 자리표시 내용이고, 읽는 시간(시안은 "%N%분")도 임시 값이다.
+// 지금은 시안의 자리표시 내용이고, 읽는 시간도 일단 모두 1분으로 둔 임시 값이다.
 // 글 페이지가 없어서 카드는 인사이트 목록으로 보낸다.
 const INSIGHTS: Insight[] = [
   {
     category: "Material",
     title: ["버려진 자원에서", "새로운 가능성을 보다"],
-    readingMinutes: 5,
+    readingMinutes: 1,
     image: heroImage,
     imageClassName: "lg:object-[50%_79%]",
     href: "/insights",
@@ -31,14 +31,14 @@ const INSIGHTS: Insight[] = [
   {
     category: "Partnership",
     title: ["함께 만들어가는", "지속가능한 변화"],
-    readingMinutes: 5,
+    readingMinutes: 1,
     image: partnershipImage,
     href: "/insights",
   },
   {
     category: "Education",
     title: ["물질이 만드는", "다른 배움의 장면"],
-    readingMinutes: 5,
+    readingMinutes: 1,
     image: educationImage,
     href: "/insights",
   },
@@ -70,7 +70,7 @@ function InsightCard({ insight }: { insight: Insight }) {
           {insight.title[1]}
         </h3>
         <p className="rounded-full bg-bg-default px-lg py-s text-detail-xs-sb text-text-secondary lg:px-xl lg:py-sm lg:text-body-s-m">
-          {insight.readingMinutes}분 소요
+          {insight.readingMinutes} min Read
         </p>
       </div>
     </Link>
