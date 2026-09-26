@@ -19,7 +19,8 @@ export function SiteHeader() {
   return (
     <header className="flex items-center gap-sm bg-bg-default p-xl lg:gap-2xl lg:px-lg xl:gap-6xl xl:px-4xl">
       <Link href="/" className="shrink-0">
-        <Logo className="h-auto w-25 text-text-primary lg:w-30" />
+        {/* 로고 색은 Figma 시안이 bg/strong으로 잡아 두었다. */}
+        <Logo className="h-auto w-25 text-bg-strong lg:w-30" />
       </Link>
 
       <nav aria-label="주요 메뉴" className="hidden flex-1 lg:block">
