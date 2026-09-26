@@ -1,5 +1,61 @@
-// TODO: 영상 원본(Figma 레이어 "ZAONE_편집본")을 받으면 <video autoPlay muted loop playsInline poster>로 채운다.
-// 저장 위치는 파일 크기를 보고 정한다(10MB 이하면 public/videos/, 넘으면 외부 저장소).
+"use client";
+
+import Image from "next/image";
+import { useEffect, useRef } from "react";
+
+import posterImage from "@/assets/home/brand-video-poster.jpg";
+
+/*
+ * 소리 없는 배경 영상. 원본(1분 57초 브랜드 영상, 맨 앞 검은 화면 1초는 잘라냄)을
+ * H.264로 압축했다: 1080p 19MB, 720p 10MB. 1023px 이하는 720p를 받는다.
+ * TODO: 지금은 public/videos에 둔다. 운영자가 바꿀 수 있도록 Sanity(Mux 등)로 옮길지는
+ * 편집 가능 범위가 정해지면 결정한다.
+ */
+const VIDEO_1080 = "/videos/zaone-brand-1080.mp4";
+const VIDEO_720 = "/videos/zaone-brand-720.mp4";
+
+// 영역이 절반 이상 보이면 재생하고, 벗어나면 멈춘다. 모션 줄이기 설정이면 재생하지 않는다.
+const PLAY_THRESHOLD = 0.5;
+
 export function BrandVideoSection() {
-  return <section aria-label="ZAONE 소개 영상" className="aspect-video w-full bg-bg-strong" />;
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !reduceMotion.matches) {
+          // 저전력 모드 등에서 자동재생이 막히면 대표 이미지가 그대로 보인다.
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: PLAY_THRESHOLD },
+    );
+    observer.observe(video);
+    return () => observer.disconnect();
+  }, []);
+
+  // 장식용 영상이라 스크린리더에서는 뺀다.
+  return (
+    <div aria-hidden className="relative aspect-video w-full overflow-hidden bg-bg-strong">
+      {/* 영상이 재생되기 전(preload="none")과 모션 줄이기 설정일 때 보이는 대표 이미지 */}
+      <Image src={posterImage} alt="" fill sizes="100vw" className="object-cover" />
+      <video
+        ref={videoRef}
+        muted
+        loop
+        playsInline
+        preload="none"
+        className="absolute inset-0 size-full object-cover"
+      >
+        <source src={VIDEO_1080} type="video/mp4" media="(min-width: 1024px)" />
+        <source src={VIDEO_720} type="video/mp4" />
+      </video>
+    </div>
+  );
 }
