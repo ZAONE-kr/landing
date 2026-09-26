@@ -248,6 +248,7 @@
   /*
    * Figma Spacing. p-md, gap-xl처럼 쓰고, Tailwind 숫자 간격(p-4)도 함께 쓸 수 있다.
    * 이 이름은 max-w-md 같은 폭 유틸리티도 가져가므로 컨테이너 폭은 max-w-[28rem]처럼 쓴다.
+   * max-w-none도 spacing-none(0)이 되어 폭이 0으로 줄어드니, 제한을 풀 때는 max-w-full을 쓴다.
    */
   --spacing-none: 0;
   --spacing-xs: 0.25rem;
@@ -280,4 +281,25 @@
 /* --font-axiforma는 layout.tsx의 next/font가 <html>에 선언하므로 inline으로 풀어 쓴다. */
 @theme inline {
   --font-display: var(--font-axiforma), var(--font-sans);
+}
+
+/*
+ * 화면 폭. Figma 시안은 375·640(모바일)과 1440(데스크톱)뿐이다.
+ * 섹션과 헤더 모두 lg(1024)에서 데스크톱 배치로 바뀐다.
+ * 2xl은 시안 폭 1440으로 당겨서, 여기서부터 시안의 글자 크기와 줄바꿈을 그대로 쓴다.
+ */
+@theme {
+  --breakpoint-2xl: 90rem;
+
+  /*
+   * 후원 로고 무한 캐러셀. 같은 목록을 두 벌 이어 붙이고 한 벌 폭(-50%)만큼 흘린 뒤
+   * 처음으로 돌아간다. 한 벌(14개)에 60초, 로고 하나가 약 4초에 지나간다.
+   */
+  --animate-supporters-marquee: marquee 60s linear infinite;
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
 }
