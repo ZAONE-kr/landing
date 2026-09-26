@@ -27,7 +27,9 @@ export function SiteHeader() {
         <ul className="flex items-center gap-lg font-display text-display-s-b whitespace-nowrap text-text-tertiary xl:gap-2xl">
           {NAV_ITEMS.map((item) => (
             <li key={item.label}>
-              <Link href={item.href}>{item.label}</Link>
+              <Link href={item.href} className="link-underline">
+                {item.label}
+              </Link>
             </li>
           ))}
         </ul>

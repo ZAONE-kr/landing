@@ -50,6 +50,7 @@ export function SiteFooter() {
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://www.instagram.com/zaone.play/"
+                  className="link-underline"
                 >
                   Instagram
                 </Link>{" "}
@@ -58,6 +59,7 @@ export function SiteFooter() {
                   target="_blank"
                   rel="noopener noreferrer"
                   href="https://www.youtube.com/@zaone_org"
+                  className="link-underline"
                 >
                   YouTube
                 </Link>
@@ -69,7 +71,9 @@ export function SiteFooter() {
             <ul className="flex flex-col gap-md text-body-s-m whitespace-nowrap text-text-inverse lg:gap-[18px] lg:text-detail-m-m">
               {SERVICE_LINKS.map((link) => (
                 <li key={link.label}>
-                  <Link href={link.href}>{link.label}</Link>
+                  <Link href={link.href} className="link-underline">
+                    {link.label}
+                  </Link>
                 </li>
               ))}
             </ul>

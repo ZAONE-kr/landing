@@ -47,14 +47,17 @@ const PATHWAYS: Pathway[] = [
 
 function PathwayCard({ pathway }: { pathway: Pathway }) {
   return (
-    <article className="relative isolate flex h-[240px] w-full shrink-0 flex-col overflow-hidden rounded-md px-lg py-xl lg:h-[640px] lg:w-[500px] lg:rounded-xl lg:px-3xl lg:py-5xl">
-      <Image
-        src={pathway.image}
-        alt=""
-        fill
-        sizes="(min-width: 1024px) 500px, 100vw"
-        className={`-z-10 object-cover ${pathway.imageClassName}`}
-      />
+    <article className="group/card relative isolate flex h-[240px] w-full shrink-0 flex-col overflow-hidden rounded-md px-lg py-xl lg:h-[640px] lg:w-[500px] lg:rounded-xl lg:px-3xl lg:py-5xl">
+      {/* 마우스를 올리면 사진이 천천히 살짝 커진다. 좌우 반전(scale-x)과 겹치지 않게 감싸는 요소를 키운다. */}
+      <div className="absolute inset-0 -z-10 transition-transform duration-600 ease-out motion-safe:group-hover/card:scale-[1.03]">
+        <Image
+          src={pathway.image}
+          alt=""
+          fill
+          sizes="(min-width: 1024px) 500px, 100vw"
+          className={`object-cover ${pathway.imageClassName}`}
+        />
+      </div>
       <div
         aria-hidden
         className="absolute inset-0 -z-10 bg-linear-to-b from-bg-overlay-a10 to-bg-overlay-a80"
@@ -80,7 +83,8 @@ function PathwayCard({ pathway }: { pathway: Pathway }) {
           className="gap-1.5 py-s pr-sm pl-md text-detail-xs-sb lg:gap-sm lg:py-lg lg:pr-xl lg:pl-2xl lg:text-title-s-sb"
         >
           {pathway.cta}
-          <ArrowRightIcon className="size-5 text-icon-primary lg:size-9" />
+          {/* 화살표가 가리키는 쪽으로 4px 밀려난다. */}
+          <ArrowRightIcon className="size-5 text-icon-primary transition-transform duration-250 ease-out motion-safe:group-hover/button:translate-x-1 motion-safe:group-focus-visible/button:translate-x-1 lg:size-9" />
         </Button>
       </div>
     </article>

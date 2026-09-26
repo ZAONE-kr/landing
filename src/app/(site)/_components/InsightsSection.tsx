@@ -44,15 +44,16 @@ function InsightCard({ insight }: { insight: Insight }) {
   return (
     <Link
       href={insight.href}
-      className="flex h-[400px] w-[280px] flex-col overflow-hidden rounded-md lg:h-[511px] lg:w-auto lg:rounded-lg"
+      className="group/card flex h-[400px] w-[280px] flex-col overflow-hidden rounded-md lg:h-[511px] lg:w-auto lg:rounded-lg"
     >
-      <div className="relative h-[156px] shrink-0 lg:h-[180px]">
+      <div className="relative h-[156px] shrink-0 overflow-hidden lg:h-[180px]">
+        {/* 마우스를 올리면 사진이 천천히 살짝 커진다. */}
         <Image
           src={insight.image}
           alt=""
           fill
           sizes="(min-width: 1024px) 30vw, 280px"
-          className="object-cover"
+          className="object-cover transition-transform duration-600 ease-out motion-safe:group-hover/card:scale-[1.03]"
         />
       </div>
       <div className="flex flex-1 flex-col items-start gap-sm bg-bg-surface px-lg py-2xl lg:px-xl lg:py-3xl">
