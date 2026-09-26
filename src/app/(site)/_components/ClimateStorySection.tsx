@@ -1,7 +1,7 @@
 export function ClimateStorySection() {
   return (
-    <section className="px-xl py-3xl lg:p-7xl">
-      <div className="mx-auto flex max-w-[37rem] flex-col gap-3xl lg:max-w-[51.25rem] lg:gap-5xl">
+    <section className="px-lg py-3xl lg:p-7xl">
+      <div className="mx-auto flex max-w-[37.5rem] flex-col gap-3xl lg:max-w-[51.25rem] lg:gap-5xl">
         <p className="text-body-xs-m text-text-secondary lg:text-body-sm-m">
           2015년, 세계는 지구 온도 상승을 1.5°C 안에서 막기 위해 노력하기로 약속했습니다. 2024년은
           처음으로 한 해 평균기온이 그 기준을 넘어선 해였습니다.

@@ -76,8 +76,8 @@ function InsightCard({ insight }: { insight: Insight }) {
 
 export function InsightsSection() {
   return (
-    <section className="px-xl py-3xl lg:px-5xl lg:pt-6xl lg:pb-7xl 2xl:px-7xl">
-      <div className="mx-auto flex max-w-[37rem] flex-col gap-2xl lg:max-w-[75rem] lg:gap-5xl">
+    <section className="px-lg py-3xl lg:px-5xl lg:pt-6xl lg:pb-7xl 2xl:px-7xl">
+      <div className="mx-auto flex max-w-[37.5rem] flex-col gap-2xl lg:max-w-[75rem] lg:gap-5xl">
         <div className="flex flex-col gap-md lg:flex-row lg:items-center lg:gap-4xl">
           <h2 className="text-title-m-b text-text-primary lg:flex-1 lg:text-body-l-b 2xl:text-heading-s-b">
             우리가 더 오래
@@ -92,7 +92,7 @@ export function InsightsSection() {
         </div>
 
         {/* 모바일은 가로로 넘겨 보고, 목록이 화면 끝까지 이어지도록 좌우 여백 밖으로 편다. */}
-        <ul className="-mx-xl flex snap-x snap-mandatory scroll-px-xl scrollbar-none gap-md overflow-x-auto px-xl lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-lg lg:overflow-visible lg:px-0">
+        <ul className="-mx-lg flex snap-x snap-mandatory scroll-px-lg scrollbar-none gap-md overflow-x-auto px-lg lg:mx-0 lg:grid lg:grid-cols-3 lg:gap-lg lg:overflow-visible lg:px-0">
           {INSIGHTS.map((insight) => (
             <li key={insight.category} className="shrink-0 snap-start">
               <InsightCard insight={insight} />

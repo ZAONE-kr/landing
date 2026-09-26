@@ -34,7 +34,7 @@ function InfoRow({ items }: { items: ReactNode[] }) {
 
 export function SiteFooter() {
   return (
-    <footer className="bg-bg-strong px-xl py-6xl lg:px-5xl 2xl:px-7xl">
+    <footer className="bg-bg-strong px-lg py-6xl lg:px-5xl 2xl:px-7xl">
       <div className="mx-auto flex max-w-[75rem] flex-col gap-[50px]">
         <div className="flex flex-col gap-2xl lg:flex-row lg:items-start lg:justify-between">
           <div className="flex w-[300px] flex-col gap-sm lg:gap-[18px]">

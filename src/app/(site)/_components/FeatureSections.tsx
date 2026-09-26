@@ -25,9 +25,9 @@ function FeatureSplit({
   className,
 }: FeatureSplitProps) {
   return (
-    <section className={`bg-bg-subtle px-xl lg:px-5xl 2xl:px-7xl ${className}`}>
+    <section className={`bg-bg-subtle px-lg lg:px-5xl 2xl:px-7xl ${className}`}>
       <div
-        className={`mx-auto flex max-w-[37rem] flex-col items-center gap-3xl lg:max-w-[75rem] lg:gap-5xl 2xl:gap-7xl ${imageSide === "left" ? "lg:flex-row-reverse" : "lg:flex-row"}`}
+        className={`mx-auto flex max-w-[37.5rem] flex-col items-center gap-3xl lg:max-w-[75rem] lg:gap-5xl 2xl:gap-7xl ${imageSide === "left" ? "lg:flex-row-reverse" : "lg:flex-row"}`}
       >
         <div className="flex w-full flex-col gap-xl lg:flex-1 2xl:gap-2xl">
           <h2 className="text-title-m-b text-text-primary xl:text-body-l-b 2xl:text-title-l-b">
@@ -37,8 +37,7 @@ function FeatureSplit({
             {children}
           </div>
         </div>
-        {/* 모바일 사진은 글보다 양옆으로 4px 넓다(시안 20px 여백 vs 글 24px). */}
-        <div className="relative aspect-[3/2] w-[calc(100%+0.5rem)] overflow-hidden lg:aspect-[570/750] lg:w-[47.5%] lg:shrink-0">
+        <div className="relative aspect-[3/2] w-full overflow-hidden lg:aspect-[570/750] lg:w-[47.5%] lg:shrink-0">
           <Image
             src={image}
             alt={imageAlt}

@@ -19,8 +19,8 @@ export function HeroSection() {
         />
       </div>
 
-      <div className="bg-bg-brand-soft px-xl py-2xl lg:w-[41.32%] lg:overflow-hidden lg:px-5xl lg:py-6xl">
-        <div className="mx-auto flex max-w-[37rem] flex-col items-center gap-4xl lg:mx-0 lg:max-w-full lg:items-start">
+      <div className="bg-bg-brand-soft px-lg py-2xl lg:w-[41.32%] lg:overflow-hidden lg:px-5xl lg:py-6xl">
+        <div className="mx-auto flex max-w-[37.5rem] flex-col items-center gap-4xl lg:mx-0 lg:max-w-full lg:items-start">
           <div className="flex w-full flex-col gap-lg 2xl:gap-2xl">
             <h1 className="text-body-l-eb text-text-primary 2xl:text-heading-m-eb">
               지금의 선택이

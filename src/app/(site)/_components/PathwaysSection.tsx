@@ -94,8 +94,8 @@ function PathwayCard({ pathway }: { pathway: Pathway }) {
 
 export function PathwaysSection() {
   return (
-    <section className="flex flex-col items-center gap-2xl px-xl py-3xl lg:gap-5xl lg:px-0 lg:py-7xl">
-      <div className="flex max-w-[37rem] flex-col items-center gap-md text-center lg:max-w-[51.25rem] lg:gap-2xl">
+    <section className="flex flex-col items-center gap-2xl px-lg py-3xl lg:gap-5xl lg:px-0 lg:py-7xl">
+      <div className="flex max-w-[37.5rem] flex-col items-center gap-md text-center lg:max-w-[51.25rem] lg:gap-2xl">
         <h2 className="text-title-m-b text-text-primary lg:text-heading-s-b">
           다음 쓰임을 함께 만드는 방법
         </h2>
@@ -111,7 +111,7 @@ export function PathwaysSection() {
        * 첫 카드는 다른 섹션의 본문 왼쪽 선에 맞추고, 오른쪽은 화면 끝까지 이어진다.
        * overscroll-x-contain: 트랙패드로 끝까지 넘겼을 때 브라우저 뒤로 가기가 되지 않게 한다.
        */}
-      <SwipeRow className="w-full max-w-[37rem] lg:max-w-full lg:cursor-grab lg:snap-x lg:snap-mandatory lg:scroll-px-[max(4rem,calc((100%-75rem)/2))] lg:overscroll-x-contain">
+      <SwipeRow className="w-full max-w-[37.5rem] lg:max-w-full lg:cursor-grab lg:snap-x lg:snap-mandatory lg:scroll-px-[max(4rem,calc((100%-75rem)/2))] lg:overscroll-x-contain">
         <ul className="flex flex-col gap-md lg:w-max lg:flex-row lg:gap-lg lg:px-[max(4rem,calc((100%-75rem)/2))]">
           {PATHWAYS.map((pathway) => (
             <li key={pathway.cta} className="lg:snap-start">
