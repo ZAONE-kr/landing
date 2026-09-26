@@ -16,7 +16,8 @@ export const metadata: Metadata = {
   openGraph: pageOpenGraph({ url: "/privacy", title, description }),
 };
 
-// 본문은 기존 사이트(zaone.org/privacy, 아임웹) 문구를 그대로 옮겼다. 내용은 단체가 정한다.
+// 본문은 기존 사이트(zaone.org/privacy, 아임웹) 문구를 옮기고, 뉴스레터 이메일 수집(1·2·4항)과
+// 개인정보관리 책임자(8항)만 더했다. 내용은 단체가 정한다.
 // 원문에서 줄바꿈(<br>)으로 나뉜 문장은 <p>로 나눴다.
 export default function PrivacyPage() {
   return (
@@ -227,7 +228,23 @@ export default function PrivacyPage() {
           </p>
         </LegalSection>
 
-        <LegalSection level={3} title="8) 처리방침 변경에 대한 고지의 의무">
+        <LegalSection level={3} title="8) 개인정보관리 책임자">
+          <p>
+            회사는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의
+            불만처리 및 피해구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.
+          </p>
+          <BulletList>
+            <li>성명 : 이수영</li>
+            <li>직책 : 대표</li>
+            <li>연락처 : 070-4124-8887, lee@zaone.org</li>
+          </BulletList>
+          <p>
+            이용자는 개인정보 보호 관련 문의, 불만처리, 피해구제 등에 관한 사항을 개인정보
+            보호책임자에게 문의하실 수 있으며, 회사는 지체 없이 답변 및 처리해 드리겠습니다.
+          </p>
+        </LegalSection>
+
+        <LegalSection level={3} title="9) 처리방침 변경에 대한 고지의 의무">
           <p>
             현 개인정보취급방침의 내용 추가, 삭제 및 수정이 있을 시에는 개정 최소 7일전부터
             홈페이지의 ‘공지사항’을 통해 고지할 것입니다.
