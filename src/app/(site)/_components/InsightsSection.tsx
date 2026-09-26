@@ -48,7 +48,7 @@ function InsightCard({ insight }: { insight: Insight }) {
   return (
     <Link
       href={insight.href}
-      className="group/card flex h-[400px] w-[280px] flex-col overflow-hidden rounded-md lg:h-[511px] lg:w-auto"
+      className="group/card flex h-[400px] w-[280px] flex-col overflow-hidden rounded-md lg:h-[511px] lg:w-auto lg:rounded-lg"
     >
       <div className="relative h-[156px] shrink-0 overflow-hidden lg:h-[180px]">
         {/* 마우스를 올리면 사진이 천천히 살짝 커진다. */}
