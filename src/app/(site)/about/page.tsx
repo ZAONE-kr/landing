@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { pageOpenGraph } from "@/app/shared-metadata";
 
 import { AboutHeroSection } from "./_components/AboutHeroSection";
+import { CreativeReuseSection } from "./_components/CreativeReuseSection";
 import { CreativityQuestionSection } from "./_components/CreativityQuestionSection";
 import { ImperfectionSection } from "./_components/ImperfectionSection";
 import { ManufacturingSection } from "./_components/ManufacturingSection";
@@ -29,6 +30,7 @@ export default function AboutPage() {
       <ImperfectionSection />
       <CreativityQuestionSection />
       <ManufacturingSection />
+      <CreativeReuseSection />
     </main>
   );
 }
