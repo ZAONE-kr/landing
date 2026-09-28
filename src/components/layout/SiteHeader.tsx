@@ -43,7 +43,7 @@ export function SiteHeader() {
           <Button
             href="/donation"
             variant="outline"
-            className="w-[150px] px-3.5 py-2.5 text-detail-s-m"
+            className="w-[150px] px-md py-sm text-body-s-m"
           >
             후원하기
           </Button>
