@@ -9,8 +9,9 @@ type Connection = {
   title: [string, string];
   href: string;
   image: StaticImageData;
-  // 시안에서 사진을 자른 위치와 확대. 1% 사진은 가운데 로고가 제목과 겹치지 않게 왼쪽에 맞춘다.
-  imageClassName: string;
+  // 시안의 사진 틀(사진 비율 그대로). 카드 왼쪽에 붙이고, 세로는 translate로 사진의 어느 지점을
+  // 카드 가운데에 둘지 정한다. 틀 폭에 최솟값이 있어 좁은 화면에서는 사진이 확대된다.
+  imageBoxClassName: string;
 };
 
 // TODO: "자세히 보기"가 갈 곳을 아직 받지 못해 인사이트 목록으로 보낸다. 주소를 받으면 바꾼다.
@@ -19,14 +20,16 @@ const CONNECTIONS: Connection[] = [
     title: ["30년을 이어온 이탈리아의", "창의적 재사용 센터"],
     href: "/insights",
     image: italyImage,
-    // 데스크톱 시안은 사진을 1.155배 키워 왼쪽에 붙였다. 375 시안의 확대(1.28배)는 오른쪽 사람이 잘려서 따르지 않는다.
-    imageClassName: "object-center sm:object-[50%_45%] lg:origin-left lg:scale-[1.155]",
+    // 틀 폭은 420px 이상, 데스크톱은 카드의 115.5%. 사진 세로 50%(375)·46.2%(640)·46.7%(1440) 지점이 가운데다.
+    imageBoxClassName:
+      "aspect-[3/4] min-h-full w-[max(26.25rem,100%)] -translate-y-1/2 sm:translate-y-[-46.2%] lg:w-[115.5%] lg:translate-y-[-46.7%]",
   },
   {
     title: ["1% for the Planet이", "인증한 환경단체"],
     href: "/insights",
     image: onePercentImage,
-    imageClassName: "object-left",
+    // 틀 폭은 413px 이상. 좁은 화면에서는 가운데 로고가 오른쪽으로 비켜나 제목과 덜 겹친다.
+    imageBoxClassName: "aspect-[1400/678] min-h-full w-[max(25.8125rem,100%)] -translate-y-1/2",
   },
 ];
 
@@ -41,14 +44,16 @@ function ConnectionCard({ connection }: { connection: Connection }) {
     <article className="group/card relative isolate flex h-[180px] flex-col items-start overflow-hidden rounded-md px-lg py-xl lg:h-[457px] lg:gap-6xl lg:rounded-xl lg:px-3xl lg:py-4xl">
       {/* 마우스를 올리면 사진이 천천히 살짝 커진다. */}
       <div className="absolute inset-0 -z-10 transition-transform duration-600 ease-out motion-safe:group-hover/card:scale-[1.03]">
-        <Image
-          src={connection.image}
-          alt=""
-          fill
-          placeholder="blur"
-          sizes="(min-width: 1440px) 1200px, 100vw"
-          className={`object-cover ${connection.imageClassName}`}
-        />
+        <div className={`absolute top-1/2 left-0 ${connection.imageBoxClassName}`}>
+          <Image
+            src={connection.image}
+            alt=""
+            fill
+            placeholder="blur"
+            sizes="(min-width: 1440px) 1386px, (min-width: 1024px) 110vw, (min-width: 420px) 100vw, 420px"
+            className="object-cover"
+          />
+        </div>
       </div>
       <div
         aria-hidden
