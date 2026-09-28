@@ -6,6 +6,7 @@ import { AboutHeroSection } from "./_components/AboutHeroSection";
 import { BoardSection } from "./_components/BoardSection";
 import { CreativeReuseSection } from "./_components/CreativeReuseSection";
 import { CreativityQuestionSection } from "./_components/CreativityQuestionSection";
+import { GlobalNetworkSection } from "./_components/GlobalNetworkSection";
 import { ImperfectionSection } from "./_components/ImperfectionSection";
 import { ManufacturingSection } from "./_components/ManufacturingSection";
 
@@ -33,6 +34,7 @@ export default function AboutPage() {
       <ManufacturingSection />
       <CreativeReuseSection />
       <BoardSection />
+      <GlobalNetworkSection />
     </main>
   );
 }
