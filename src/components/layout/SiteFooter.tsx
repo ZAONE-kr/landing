@@ -38,7 +38,7 @@ export function SiteFooter() {
       <div className="mx-auto flex max-w-[75rem] flex-col gap-[50px]">
         <div className="flex flex-col gap-2xl lg:flex-row lg:items-start lg:justify-between">
           <div className="flex w-[300px] flex-col gap-sm lg:gap-[18px]">
-            <Logo className="h-auto w-40 text-text-inverse lg:w-50" />
+            <Logo className="h-auto w-40 text-icon-inverse lg:w-50" />
             <div className="flex flex-col gap-xs text-detail-xs-m text-text-tertiary lg:gap-s lg:text-detail-m-m">
               <p>© 2026 ZAONE. All rights reserved.</p>
               <p>
