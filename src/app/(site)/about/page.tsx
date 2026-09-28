@@ -5,6 +5,7 @@ import { pageOpenGraph } from "@/app/shared-metadata";
 import { AboutHeroSection } from "./_components/AboutHeroSection";
 import { CreativityQuestionSection } from "./_components/CreativityQuestionSection";
 import { ImperfectionSection } from "./_components/ImperfectionSection";
+import { ManufacturingSection } from "./_components/ManufacturingSection";
 
 const title = "ABOUT - 자원(ZAONE)";
 const description =
@@ -27,6 +28,7 @@ export default function AboutPage() {
       <AboutHeroSection />
       <ImperfectionSection />
       <CreativityQuestionSection />
+      <ManufacturingSection />
     </main>
   );
 }
