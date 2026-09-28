@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { pageOpenGraph } from "@/app/shared-metadata";
 
 import { AboutHeroSection } from "./_components/AboutHeroSection";
+import { ImperfectionSection } from "./_components/ImperfectionSection";
 
 const title = "ABOUT - 자원(ZAONE)";
 const description =
@@ -23,6 +24,7 @@ export default function AboutPage() {
   return (
     <main>
       <AboutHeroSection />
+      <ImperfectionSection />
     </main>
   );
 }
