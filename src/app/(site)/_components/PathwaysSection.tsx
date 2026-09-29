@@ -99,7 +99,7 @@ export function PathwaysSection() {
         <h2 className="text-title-m-b text-text-primary lg:text-heading-s-b">
           다음 쓰임을 함께 만드는 방법
         </h2>
-        <p className="text-body-xs-m text-text-secondary lg:text-body-m-m">
+        <p className="text-body-xs-m text-text-secondary lg:text-body-sm-r">
           환경을 지키는 일과 어린 시절을 지키는 일은 여러 자리에서 시작될 수 있습니다.
           <br className="hidden lg:inline" /> ZAONE은 산업과 기업, 교육 현장이 가진 서로 다른 자원과
           역할을 연결합니다.

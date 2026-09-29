@@ -2,7 +2,7 @@ export function ClimateStorySection() {
   return (
     <section className="px-lg py-3xl lg:p-7xl">
       <div className="mx-auto flex max-w-[37.5rem] flex-col gap-3xl lg:max-w-[51.25rem] lg:gap-5xl">
-        <p className="text-body-xs-m text-text-secondary lg:text-body-sm-m">
+        <p className="text-body-xs-m text-text-secondary lg:text-body-sm-r">
           2015년, 세계는 지구 온도 상승을 1.5°C 안에서 막기 위해 노력하기로 약속했습니다. 2024년은
           처음으로 한 해 평균기온이 그 기준을 넘어선 해였습니다.
         </p>
@@ -12,7 +12,7 @@ export function ClimateStorySection() {
           우리가 주목한 것은
           <br className="lg:hidden" /> 어린 시절이었습니다.
         </h2>
-        <div className="flex flex-col gap-xl text-body-xs-m text-text-secondary lg:text-body-sm-m">
+        <div className="flex flex-col gap-xl text-body-xs-m text-text-secondary lg:text-body-sm-r">
           <p>
             어떤 사람과 시간을 보냈는지, 어떤 공간에서 자랐는지, 무엇을 만지고 가지고 놀았는지,
             자연과 사물을 어떻게 경험했는지. 이런 작은 경험들이 한 사람이 세계를 이해하는 방식에

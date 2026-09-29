@@ -122,7 +122,7 @@ export function BoardSection() {
             책임 있게 운영합니다.
           </h2>
           {/* 시안은 "공익을 위해" 뒤에서 줄을 바꾸는데, 375에서는 이 두 낱말만 한 줄에 남아서 640부터 바꾼다. */}
-          <p className="text-body-s-m text-text-secondary lg:text-body-m-m">
+          <p className="text-body-s-m text-text-secondary lg:text-body-sm-r">
             사단법인 자원(ZAONE)은 서로 다른 전문성을 가진 이사회와 감사가 조직의 운영을 함께
             살핍니다. 이사회는 자원의 미션과 중장기 방향을 검토하고, 조직의 자원이 공익을 위해
             <br className="hidden sm:inline" /> 책임 있게 사용되도록 주요 사업과 자원의 사용에 관한

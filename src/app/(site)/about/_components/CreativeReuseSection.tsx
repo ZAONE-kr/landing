@@ -98,7 +98,7 @@ export function CreativeReuseSection() {
               재료의 창의적 재사용
             </h2>
             {/* 375 시안은 네 줄로 끊고, 640 시안은 흘려 두고, 1440 시안은 세 줄로 끊는다. */}
-            <p className="text-body-s-m text-text-secondary lg:text-body-sm-m">
+            <p className="text-body-s-m text-text-secondary lg:text-body-sm-r">
               자원은 산업 현장의 휴면자원을 교육과 사회의 다양한
               <br className="sm:hidden 2xl:inline" /> 맥락으로 연결합니다. 재료를 다시 보고,
               경험하고,

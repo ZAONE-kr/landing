@@ -12,7 +12,7 @@ function Point({ title, children }: { title: string; children: ReactNode }) {
       <h3 className="text-body-s-sb text-text-primary lg:text-title-m-b lg:text-text-secondary">
         {title}
       </h3>
-      <p className="text-body-s-m text-text-secondary lg:text-body-sm-m">{children}</p>
+      <p className="text-body-s-m text-text-secondary lg:text-body-sm-r">{children}</p>
     </div>
   );
 }
