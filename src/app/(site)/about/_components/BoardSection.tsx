@@ -61,8 +61,9 @@ const MEMBERS: BoardMember[] = [
 /*
  * 마우스를 올리거나 포커스하면(키보드, 모바일은 탭) 소개 면이 0.25초에 걸쳐 덮인다.
  * 소개 면은 보이지 않을 때도 화면 낭독기가 읽는다. 이름은 앞면과 겹치므로 소개 면에서는 숨긴다.
- * 소개 면의 노란 그라데이션(#ffffbf)은 Figma에서 변수 없이 쓴 색이다.
- * 모바일 소개 면은 시안이 없어 160×210 카드에 소개가 들어가도록 글자를 줄였다.
+ * 소개 면의 노란 그라데이션(#ffffbf)은 Figma에서 변수 없이 쓴 색이다. 시안은 같은 그라데이션을
+ * 카드보다 긴 면에 깔아서, 노란색이 모바일은 카드 높이의 84%, 데스크톱은 88%에서 끝난다.
+ * 소개 글은 시안에서 텍스트 스타일 없이 크기를 정했다(모바일 13px, 2xl 24px).
  */
 function ProfileCard({ member, id }: { member: BoardMember; id: string }) {
   return (
@@ -93,14 +94,15 @@ function ProfileCard({ member, id }: { member: BoardMember; id: string }) {
         </p>
       </div>
 
-      <div className="absolute inset-0 flex flex-col gap-s bg-bg-muted bg-linear-to-b from-[#ffffbf] to-bg-highlight/20 to-88% p-sm opacity-0 transition-opacity duration-250 ease-out group-hover/profile:opacity-100 group-focus/profile:opacity-100 lg:gap-md lg:p-xl 2xl:p-[30px]">
+      <div className="absolute inset-0 flex flex-col gap-[6.67px] bg-bg-muted bg-linear-to-b from-[#ffffbf] to-bg-highlight/20 to-84% p-md opacity-0 transition-opacity duration-250 ease-out group-hover/profile:opacity-100 group-focus/profile:opacity-100 lg:gap-md lg:to-88% lg:p-xl 2xl:p-[30px]">
         <p
           aria-hidden
-          className="text-body-s-b text-text-primary lg:text-title-m-b 2xl:text-body-l-b"
+          className="text-detail-s-b text-text-primary lg:text-title-m-b 2xl:text-body-l-b"
         >
           {member.name}
         </p>
-        <p className="text-detail-xs-m text-text-secondary lg:text-body-s-m 2xl:text-body-m-m 2xl:leading-[1.6] 2xl:tracking-[-0.02em]">
+        {/* 모바일은 Body-XS_M에서 크기만 13px로 줄였다. max-lg로 묶어야 lg의 텍스트 토큰을 덮지 않는다. */}
+        <p className="text-body-xs-m text-text-secondary max-lg:text-[0.8125rem] lg:text-body-s-m 2xl:text-body-m-m 2xl:leading-[1.6] 2xl:tracking-[-0.02em]">
           {member.bio}
         </p>
       </div>
