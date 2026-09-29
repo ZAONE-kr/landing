@@ -7,7 +7,7 @@ export function ImperfectionSection() {
           <br />
           아직 다른 가능성이 남아 있다는 뜻입니다.
         </h2>
-        <div className="flex flex-col gap-xl text-body-s-m text-text-secondary lg:text-body-sm-m">
+        <div className="flex flex-col gap-xl text-body-s-m text-text-secondary lg:text-body-sm-r">
           <p>
             저마다 다른 모양과 쓰임, 아직 정해지지 않은 상태와 서로 다른 가능성.
             <br />

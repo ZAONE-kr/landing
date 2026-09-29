@@ -33,7 +33,7 @@ function FeatureSplit({
           <h2 className="text-title-m-b text-text-primary xl:text-body-l-b 2xl:text-title-l-b">
             {title}
           </h2>
-          <div className="flex flex-col gap-lg text-body-xs-m text-text-secondary lg:text-body-s-m 2xl:text-body-sm-m">
+          <div className="flex flex-col gap-lg text-body-xs-m text-text-secondary lg:text-body-s-m 2xl:text-body-sm-r">
             {children}
           </div>
         </div>

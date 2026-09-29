@@ -61,8 +61,9 @@ const MEMBERS: BoardMember[] = [
 /*
  * 마우스를 올리거나 포커스하면(키보드, 모바일은 탭) 소개 면이 0.25초에 걸쳐 덮인다.
  * 소개 면은 보이지 않을 때도 화면 낭독기가 읽는다. 이름은 앞면과 겹치므로 소개 면에서는 숨긴다.
- * 소개 면의 노란 그라데이션(#ffffbf)은 Figma에서 변수 없이 쓴 색이다.
- * 모바일 소개 면은 시안이 없어 160×210 카드에 소개가 들어가도록 글자를 줄였다.
+ * 소개 면의 노란 그라데이션(#ffffbf)은 Figma에서 변수 없이 쓴 색이다. 시안은 같은 그라데이션을
+ * 카드보다 긴 면에 깔아서, 노란색이 모바일은 카드 높이의 84%, 데스크톱은 88%에서 끝난다.
+ * 소개 글은 시안에서 텍스트 스타일 없이 크기를 정했다(모바일 13px, 2xl 24px).
  */
 function ProfileCard({ member, id }: { member: BoardMember; id: string }) {
   return (
@@ -87,20 +88,24 @@ function ProfileCard({ member, id }: { member: BoardMember; id: string }) {
         <h3 id={id} className="text-title-s-b lg:text-body-l-b 2xl:text-heading-mm-b">
           {member.name}
         </h3>
-        {/* 모바일 시안은 직함을 한 줄로 두어 카드 안쪽 여백을 조금 넘는다. 사진 머리와 겹치지 않게 그대로 따른다. */}
-        <p className="text-detail-ss-m whitespace-pre lg:text-body-s-m lg:whitespace-pre-line 2xl:text-body-m-m">
+        {/*
+         * 모바일 시안은 직함을 한 줄로 두어 긴 직함이 카드 끝에 닿는다. 코드는 안쪽 여백 안에서 줄을 바꾼다.
+         * 둘째 줄은 짧아서 왼쪽에 놓이므로 가운데의 사진 머리와 겹치지 않는다.
+         */}
+        <p className="text-detail-ss-m whitespace-pre-line lg:text-body-s-m 2xl:text-body-m-m">
           {member.role}
         </p>
       </div>
 
-      <div className="absolute inset-0 flex flex-col gap-s bg-bg-muted bg-linear-to-b from-[#ffffbf] to-bg-highlight/20 to-88% p-sm opacity-0 transition-opacity duration-250 ease-out group-hover/profile:opacity-100 group-focus/profile:opacity-100 lg:gap-md lg:p-xl 2xl:p-[30px]">
+      <div className="absolute inset-0 flex flex-col gap-[6.67px] bg-bg-muted bg-linear-to-b from-[#ffffbf] to-bg-highlight/20 to-84% p-md opacity-0 transition-opacity duration-250 ease-out group-hover/profile:opacity-100 group-focus/profile:opacity-100 lg:gap-md lg:to-88% lg:p-xl 2xl:p-[30px]">
         <p
           aria-hidden
-          className="text-body-s-b text-text-primary lg:text-title-m-b 2xl:text-body-l-b"
+          className="text-detail-s-b text-text-primary lg:text-title-m-b 2xl:text-body-l-b"
         >
           {member.name}
         </p>
-        <p className="text-detail-xs-m text-text-secondary lg:text-body-s-m 2xl:text-body-m-m 2xl:leading-[1.6] 2xl:tracking-[-0.02em]">
+        {/* 모바일은 Body-XS_M에서 크기만 13px로 줄였다. max-lg로 묶어야 lg의 텍스트 토큰을 덮지 않는다. */}
+        <p className="text-body-xs-m text-text-secondary max-lg:text-[0.8125rem] lg:text-body-s-m 2xl:text-body-m-m 2xl:leading-[1.6] 2xl:tracking-[-0.02em]">
           {member.bio}
         </p>
       </div>
@@ -120,7 +125,7 @@ export function BoardSection() {
             책임 있게 운영합니다.
           </h2>
           {/* 시안은 "공익을 위해" 뒤에서 줄을 바꾸는데, 375에서는 이 두 낱말만 한 줄에 남아서 640부터 바꾼다. */}
-          <p className="text-body-s-m text-text-secondary lg:text-body-m-m">
+          <p className="text-body-s-m text-text-secondary lg:text-body-sm-r">
             사단법인 자원(ZAONE)은 서로 다른 전문성을 가진 이사회와 감사가 조직의 운영을 함께
             살핍니다. 이사회는 자원의 미션과 중장기 방향을 검토하고, 조직의 자원이 공익을 위해
             <br className="hidden sm:inline" /> 책임 있게 사용되도록 주요 사업과 자원의 사용에 관한

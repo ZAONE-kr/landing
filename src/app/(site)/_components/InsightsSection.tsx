@@ -87,7 +87,7 @@ export function InsightsSection() {
             <br />
             들여다보는 것들
           </h2>
-          <p className="text-body-xs-m text-text-secondary lg:text-body-sm-m 2xl:text-body-m-m">
+          <p className="text-body-xs-m text-text-secondary lg:text-body-sm-r">
             물질과 교육, 지속가능성, 그리고 기업과 함께 만든 변화까지.
             <br />
             현장에서 시작된 질문과 관찰을 기록합니다.

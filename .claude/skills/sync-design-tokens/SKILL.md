@@ -107,5 +107,8 @@ Figma가 원본이고 코드가 따라간다. **차이는 눈이 아니라 스�
 - Display-\*-B는 이름과 달리 Axiforma Book(300)이다. Figma 값을 따른다.
 - `[Design System]` 페이지(`266:252`)의 가이드 프레임은 변수 전체를 보여 주지 않는다.
   Semantic Color Guide는 삭제된 `text/on-brand`를 아직 참조하고 있었다(2026-09-26).
+- 텍스트 스타일은 Figma에서 `Heading/Heading-L-EB`처럼 폴더로 묶여 있다(2026-09-29부터).
+  폴더를 빼고 `--text-heading-l-eb`로 옮긴다. 스타일 이름에 그룹이 이미 들어 있어서다.
+  `check-tokens.mjs`가 이렇게 비교하고, 폴더를 빼서 이름이 겹치면 "확인 필요"로 알린다.
 - `--text-*`, `--spacing-*`, `--radius-*` 토큰은 쓰는 곳이 없으면 빌드 CSS에 나오지
   않는다. 빌드 결과가 아니라 스크립트로 확인한다.
