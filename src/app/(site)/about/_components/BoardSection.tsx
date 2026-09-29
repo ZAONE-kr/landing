@@ -88,8 +88,11 @@ function ProfileCard({ member, id }: { member: BoardMember; id: string }) {
         <h3 id={id} className="text-title-s-b lg:text-body-l-b 2xl:text-heading-mm-b">
           {member.name}
         </h3>
-        {/* 모바일 시안은 직함을 한 줄로 두어 카드 안쪽 여백을 조금 넘는다. 사진 머리와 겹치지 않게 그대로 따른다. */}
-        <p className="text-detail-ss-m whitespace-pre lg:text-body-s-m lg:whitespace-pre-line 2xl:text-body-m-m">
+        {/*
+         * 모바일 시안은 직함을 한 줄로 두어 긴 직함이 카드 끝에 닿는다. 코드는 안쪽 여백 안에서 줄을 바꾼다.
+         * 둘째 줄은 짧아서 왼쪽에 놓이므로 가운데의 사진 머리와 겹치지 않는다.
+         */}
+        <p className="text-detail-ss-m whitespace-pre-line lg:text-body-s-m 2xl:text-body-m-m">
           {member.role}
         </p>
       </div>
