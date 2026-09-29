@@ -142,7 +142,10 @@ const WEIGHTS = {
 };
 const figmaTexts = new Set();
 for (const t of figma.textStyles) {
-  const k = `--text-${slug(t.name)}`;
+  // Figma 폴더(Heading/Heading-L-EB의 Heading/)는 뺀다. 스타일 이름에 그룹이 이미 들어 있다.
+  const k = `--text-${slug(t.name.split("/").pop())}`;
+  if (figmaTexts.has(k))
+    issues.warn.push(`${t.name}: 폴더를 빼면 다른 스타일과 이름(${k})이 겹친다`);
   figmaTexts.add(k);
   if (/_/.test(t.name))
     issues.figmaTodo.push(`텍스트 스타일 ${t.name}: 이름에 밑줄(_)이 있다 → 코드는 ${k}`);

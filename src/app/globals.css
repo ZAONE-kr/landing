@@ -45,6 +45,7 @@
   --primitive-neutral-950-a54: #121b248a;
   --primitive-neutral-950-a80: #121b24c7;
   --primitive-neutral-800-a10: #36414d1a;
+  --primitive-neutral-700-a8: #4d586412;
   --primitive-neutral-0-a8: #ffffff14;
   --primitive-neutral-0-a16: #ffffff29;
   --primitive-neutral-0-a32: #ffffff52;
@@ -67,6 +68,7 @@
   --color-bg-brand-soft: var(--primitive-blue-200);
   --color-bg-highlight: var(--primitive-yellow-50);
   --color-bg-accent: var(--primitive-pink-100);
+  --color-bg-overlay-a8: var(--primitive-neutral-700-a8);
   --color-bg-overlay-a10: var(--primitive-neutral-800-a10);
   --color-bg-overlay: var(--primitive-neutral-950-a54);
   --color-bg-overlay-a80: var(--primitive-neutral-950-a80);
@@ -190,6 +192,11 @@
   --text-body-sm-m--letter-spacing: -0.012em;
   --text-body-sm-m--font-weight: 500;
 
+  --text-body-sm-r: 1.25rem;
+  --text-body-sm-r--line-height: 1.8;
+  --text-body-sm-r--letter-spacing: -0.012em;
+  --text-body-sm-r--font-weight: 400;
+
   --text-body-s-b: 1rem;
   --text-body-s-b--line-height: 1.4;
   --text-body-s-b--letter-spacing: -0.8px;
@@ -214,6 +221,11 @@
   --text-body-xs-m--line-height: 1.6;
   --text-body-xs-m--letter-spacing: -0.012em;
   --text-body-xs-m--font-weight: 500;
+
+  --text-detail-m-sb: 1.125rem;
+  --text-detail-m-sb--line-height: 1.45;
+  --text-detail-m-sb--letter-spacing: -0.4px;
+  --text-detail-m-sb--font-weight: 600;
 
   --text-detail-m-m: 1.125rem;
   --text-detail-m-m--line-height: 1.45;
