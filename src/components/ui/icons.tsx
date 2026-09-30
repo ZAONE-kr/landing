@@ -28,7 +28,7 @@ export function MenuIcon(props: IconProps) {
   );
 }
 
-// 20px과 36px 시안은 같은 도형을 키운 것이라 viewBox 하나로 둘 다 그린다.
+// 20px·32px·36px 시안은 같은 도형을 키운 것이라 viewBox 하나로 모두 그린다.
 export function ArrowRightIcon(props: IconProps) {
   return (
     <svg viewBox="0 0 20 20" strokeWidth={1.2} {...STROKE_PROPS} {...props}>
