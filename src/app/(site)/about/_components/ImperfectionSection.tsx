@@ -1,8 +1,9 @@
+// 데스크톱 글은 864px 폭에 두고, 시안처럼 둘째 문단만 820px로 좁힌다.
 export function ImperfectionSection() {
   return (
-    <section className="px-lg py-3xl lg:p-7xl">
-      <div className="mx-auto flex max-w-[37.5rem] flex-col gap-3xl lg:max-w-[51.25rem] lg:gap-5xl">
-        <h2 className="text-title-m-b text-text-primary lg:text-heading-s-b">
+    <section className="px-lg py-3xl lg:px-6xl lg:py-7xl">
+      <div className="mx-auto flex max-w-[37.5rem] flex-col gap-3xl lg:max-w-[54rem] lg:gap-4xl">
+        <h2 className="text-title-m-b text-text-primary lg:text-title-l-b">
           완전하지 않다는 것은
           <br />
           아직 다른 가능성이 남아 있다는 뜻입니다.
@@ -17,7 +18,7 @@ export function ImperfectionSection() {
             새로운 사람과 환경을 만나면 또 다른 쓰임과 관계가 시작됩니다.
           </p>
           {/* 모바일 시안만 "만듭니다." 뒤에서 줄을 바꾼다. */}
-          <p>
+          <p className="lg:max-w-[51.25rem]">
             자원(ZAONE)은 산업 현장에서 사용 가치를 찾지 못해 버려진 자원을 다시 사회와 교육의
             장으로 연결합니다. 자원을 더 오래 사용하고 환경의 부담을 줄이는 동시에, 정해진 답보다
             질문과 탐구가 시작될 수 있는 열린 배움의 환경을 만듭니다.
