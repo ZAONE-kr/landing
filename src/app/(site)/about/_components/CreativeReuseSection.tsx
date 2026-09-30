@@ -84,26 +84,25 @@ const NEEDS: Need[] = [
 ];
 
 /*
- * 원 다이어그램(680px)이 글 옆에 들어가는 1280부터 좌우로 놓고, 그보다 좁으면 글 아래에 둔다.
- * 1440 시안은 좌우 여백이 120·80px로 달라서 다이어그램이 다른 섹션의 본문 폭(1200)보다 오른쪽으로 40px 나간다.
+ * 1024 시안은 원 다이어그램(680px)을 글 아래 가운데에 두고, 1440 시안은 글 옆에 놓는다.
+ * 다이어그램이 글 옆에 들어가는 1280부터 좌우로 놓는다. 1440보다 넓으면 1440 시안의 폭(1280px)에 묶는다.
  */
 export function CreativeReuseSection() {
   return (
     // TODO: 배경 #eaf2ff는 Figma의 bg/brand-soft2다. 파란색 primitive 이름 정리 후 토큰이 생기면 바꾼다.
-    <section className="bg-[#eaf2ff] px-lg pt-5xl pb-3xl lg:px-5xl lg:pt-7xl 2xl:pr-6xl 2xl:pl-7xl">
-      <div className="mx-auto flex max-w-[37.5rem] flex-col items-center gap-4xl lg:max-w-[77.5rem] xl:flex-row xl:gap-lg">
-        <div className="flex flex-col items-center gap-xl text-center xl:flex-1 xl:items-start xl:gap-[54px] xl:text-left">
+    <section className="bg-[#eaf2ff] px-lg pt-5xl pb-3xl lg:px-6xl lg:pt-7xl">
+      <div className="mx-auto flex max-w-[37.5rem] flex-col items-center gap-4xl lg:max-w-[80rem] xl:flex-row">
+        {/* 모바일은 가운데 정렬, 데스크톱은 1024 시안부터 왼쪽 정렬이다. */}
+        <div className="flex flex-col items-center gap-xl text-center lg:w-full lg:items-start lg:gap-3xl lg:text-left xl:flex-1">
           <div className="flex flex-col gap-sm lg:gap-xl">
             <h2 className="text-title-m-b text-text-primary lg:text-title-l-b">
               재료의 창의적 재사용
             </h2>
-            {/* 375 시안은 네 줄로 끊고, 640 시안은 흘려 두고, 1440 시안은 세 줄로 끊는다. */}
+            {/* 375 시안은 네 줄로 끊고, 640·1024·1440 시안은 흘려 둔다. */}
             <p className="text-body-s-m text-text-secondary lg:text-body-sm-r">
               자원은 산업 현장의 휴면자원을 교육과 사회의 다양한
-              <br className="sm:hidden 2xl:inline" /> 맥락으로 연결합니다. 재료를 다시 보고,
-              경험하고,
-              <br className="sm:hidden" /> 해석하는
-              <br className="hidden 2xl:inline" /> 과정에서 교육적·사회적·환경적 가치가
+              <br className="sm:hidden" /> 맥락으로 연결합니다. 재료를 다시 보고, 경험하고,
+              <br className="sm:hidden" /> 해석하는 과정에서 교육적·사회적·환경적 가치가
               <br className="sm:hidden" /> 만들어집니다.
             </p>
           </div>
