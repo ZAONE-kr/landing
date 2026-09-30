@@ -13,18 +13,18 @@ const NAV_ITEMS = [
   { label: "PARTNER WITH US", href: "/partner-with-us" },
 ];
 
-// 1024에서 데스크톱 메뉴로 바뀐다. 시안 간격(1280 이상)으로는 1024에 들어가지 않아서
-// 1279까지는 좌우 여백과 간격을 줄인다.
+// 1024에서 데스크톱 메뉴로 바뀐다. 데스크톱은 1024 시안의 여백과 간격을 그대로 쓰고,
+// 화면이 넓어지면 메뉴 오른쪽의 빈 곳만 늘어난다(1440 시안과 같다).
 export function SiteHeader() {
   return (
-    <header className="flex items-center gap-sm bg-bg-default p-xl lg:gap-2xl lg:px-lg xl:gap-6xl xl:px-4xl">
+    <header className="flex items-center gap-sm bg-bg-default p-xl lg:gap-3xl">
       <Link href="/" className="shrink-0">
         {/* 로고 색은 Figma 시안이 bg/strong으로 잡아 두었다. */}
         <Logo className="h-auto w-25 text-bg-strong lg:w-30" />
       </Link>
 
       <nav aria-label="주요 메뉴" className="hidden flex-1 lg:block">
-        <ul className="flex items-center gap-lg font-display text-display-s-b whitespace-nowrap text-text-tertiary xl:gap-2xl">
+        <ul className="flex items-center gap-lg font-display text-display-s-b whitespace-nowrap text-text-tertiary">
           {NAV_ITEMS.map((item) => (
             <li key={item.label}>
               <Link href={item.href} className="link-underline">
@@ -41,6 +41,10 @@ export function SiteHeader() {
           <SearchIcon className="size-6" />
         </button>
         <div className="hidden lg:block">
+          {/*
+           * 새 헤더 시안(1024)의 버튼은 옛 헤더 컴포넌트의 42px 버튼(텍스트 스타일 없음)을 그대로 가져왔다.
+           * 코드는 홈 시안이 토큰으로 다시 잡은 버튼(Body-S-M, 53px)을 유지한다.
+           */}
           <Button
             href="/donation"
             variant="outline"
