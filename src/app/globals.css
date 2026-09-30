@@ -112,6 +112,11 @@
   --text-heading-l-eb--letter-spacing: -1.8px;
   --text-heading-l-eb--font-weight: 800;
 
+  --text-heading-lm-eb: 4rem;
+  --text-heading-lm-eb--line-height: 1.5;
+  --text-heading-lm-eb--letter-spacing: -1.8px;
+  --text-heading-lm-eb--font-weight: 800;
+
   --text-heading-mm-eb: 3.375rem;
   --text-heading-mm-eb--line-height: 1.5;
   --text-heading-mm-eb--letter-spacing: -1.8px;
@@ -141,6 +146,11 @@
   --text-title-l-b--line-height: 1.5;
   --text-title-l-b--letter-spacing: -0.02em;
   --text-title-l-b--font-weight: 700;
+
+  --text-title-lm-b: 2.25rem;
+  --text-title-lm-b--line-height: 1.5;
+  --text-title-lm-b--letter-spacing: -0.02em;
+  --text-title-lm-b--font-weight: 700;
 
   --text-title-mm-sb: 1.75rem;
   --text-title-mm-sb--line-height: 1.5;
