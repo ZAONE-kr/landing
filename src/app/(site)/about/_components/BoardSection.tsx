@@ -6,6 +6,8 @@ import kimJungtaePhoto from "@/assets/about/board/kim-jungtae.png";
 import leeSooyoungPhoto from "@/assets/about/board/lee-sooyoung.png";
 import leeTaeinPhoto from "@/assets/about/board/lee-taein.png";
 
+import { BoardCardList } from "./BoardCardList";
+
 type BoardMember = {
   name: string;
   // 줄을 바꿀 자리는 \n으로 적는다.
@@ -136,14 +138,13 @@ export function BoardSection() {
           </p>
         </div>
 
-        {/* 모바일 목록은 좌우 여백 밖으로 펴서 넘겨 보고, 포커스 링이 잘리지 않게 위아래로 4px 띄운다. */}
-        <ul className="-mx-lg -my-1 flex snap-x snap-mandatory scroll-px-lg scrollbar-none gap-s overflow-x-auto px-lg py-1 lg:m-0 lg:w-full lg:max-w-[58.875rem] lg:snap-none lg:flex-wrap lg:justify-center lg:gap-x-sm lg:gap-y-4xl lg:overflow-visible lg:p-0">
+        <BoardCardList>
           {MEMBERS.map((member, index) => (
             <li key={member.name} className="shrink-0 snap-start">
               <ProfileCard member={member} id={`board-member-${index}`} />
             </li>
           ))}
-        </ul>
+        </BoardCardList>
       </div>
     </section>
   );
