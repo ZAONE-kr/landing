@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 
 import { pageOpenGraph } from "@/app/shared-metadata";
 
+import { GiveOrUseSection } from "./_components/GiveOrUseSection";
 import { GiveUseHeroSection } from "./_components/GiveUseHeroSection";
 
 const title = "GIVE & USE - 자원(ZAONE)";
@@ -22,6 +23,7 @@ export default function GiveAndUsePage() {
   return (
     <main>
       <GiveUseHeroSection />
+      <GiveOrUseSection />
     </main>
   );
 }
