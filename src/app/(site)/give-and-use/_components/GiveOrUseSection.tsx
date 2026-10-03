@@ -49,7 +49,7 @@ const PANELS: Panel[] = [
     className: {
       panel: "bg-[#eaf2ff] lg:w-(--give-width) lg:shrink-0 lg:pr-3xl lg:pl-6xl",
       content: "lg:opacity-(--give-fade) lg:group-data-[active=use]/split:pointer-events-none",
-      word: "text-[#cddaf0] lg:opacity-(--use-fade)",
+      word: "text-[#cddaf0] lg:opacity-(--give-word-fade)",
       title: "text-text-primary",
       description: "text-text-secondary lg:text-text-primary",
       checks: "bg-bg-overlay-a8",
@@ -78,7 +78,7 @@ const PANELS: Panel[] = [
     className: {
       panel: "bg-bg-navy lg:min-w-0 lg:flex-1 lg:pr-6xl lg:pl-3xl",
       content: "lg:opacity-(--use-fade) lg:group-data-[active=give]/split:pointer-events-none",
-      word: "text-[#1e3f89] lg:opacity-(--give-fade)",
+      word: "text-[#1e3f89] lg:opacity-(--use-word-fade)",
       title: "text-text-inverse",
       description: "text-text-inverse",
       checks: "bg-[rgb(18_27_36/0.32)]",
@@ -167,12 +167,16 @@ function GiveOrUsePanel({ panel }: { panel: Panel }) {
  * - 접힌 면은 1024 시안 322px에서 1440 시안 480px까지 화면 폭에 비례해 늘고 그 뒤로는 480px이다.
  * - 공급 면은 진행도 0에서 (섹션 폭 - 접힌 폭), 1에서 접힌 폭이다. 사용 면이 나머지를 채운다.
  * - 펼친 내용 폭은 펼친 면 폭에서 좌우 여백(80 + 40px)을 뺀 값이다.
- * - 펼친 내용은 진행도 앞 절반에 사라지고, 다른 면 내용은 뒤 절반에 나타난다.
- * 섹션 높이(816px)는 두 상태 중 더 긴 쪽(사용 면을 펼친 시안)에 맞춰 두어 전환 중에도 그대로다.
+ * - 두 면 내용이 겹쳐 바뀐다. 공급 내용은 진행도 0~0.6에서 사라지고 사용 내용은 0.4~1에서 나타나서
+ *   가운데에 제목만 남는 순간이 없다.
+ * - 큰 낱말은 같은 자리의 버튼과 겹치지 않게, USE는 사용 내용이 나타나기 전(0~0.4)에 사라지고
+ *   GIVE는 공급 내용이 다 사라진 뒤(0.6~1)에 나타난다.
+ * 섹션 높이는 816px(더 긴 쪽인 사용 면 시안)과 화면 높이 중 큰 값이다. 고정된 동안 화면을 다 채워
+ * 아래에 멈춘 빈 띠가 보이지 않는다.
  */
 export function GiveOrUseSection() {
   return (
-    <GiveOrUseScroll className="group/split @container flex flex-col [--collapsed:clamp(20.125rem,calc(38cqw-4.195rem),30rem)] [--content-width:calc(100cqw-var(--collapsed)-7.5rem)] [--give-fade:clamp(0,calc(1-2*var(--p)),1)] [--give-width:calc(var(--collapsed)+(100cqw-2*var(--collapsed))*(1-var(--p)))] [--p:0] [--use-fade:clamp(0,calc(2*var(--p)-1),1)] lg:min-h-[51rem] lg:flex-row">
+    <GiveOrUseScroll className="group/split @container flex flex-col [--collapsed:clamp(20.125rem,calc(38cqw-4.195rem),30rem)] [--content-width:calc(100cqw-var(--collapsed)-7.5rem)] [--give-fade:clamp(0,calc(1-var(--p)/0.6),1)] [--give-width:calc(var(--collapsed)+(100cqw-2*var(--collapsed))*(1-var(--p)))] [--give-word-fade:clamp(0,calc((var(--p)-0.6)/0.4),1)] [--p:0] [--use-fade:clamp(0,calc((var(--p)-0.4)/0.6),1)] [--use-word-fade:clamp(0,calc(1-var(--p)/0.4),1)] lg:min-h-[max(51rem,100vh)] lg:flex-row">
       {PANELS.map((panel) => (
         <GiveOrUsePanel key={panel.side} panel={panel} />
       ))}
