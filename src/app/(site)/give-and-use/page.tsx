@@ -6,6 +6,7 @@ import { GiveOrUseSection } from "./_components/GiveOrUseSection";
 import { GiveUseHeroSection } from "./_components/GiveUseHeroSection";
 import { HowToGiveSection } from "./_components/HowToGiveSection";
 import { HowToUseSection } from "./_components/HowToUseSection";
+import { SocialProjectsSection } from "./_components/SocialProjectsSection";
 
 const title = "GIVE & USE - 자원(ZAONE)";
 const description =
@@ -28,6 +29,7 @@ export default function GiveAndUsePage() {
       <GiveOrUseSection />
       <HowToGiveSection />
       <HowToUseSection />
+      <SocialProjectsSection />
     </main>
   );
 }
