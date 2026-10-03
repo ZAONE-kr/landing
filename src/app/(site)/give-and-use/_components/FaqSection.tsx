@@ -3,7 +3,8 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { Button } from "@/components/ui/Button";
-import { ChevronUpIcon } from "@/components/ui/icons";
+
+import { FaqDisclosure } from "./FaqDisclosure";
 
 export type FaqStep = {
   title: string;
@@ -51,27 +52,25 @@ function FaqSteps({ steps }: { steps: FaqStep[] }) {
   );
 }
 
-// TODO: 질문을 여닫는 인터랙션은 디자인 요청을 받아 붙인다. 지금은 페이지 시안처럼 모두 펼쳐 둔다.
 // 시안의 구분선은 높이가 0이라 간격에 더해지지 않는다. 선 두께(1px)만큼 위 여백을 줄인다.
+// 열린 질문에만 있는 질문 아래 간격과 아래 여백(16px)은 답변 쪽에 넣어 함께 접는다(시안 status=open).
 function FaqItem({ faq }: { faq: Faq }) {
   return (
-    <li className="flex flex-col gap-md pb-md not-first:border-t not-first:border-border-strong not-first:pt-[calc(var(--spacing-md)-1px)] lg:not-first:pt-[calc(var(--spacing-2xl)-1px)]">
-      <div className="flex items-center gap-s lg:gap-md">
-        <h3 className="flex-1 text-detail-m-sb text-text-primary lg:text-title-mm-sb">
-          {faq.question}
-        </h3>
-        <ChevronUpIcon className="size-5 shrink-0 text-icon-primary lg:size-8" />
-      </div>
-      <p className="text-body-s-m text-text-tertiary lg:text-body-sm-r">{faq.answer}</p>
-      {faq.steps && <FaqSteps steps={faq.steps} />}
-      {faq.link && (
-        <Link
-          href={faq.link.href}
-          className="self-start text-body-s-sb text-text-link underline lg:text-title-s-sb"
-        >
-          {faq.link.label}
-        </Link>
-      )}
+    <li className="not-first:border-t not-first:border-border-strong not-first:pt-[calc(var(--spacing-md)-1px)] lg:not-first:pt-[calc(var(--spacing-2xl)-1px)]">
+      <FaqDisclosure question={faq.question}>
+        <div className="flex flex-col gap-md py-md">
+          <p className="text-body-s-m text-text-tertiary lg:text-body-sm-r">{faq.answer}</p>
+          {faq.steps && <FaqSteps steps={faq.steps} />}
+          {faq.link && (
+            <Link
+              href={faq.link.href}
+              className="self-start text-body-s-sb text-text-link underline lg:text-title-s-sb"
+            >
+              {faq.link.label}
+            </Link>
+          )}
+        </div>
+      </FaqDisclosure>
     </li>
   );
 }
