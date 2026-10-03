@@ -7,12 +7,13 @@ const DESKTOP_BR = "hidden lg:inline";
 
 /*
  * 천 사진은 원래 어두워서 시안에 덮는 그라데이션이 없다. 사진 틀은 섹션 높이에 맞춘 원본 비율이라
- * object-cover로 가운데를 자르면 시안(375: 979px, 1024: 1500px 폭)과 같다.
- * 모바일 높이는 글 길이로 정해지고(375 시안 418px), 데스크톱은 640px에 글을 가운데 둔다.
+ * object-cover로 가운데를 자른다(375: 979px, 1024 이상 680px 높이: 1594px 폭).
+ * 모바일 높이는 글 길이로 정해지고(375 시안 418px), 데스크톱은 680px에 글을 가운데 둔다
+ * (시안은 640px이었으나 요청으로 높임).
  */
 export function GiveUseHeroSection() {
   return (
-    <section className="relative isolate flex flex-col items-center justify-center gap-xl overflow-hidden px-xl py-5xl text-center lg:h-[640px] lg:gap-2xl lg:px-6xl lg:py-0">
+    <section className="relative isolate flex flex-col items-center justify-center gap-xl overflow-hidden px-xl py-5xl text-center lg:h-[680px] lg:gap-2xl lg:px-6xl lg:py-0">
       <Image
         src={heroImage}
         alt=""
@@ -20,7 +21,7 @@ export function GiveUseHeroSection() {
         loading="eager"
         fetchPriority="high"
         placeholder="blur"
-        sizes="(min-width: 1500px) 100vw, (min-width: 1024px) 1500px, 980px"
+        sizes="(min-width: 1594px) 100vw, (min-width: 1024px) 1594px, 980px"
         className="-z-10 object-cover"
       />
       <h1 className="text-body-l-eb text-text-inverse lg:text-heading-mm-eb">
