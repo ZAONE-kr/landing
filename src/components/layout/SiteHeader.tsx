@@ -6,7 +6,7 @@ import { Logo } from "@/components/ui/Logo";
 
 const NAV_ITEMS = [
   { label: "ABOUT", href: "/about" },
-  { label: "GIVE & TAKE", href: "/give-and-take" },
+  { label: "GIVE & USE", href: "/give-and-use" },
   { label: "IMPACT", href: "/impact" },
   { label: "INSIGHTS", href: "/insights" },
   { label: "ZAONE LAB", href: "/zaone-lab" },

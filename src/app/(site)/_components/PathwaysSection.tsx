@@ -17,14 +17,14 @@ type Pathway = {
   imageClassName: string;
 };
 
-// TODO: 시안이 없어 갈 곳을 임시로 정했다. 휴면자원 연결하기는 GIVE & TAKE로 보냈는데,
+// TODO: 시안이 없어 갈 곳을 임시로 정했다. 휴면자원 연결하기는 GIVE & USE로 보냈는데,
 // 시안이 나오면 PARTNER WITH US가 맞는지 다시 확인한다.
 const PATHWAYS: Pathway[] = [
   {
     audience: "For manufacturers",
     title: ["생산 과정에서", "더 이상 쓰이지 않는", "물질이 있다면"],
     cta: "휴면자원 연결하기",
-    href: "/give-and-take",
+    href: "/give-and-use",
     image: manufacturersImage,
     imageClassName: "object-[93%_13%] lg:object-[58%_50%]",
   },
