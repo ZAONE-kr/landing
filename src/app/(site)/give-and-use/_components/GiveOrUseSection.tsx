@@ -1,16 +1,16 @@
-import Link from "next/link";
-
 import { Button } from "@/components/ui/Button";
 import { CheckIcon } from "@/components/ui/icons";
 
 import { GiveOrUseScroll } from "./GiveOrUseScroll";
+import { ScrollToLink } from "./ScrollToLink";
 
 type Panel = {
   side: "give" | "use";
   title: [string, string];
   description: string;
   checks: string[];
-  faqHref: string;
+  // 같은 페이지의 자주 묻는 질문 섹션 id.
+  faqHref: `#${string}`;
   buttons: { label: string; href: string; variant: "solid" | "inverse" }[];
   buttonClassName: string;
   // 데스크톱에서 접혔을 때 아래에 크게 놓이는 영문 낱말.
@@ -126,12 +126,12 @@ function GiveOrUsePanel({ panel }: { panel: Panel }) {
             ))}
             <li className="flex items-center gap-sm">
               <CheckIcon className="size-5 shrink-0 text-icon-secondary lg:size-6" />
-              <Link
+              <ScrollToLink
                 href={panel.faqHref}
                 className={`text-detail-ss-m underline lg:text-body-s-m ${className.faqLink}`}
               >
                 자주묻는 질문 보러가기
-              </Link>
+              </ScrollToLink>
             </li>
           </ul>
         </div>
