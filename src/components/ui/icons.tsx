@@ -28,6 +28,24 @@ export function MenuIcon(props: IconProps) {
   );
 }
 
+// Figma "check". 20px·24px 시안은 같은 도형을 키운 것이라 viewBox 하나로 모두 그린다.
+export function CheckIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" strokeWidth={1.8} {...STROKE_PROPS} {...props}>
+      <path d="M4.99992 12.1952L9.90148 17.1045L19.9999 7.00092" />
+    </svg>
+  );
+}
+
+// Iconly "Arrow - Up 2". 20px·32px 시안은 같은 도형을 키운 것이라 viewBox 하나로 모두 그린다.
+export function ChevronUpIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 32 32" strokeWidth={2} {...STROKE_PROPS} {...props}>
+      <path d="M25.3333 20.6667L16 11.3333L6.66667 20.6667" />
+    </svg>
+  );
+}
+
 // 20px·32px·36px 시안은 같은 도형을 키운 것이라 viewBox 하나로 모두 그린다.
 export function ArrowRightIcon(props: IconProps) {
   return (
