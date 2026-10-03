@@ -4,6 +4,8 @@ import { pageOpenGraph } from "@/app/shared-metadata";
 
 import { GiveOrUseSection } from "./_components/GiveOrUseSection";
 import { GiveUseHeroSection } from "./_components/GiveUseHeroSection";
+import { HowToGiveSection } from "./_components/HowToGiveSection";
+import { HowToUseSection } from "./_components/HowToUseSection";
 
 const title = "GIVE & USE - 자원(ZAONE)";
 const description =
@@ -24,6 +26,8 @@ export default function GiveAndUsePage() {
     <main>
       <GiveUseHeroSection />
       <GiveOrUseSection />
+      <HowToGiveSection />
+      <HowToUseSection />
     </main>
   );
 }
