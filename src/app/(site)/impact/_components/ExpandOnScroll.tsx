@@ -4,14 +4,19 @@ import { type ReactNode, useEffect, useRef } from "react";
 
 const clamp01 = (value: number) => Math.min(Math.max(value, 0), 1);
 
+// 문구가 고정보다 먼저 올라오기 시작하는 거리(고정 거리 대비). 올라오는 거리와 속도는 그대로라
+// 그만큼 일찍 가운데에 닿고, 고정이 풀릴 때까지 그 자리에 있다. 1 이상이면 고정 중에 올라오지 않는다.
+const TEXT_LEAD = 0.5;
+
 /*
  * 마지막 사진 섹션의 스크롤 진행도를 정한다(파타고니아 climate-goals 마지막 섹션 방식).
  * 섹션은 화면 높이만큼이고, 위가 화면 위에 닿으면 뒤 빈 칸(화면 높이의 50%)을 지나는 동안 그 자리에 고정된다.
  * - raw: 고정될 때 0, 고정이 풀릴 때 1.
  * - --e(사진이 커지는 정도): 고정되기 조금 전(raw -0.2)부터 고정이 풀릴 때까지, 처음에 빠르고 끝에 느리게
  *   (cubic ease-out) 바뀐다. 파타고니아와 같은 타이밍이라 멈췄다 커지는 느낌이 없고, 고정 중간쯤에 거의 다 커진다.
- * - --q(문구가 올라오는 정도): raw 0에서 1까지 스크롤한 만큼 같은 속도로 바뀐다. 문구는 고정 거리만큼
- *   (화면 아래 끝에서 가운데까지) 올라오므로, 페이지를 내리는 속도 그대로 올라오는 것처럼 보인다.
+ * - --q(문구가 올라오는 정도): 고정되기 TEXT_LEAD만큼 전(raw -TEXT_LEAD)부터 스크롤한 만큼 같은 속도로 바뀐다.
+ *   문구는 고정 거리만큼(섹션 아래 끝에서 가운데까지) 올라오므로, 사진 위로 페이지를 내리는 속도 그대로 올라온다.
+ *   파타고니아는 고정되는 순간 출발하지만, 그러면 고정된 뒤에야 문구가 보이기 시작해 늦어서 앞당겼다.
  * 사진 창·폭·문구 위치와 투명도는 CSS가 --e, --q로 계산한다. 끝나면 고정이 풀려 푸터로 이어진다.
  *
  * 서버 HTML(자바스크립트 전·없음)과 움직임 줄이기 설정은 다 펼친 상태(--e: 1, --q: 1)로, 고정하지 않는다.
@@ -37,11 +42,11 @@ export function ExpandOnScroll({
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    // raw와, raw가 1이 되려면 더 내려야 하는 거리.
+    // raw와, 문구가 가운데까지 올라오려면(raw가 1-TEXT_LEAD) 더 내려야 하는 거리.
     const measure = () => {
       const top = wrapper.getBoundingClientRect().top;
       const distance = Math.max(spacer.offsetHeight, 1);
-      return { raw: -top / distance, toEnd: top + distance };
+      return { raw: -top / distance, toShown: top + distance * (1 - TEXT_LEAD) };
     };
 
     let armed = false;
@@ -63,7 +68,7 @@ export function ExpandOnScroll({
       }
 
       const { raw } = measure();
-      const q = clamp01(raw);
+      const q = clamp01(raw + TEXT_LEAD);
       section.style.setProperty("--e", (1 - (1 - clamp01((raw + 0.2) / 1.2)) ** 3).toFixed(4));
       section.style.setProperty("--q", q.toFixed(4));
       section.dataset.revealed = String(q >= 0.5);
@@ -81,8 +86,8 @@ export function ExpandOnScroll({
       if (!armed || !(event.target instanceof Element) || !event.target.matches(":focus-visible"))
         return;
       requestAnimationFrame(() => {
-        const { raw, toEnd } = measure();
-        if (raw < 1) window.scrollBy({ top: toEnd, behavior: "smooth" });
+        const { raw, toShown } = measure();
+        if (raw < 1 - TEXT_LEAD) window.scrollBy({ top: toShown, behavior: "smooth" });
       });
     };
     // 키보드로 들어가자마자 버튼을 누르면 그 스크롤이 다음 페이지까지 이어지므로, 누르는 순간 멈춘다.
