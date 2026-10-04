@@ -140,6 +140,18 @@ const WEIGHTS = {
   ExtraBold: 800,
   Black: 900,
 };
+// layout.tsx의 Axiforma localFont 호출(굵기마다 하나, 또는 src 배열 항목)에 올린 굵기.
+// Pretendard는 가변 폰트라 보지 않는다.
+const layoutPath = new URL("../../../../src/app/layout.tsx", import.meta.url);
+const axiformaWeights = new Set(
+  existsSync(layoutPath)
+    ? [
+        ...readFileSync(layoutPath, "utf8").matchAll(
+          /(?:path|src):\s*"[^"]*Axiforma-[^"]*",\s*weight:\s*"(\d+)"/g,
+        ),
+      ].map((m) => Number(m[1]))
+    : [],
+);
 const figmaTexts = new Set();
 for (const t of figma.textStyles) {
   // Figma 폴더(Heading/Heading-L-EB의 Heading/)는 뺀다. 스타일 이름에 그룹이 이미 들어 있다.
@@ -194,7 +206,7 @@ for (const t of figma.textStyles) {
         issues.mismatch.push(`${name}: 코드 ${defs[name] ?? "(없음)"} → Figma ${want[name]}`);
   }
 
-  if (t.family === "Axiforma" && weight !== 300) {
+  if (t.family === "Axiforma" && !axiformaWeights.has(weight)) {
     issues.warn.push(
       `${t.name}: Axiforma ${t.style}(${weight})는 레포에 파일이 없다 — 폰트 파일 추가 필요`,
     );

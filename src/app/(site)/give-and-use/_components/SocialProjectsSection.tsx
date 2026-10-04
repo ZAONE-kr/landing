@@ -37,6 +37,7 @@ const PROJECTS: Project[] = [
  * 데스크톱은 흰 바탕에 소개 글(왼쪽)과 프로젝트 목록(오른쪽 440px)을 나란히 놓는다.
  * 1440보다 넓으면 1440 시안 폭(1280px)에 묶는다.
  * 데스크톱에서는 목록이 스크롤되는 동안 소개 글이 화면 위에 붙어 있다(레고 재단 "How we work" 방식).
+ * 붙는 높이는 80px이고, 올려서 헤더가 다시 나타나 있는 동안은 헤더 높이만큼 더 내려가 가리지 않는다.
  * 소개 글은 카드 목록이 끝나는 곳에서 멈춰 문의 버튼 옆까지 내려오지 않는다.
  * 그래서 버튼은 목록 열 밖, 소개 글과 목록을 묶은 줄 아래에 둔다.
  * 모바일 시안에는 문의 버튼이 없어 데스크톱에만 둔다.
@@ -46,7 +47,7 @@ export function SocialProjectsSection() {
     <section className="lg:px-6xl lg:py-7xl">
       <div className="mx-auto lg:max-w-[80rem]">
         <div className="flex flex-col lg:flex-row lg:items-start lg:gap-6xl">
-          <div className="flex flex-col gap-xl px-xl pt-5xl pb-xl lg:sticky lg:top-6xl lg:flex-1 lg:gap-4xl lg:p-0">
+          <div className="flex flex-col gap-xl px-xl pt-5xl pb-xl motion-reduce:transition-none lg:sticky lg:top-[calc(var(--spacing-6xl)+var(--site-header-offset,0px))] lg:flex-1 lg:gap-4xl lg:p-0 lg:transition-[top] lg:duration-300 lg:ease-out">
             <h2 className="pr-2xl text-title-m-b text-text-primary lg:pr-0 lg:text-title-lm-b">
               휴면자원으로
               <br /> 사회공헌 프로젝트를

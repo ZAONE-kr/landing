@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+import { AutoHideHeader } from "@/components/layout/AutoHideHeader";
 import { Button } from "@/components/ui/Button";
 import { MenuIcon, SearchIcon } from "@/components/ui/icons";
 import { Logo } from "@/components/ui/Logo";
@@ -15,9 +16,10 @@ const NAV_ITEMS = [
 
 // 1024에서 데스크톱 메뉴로 바뀐다. 데스크톱은 1024 시안의 여백과 간격을 그대로 쓰고,
 // 화면이 넓어지면 메뉴 오른쪽의 빈 곳만 늘어난다(1440 시안과 같다).
+// 화면 위에 붙어 있다가 내리면 숨고 올리면 나타난다(AutoHideHeader).
 export function SiteHeader() {
   return (
-    <header className="flex items-center gap-sm bg-bg-default p-xl lg:gap-3xl">
+    <AutoHideHeader className="flex items-center gap-sm bg-bg-default p-xl lg:gap-3xl">
       <Link href="/" className="shrink-0">
         {/* 로고 색은 Figma 시안이 bg/strong으로 잡아 두었다. */}
         <Logo className="h-auto w-25 text-bg-strong lg:w-30" />
@@ -58,6 +60,6 @@ export function SiteHeader() {
           <MenuIcon className="size-6" />
         </button>
       </div>
-    </header>
+    </AutoHideHeader>
   );
 }
