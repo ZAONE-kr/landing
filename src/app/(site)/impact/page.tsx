@@ -4,6 +4,7 @@ import { pageOpenGraph } from "@/app/shared-metadata";
 
 import { ImpactHeroSection } from "./_components/ImpactHeroSection";
 import { ImpactStatsSection } from "./_components/ImpactStatsSection";
+import { MeasureChangeSection } from "./_components/MeasureChangeSection";
 
 const title = "IMPACT - 자원(ZAONE)";
 const description =
@@ -23,6 +24,7 @@ export default function ImpactPage() {
   return (
     <main>
       <ImpactHeroSection />
+      <MeasureChangeSection />
       <ImpactStatsSection />
     </main>
   );
