@@ -41,11 +41,11 @@ const {
 } = tokenize([SUB, ...BODY]);
 
 /*
- * 낱말 i는 진행도 --p가 i/n·(1-w)에서 그 뒤 w만큼 지나는 동안 text-tertiary에서 text-quaternary로 바뀐다.
+ * 낱말 i는 진행도 --p가 i/n·(1-w)에서 그 뒤 w만큼 지나는 동안 text-secondary에서 text-quaternary로 바뀐다.
  * w는 낱말 8개 분량(최대 0.3)이라 밝아지는 경계가 열 낱말쯤에 걸쳐 부드럽게 번진다(레고 재단은 6개).
  */
 const WORD_CLASS =
-  "text-[color-mix(in_srgb,var(--color-text-quaternary)_calc(clamp(0,(var(--p)-var(--i)/var(--n)*(1-var(--w)))/var(--w),1)*100%),var(--color-text-tertiary))]";
+  "text-[color-mix(in_srgb,var(--color-text-quaternary)_calc(clamp(0,(var(--p)-var(--i)/var(--n)*(1-var(--w)))/var(--w),1)*100%),var(--color-text-secondary))]";
 
 /*
  * 낱말 사이 공백은 낱말 밖에 두되, 모바일 줄바꿈 뒤의 공백은 다음 낱말 안에 넣는다. 데스크톱에서 숨긴 <br>
