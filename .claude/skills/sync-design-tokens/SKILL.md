@@ -97,14 +97,22 @@ Figma가 원본이고 코드가 따라간다. **차이는 눈이 아니라 스�
 ## 폰트
 
 - Pretendard는 `pretendard` npm 패키지(가변 폰트)라서 굵기가 늘어도 할 일이 없다.
-- Axiforma는 Book(300) 파일 하나만 `src/app/fonts/`에 있다. 다른 굵기가 필요하면
-  **사용자에게 파일을 받는다.** 유료 폰트라 인터넷에서 받지 않는다. 받은 파일은
-  `layout.tsx`의 `localFont` `src` 배열에 굵기와 함께 추가한다.
+- Axiforma는 Book(300)과 Bold(700) 파일이 `src/app/fonts/`에 있다(Bold는 2026-10-04
+  IMPACT 수치용으로 추가). 다른 굵기가 필요하면 **사용자에게 파일을 받는다.** 유료
+  폰트라 인터넷에서 받지 않는다. 받은 파일은 `layout.tsx`에 `localFont`로 올린다.
+  - 여러 페이지 첫 화면에 쓰는 굵기는 Book과 같은 호출의 `src` 배열에 넣는다. 한 벌로
+    묶인 파일은 모든 페이지가 미리 받는다(preload).
+  - 일부 페이지에만 쓰는 굵기는 Bold처럼 따로 부르고 `preload: false`를 준다. 다른
+    family가 되므로 `--font-axiforma-bold`와 `--font-display-bold`처럼 변수와 Tailwind
+    폰트 토큰을 따로 만든다(`font-display`에 붙이면 Book으로 가짜 굵게 그려진다).
+  - `check-tokens.mjs`는 `layout.tsx`의 Axiforma `localFont` 호출에 적힌 굵기로 파일
+    유무를 판단한다.
 - Pretendard, Axiforma 외의 새 폰트가 나오면 멈추고 사용자에게 묻는다.
 
 ## 이미 확인된 사실
 
-- Display-\*-B는 이름과 달리 Axiforma Book(300)이다. Figma 값을 따른다.
+- Display-L·M·S·XS-B는 이름과 달리 Axiforma Book(300)이다. Display-XXL-B·XL-B만
+  Bold(700)다. Figma 값을 따른다.
 - `[Design System]` 페이지(`266:252`)의 가이드 프레임은 변수 전체를 보여 주지 않는다.
   Semantic Color Guide는 삭제된 `text/on-brand`를 아직 참조하고 있었다(2026-09-26).
 - 텍스트 스타일은 Figma에서 `Heading/Heading-L-EB`처럼 폴더로 묶여 있다(2026-09-29부터).

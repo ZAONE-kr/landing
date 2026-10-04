@@ -267,6 +267,16 @@
   --text-detail-xs-m--letter-spacing: -0.4px;
   --text-detail-xs-m--font-weight: 500;
 
+  --text-display-xxl-b: 5.25rem;
+  --text-display-xxl-b--line-height: 1;
+  --text-display-xxl-b--letter-spacing: -0.8px;
+  --text-display-xxl-b--font-weight: 700;
+
+  --text-display-xl-b: 3.125rem;
+  --text-display-xl-b--line-height: 1.3;
+  --text-display-xl-b--letter-spacing: -0.8px;
+  --text-display-xl-b--font-weight: 700;
+
   --text-display-l-b: 2rem;
   --text-display-l-b--line-height: 1.4;
   --text-display-l-b--letter-spacing: -0.8px;
@@ -320,9 +330,13 @@
   --radius-full: 9999px;
 }
 
-/* --font-axiforma는 layout.tsx의 next/font가 <html>에 선언하므로 inline으로 풀어 쓴다. */
+/*
+ * --font-axiforma(-bold)는 layout.tsx의 next/font가 <html>에 선언하므로 inline으로 풀어 쓴다.
+ * Bold(700)는 따로 불러 다른 family라서, 굵은 Display 스타일(Display-XXL-B·XL-B)은 font-display-bold와 함께 쓴다.
+ */
 @theme inline {
   --font-display: var(--font-axiforma), var(--font-sans);
+  --font-display-bold: var(--font-axiforma-bold), var(--font-sans);
 }
 
 /*
