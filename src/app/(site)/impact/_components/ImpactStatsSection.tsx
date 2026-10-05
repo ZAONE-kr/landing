@@ -6,6 +6,8 @@ import greenTilesImage from "@/assets/impact/stat-green-tiles.jpg";
 import materialRollImage from "@/assets/impact/stat-material-roll.jpg";
 import orangeCarpetImage from "@/assets/impact/stat-orange-carpet.jpg";
 
+import { CountUp } from "./CountUp";
+
 type Stat = {
   value: string;
   // 데스크톱 시안이 줄을 바꾸는 자리로 나눈다. 모바일은 이어서 흘린다.
@@ -136,6 +138,7 @@ const TEXT_CLASS = {
 /*
  * 흰 면과 사진 면이 섞여 나온다. 사진은 섹션을 덮도록 가운데를 자른다(16:9, 컵 공장만 3:2).
  * 글은 모바일 600px, 데스크톱 864px(1024 시안 폭)에 묶어 가운데 둔다. 1440 시안은 없다.
+ * 큰 숫자는 화면에 들어오면 0부터 세어 올라간다(CountUp).
  * 데스크톱에서만 줄을 바꾸는 자리는 공백을 다음 줄 글과 한 덩어리로 둔다. 공백만 따로 있으면 숨긴 <br> 옆에서
  * 화면 낭독기가 그 공백을 빼고 읽어 "활동에서아동의"처럼 낱말이 붙는다.
  */
@@ -167,7 +170,7 @@ export function ImpactStatsSection() {
             <span
               className={`font-display-bold text-display-xl-b lg:text-display-xxl-b ${text.value}`}
             >
-              {stat.value}
+              <CountUp value={stat.value} />
             </span>
             <span className={`text-detail-m-sb lg:text-title-s-b ${text.lead}`}>
               {stat.lead.map((line, index) => (
