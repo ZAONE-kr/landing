@@ -78,27 +78,38 @@ const FIELDS: Field[] = [
  * 위는 사진 칸(240px), 아래는 흰 글 칸이다. 카드 높이는 모바일 440px, 데스크톱 480px이고, 글이 길면 늘어난다.
  * 태그는 글 칸 아래에 붙는다. 태그 테두리 0.648px은 Figma 값이다.
  * 사진 틀은 폭이 424px 이상이라 카드가 그보다 좁은 375에서는 사진이 조금 확대되고 오른쪽이 잘린다(375 시안).
+ * 마우스를 올리거나 포커스하면(키보드, 모바일은 탭) 다른 페이지 카드처럼 사진이 천천히 살짝 커진다.
+ * 링크가 없는 카드라 About 이사 카드처럼 카드 자체가 포커스를 받고, 화면 낭독기는 제목을 카드 이름으로 읽는다.
  */
-function FieldCard({ field }: { field: Field }) {
+function FieldCard({ field, id }: { field: Field; id: string }) {
   return (
-    <article className="flex h-full min-h-[27.5rem] flex-col overflow-hidden rounded-md bg-bg-default lg:min-h-[30rem]">
+    <article
+      tabIndex={0}
+      aria-labelledby={id}
+      className="group/card flex h-full min-h-[27.5rem] flex-col overflow-hidden rounded-md bg-bg-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus lg:min-h-[30rem]"
+    >
       <div className="relative h-60 shrink-0 overflow-hidden">
-        <div
-          className={`absolute left-0 aspect-[3/2] w-[max(26.5rem,100%)] ${field.imageClassName}`}
-        >
-          <Image
-            src={field.image}
-            alt=""
-            fill
-            placeholder="blur"
-            sizes="(min-width: 1440px) 632px, (min-width: 1024px) calc(50vw - 88px), (min-width: 648px) 600px, (min-width: 472px) calc(100vw - 48px), 424px"
-            className="object-cover"
-          />
+        {/* 사진 칸 가운데를 기준으로 커지도록, 칸에 맞춘 요소를 키운다(사진 틀은 칸보다 크고 카드마다 위치가 다르다). */}
+        <div className="absolute inset-0 transition-transform duration-600 ease-out motion-safe:group-hover/card:scale-[1.03] motion-safe:group-focus/card:scale-[1.03]">
+          <div
+            className={`absolute left-0 aspect-[3/2] w-[max(26.5rem,100%)] ${field.imageClassName}`}
+          >
+            <Image
+              src={field.image}
+              alt=""
+              fill
+              placeholder="blur"
+              sizes="(min-width: 1440px) 632px, (min-width: 1024px) calc(50vw - 88px), (min-width: 648px) 600px, (min-width: 472px) calc(100vw - 48px), 424px"
+              className="object-cover"
+            />
+          </div>
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-sm px-xl py-lg lg:pt-2xl lg:pb-3xl">
         <div className="flex flex-1 flex-col gap-xs lg:gap-s">
-          <h3 className="text-title-s-b text-text-primary lg:text-title-m-b">{field.title}</h3>
+          <h3 id={id} className="text-title-s-b text-text-primary lg:text-title-m-b">
+            {field.title}
+          </h3>
           <p className="text-detail-s-m whitespace-pre-line text-text-secondary lg:text-detail-m-m 2xl:whitespace-normal">
             {field.description}
           </p>
@@ -133,10 +144,10 @@ export function ApplicationsSection() {
           <br /> ZAONE LAB의 실험은 다르게 적용됩니다.
         </h2>
         <ul className="grid gap-md lg:grid-cols-2 lg:gap-y-2xl">
-          {FIELDS.map((field) => (
+          {FIELDS.map((field, index) => (
             <li key={field.title}>
               <FadeUpOnView className="h-full">
-                <FieldCard field={field} />
+                <FieldCard field={field} id={`lab-field-${index}`} />
               </FadeUpOnView>
             </li>
           ))}
