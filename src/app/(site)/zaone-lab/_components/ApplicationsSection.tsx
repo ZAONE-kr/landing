@@ -7,6 +7,8 @@ import librariesImage from "@/assets/zaone-lab/field-libraries.jpg";
 import localOperatorsImage from "@/assets/zaone-lab/field-local-operators.jpg";
 import teachersImage from "@/assets/zaone-lab/field-teachers.jpg";
 
+import { FadeUpOnView } from "./FadeUpOnView";
+
 type Field = {
   title: string;
   // 줄바꿈(\n)은 1024·375 시안의 줄 위치다. 1440 시안은 한 줄이라 그 폭부터는 공백으로 흘린다.
@@ -118,6 +120,7 @@ function FieldCard({ field }: { field: Field }) {
 
 /*
  * 카드는 모바일에서 한 줄에 하나, 데스크톱에서 두 개씩 놓는다. 1440보다 넓으면 1440 시안 폭(1280px)에 묶는다.
+ * 카드마다 화면에 들어오면 아래에서 올라오며 나타난다(FadeUpOnView). 데스크톱은 한 줄의 두 카드가 함께 움직인다.
  * 모바일 제목 색 #22293f는 Figma에서 변수 없이 쓴 값이다. 데스크톱 시안의 #111524는 text-primary와 거의 같아
  * 토큰을 쓴다.
  */
@@ -132,7 +135,9 @@ export function ApplicationsSection() {
         <ul className="grid gap-md lg:grid-cols-2 lg:gap-y-2xl">
           {FIELDS.map((field) => (
             <li key={field.title}>
-              <FieldCard field={field} />
+              <FadeUpOnView className="h-full">
+                <FieldCard field={field} />
+              </FadeUpOnView>
             </li>
           ))}
         </ul>
