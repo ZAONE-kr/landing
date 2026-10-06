@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { pageOpenGraph } from "@/app/shared-metadata";
 
 import { LabHeroSection } from "./_components/LabHeroSection";
+import { QuestionSection } from "./_components/TextSections";
 
 const title = "ZAONE LAB - 자원(ZAONE)";
 const description =
@@ -22,6 +23,7 @@ export default function ZaoneLabPage() {
   return (
     <main>
       <LabHeroSection />
+      <QuestionSection />
     </main>
   );
 }
