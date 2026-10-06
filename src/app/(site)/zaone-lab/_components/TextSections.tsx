@@ -43,3 +43,23 @@ export function QuestionSection() {
     </TextSection>
   );
 }
+
+// 데스크톱 시안은 본문을 한 단계 푸른 회색으로 쓴다(#4c556f, Figma에서 변수 없이 쓴 값). 모바일은 text-secondary다.
+export function LearnersSection() {
+  return (
+    <TextSection>
+      <h2 className={LEAD_CLASS}>
+        ZAONE LAB의 학습자는 어린이와 교육자에 한정되지 않습니다.
+        <br /> 기업의 실무자, 예술가, 지역의 시민, 그리고 호기심 있는 사람이라면 누구나 이곳의
+        학습자가 될 수 있습니다.
+      </h2>
+      <p className={`${BODY_CLASS} text-text-secondary lg:max-w-[51.25rem] lg:text-[#4c556f]`}>
+        ZAONE LAB은 이런 만남을 팀과 조직의 학습에도 가져옵니다. 어린이는 ‘원래 이렇게 한다’는
+        규칙과 위계에 덜 매여 있습니다. 필요한 사람과 재료를 자유롭게 연결하고, 해보면서 방법을
+        찾아갑니다. 구성원이 직접 재료를 다루며 고정된 역할과 방식에서 벗어나 협력하는 훈련을
+        설계하기도 하고, 때로는 놀이와 아동기를 왜 조직의 중요한 의제로 다뤄야 하는지 리더십과 함께
+        살펴봅니다.
+      </p>
+    </TextSection>
+  );
+}

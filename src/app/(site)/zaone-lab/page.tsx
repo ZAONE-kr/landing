@@ -4,7 +4,7 @@ import { pageOpenGraph } from "@/app/shared-metadata";
 
 import { LabHeroSection } from "./_components/LabHeroSection";
 import { MaterialPlaySection } from "./_components/SplitSections";
-import { QuestionSection } from "./_components/TextSections";
+import { LearnersSection, QuestionSection } from "./_components/TextSections";
 
 const title = "ZAONE LAB - 자원(ZAONE)";
 const description =
@@ -26,6 +26,7 @@ export default function ZaoneLabPage() {
       <LabHeroSection />
       <QuestionSection />
       <MaterialPlaySection />
+      <LearnersSection />
     </main>
   );
 }
