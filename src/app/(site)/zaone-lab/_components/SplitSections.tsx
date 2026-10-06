@@ -77,6 +77,7 @@ function SplitSection({
 
 /*
  * 사진은 1024 시안에서 오른쪽을 52px 남기고 자르고, 1440 시안에서는 오른쪽 끝에 맞춘다.
+ * 사진 폭은 칸 높이를 따라 1035px 안팎이고, 화면이 2262px보다 넓으면 칸 폭이 그보다 넓어져 칸 폭을 따른다.
  * 1024 시안은 둘째 문단만 폭이 384px인데, 1440 시안처럼 두 문단 모두 글 폭을 채운다.
  */
 export function MaterialPlaySection() {
@@ -92,7 +93,7 @@ export function MaterialPlaySection() {
       imageAlt="아이들이 탁자에 둘러앉아 여러 모양의 돌을 만지며 살펴보는 모습"
       imageSide="right"
       imageClassName="lg:object-[91.3%_50%] 2xl:object-right"
-      sizes="(min-width: 1024px) 1035px, 100vw"
+      sizes="(min-width: 2262px) calc(27.5rem + (100vw - 64rem) * 0.4808), (min-width: 1024px) 1035px, 100vw"
       className={{
         section: "bg-bg-navy",
         text: "lg:px-6xl lg:[--text-width:40rem]",
@@ -117,6 +118,7 @@ export function MaterialPlaySection() {
  * 사진(16:9)은 1024·1440 시안 모두 왼쪽 266px을 잘라 둔다. 칸이 사진보다 266px 넘게 좁지 않으면(아주 넓은 화면)
  * 오른쪽 끝에 맞춰 빈틈이 생기지 않게 한다. 모바일은 3:2 틀에 가운데를 자른다.
  * 시안은 이 사진 밑에 다른 사진(창의성은_후보 3)을 깔아 위아래 1px씩 비치는데, 가려지는 사진이라 넣지 않았다.
+ * 원본이 1920px 폭뿐이라(Figma 사진과 같은 파일) 데스크톱 레티나에서는 조금 흐리다.
  */
 export function ResponsibilitySection() {
   return (

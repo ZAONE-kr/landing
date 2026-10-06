@@ -3,8 +3,8 @@ import Image from "next/image";
 import heroImage from "@/assets/zaone-lab/hero-child-looking-up.jpg";
 
 /*
- * 사진 틀은 원본 비율(3:2)이고, 틀 위에 왼쪽 위가 짙은 검정 그라데이션을 덮는다. 그라데이션은 Figma에서
- * 변수 없이 쓴 값이고, 각도와 멈춤 위치는 틀 기준이다(세 시안 모두 틀 비율이 같아 같은 값이다).
+ * 사진 틀은 원본 비율(3000×1996, 3:2보다 조금 넓다)이고, 틀 위에 왼쪽 위가 짙은 검정 그라데이션을 덮는다.
+ * 그라데이션은 Figma에서 변수 없이 쓴 값이고, 각도와 멈춤 위치는 틀 기준이다(세 시안 모두 틀 비율이 같아 같은 값이다).
  * - 모바일: 섹션 418px에 제목을 위에 둔다. 틀은 폭 705px 이상으로 섹션 위에 붙이고, 가운데를 섹션 가운데보다
  *   30px 오른쪽에 둔다(375 시안). 그래서 좌우와 섹션 아래로 넘친 부분이 잘린다.
  * - 데스크톱: 섹션 680px에 제목을 세로 가운데 둔다. 틀은 폭 1227px 이상으로 왼쪽에 붙이고, 가운데가 섹션
@@ -14,7 +14,7 @@ import heroImage from "@/assets/zaone-lab/hero-child-looking-up.jpg";
 export function LabHeroSection() {
   return (
     <section className="relative isolate min-h-[26.125rem] overflow-hidden px-xl py-5xl lg:flex lg:min-h-[42.5rem] lg:items-center lg:px-6xl lg:py-7xl">
-      <div className="absolute top-0 left-[calc(50%+30px)] -z-10 aspect-[3/2] min-h-full w-[max(44.0625rem,calc(100%+60px))] -translate-x-1/2 lg:top-[calc(50%+6px)] lg:left-0 lg:min-h-0 lg:w-[max(76.6875rem,100%)] lg:translate-x-0 lg:-translate-y-1/2">
+      <div className="absolute top-0 left-[calc(50%+30px)] -z-10 aspect-[1440/958] min-h-full w-[max(44.0625rem,calc(100%+60px))] -translate-x-1/2 lg:top-[calc(50%+6px)] lg:left-0 lg:min-h-0 lg:w-[max(76.6875rem,100%)] lg:translate-x-0 lg:-translate-y-1/2">
         <Image
           src={heroImage}
           alt=""
