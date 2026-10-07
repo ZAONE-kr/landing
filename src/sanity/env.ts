@@ -15,3 +15,6 @@ export const dataset = assertValue(
   process.env.NEXT_PUBLIC_SANITY_DATASET,
   "NEXT_PUBLIC_SANITY_DATASET",
 );
+
+// 2021-03-25 이후라야 Live(syncTags)가 동작하고, 2025-02-19 이후면 기본 perspective가 published다.
+export const apiVersion = "2026-10-01";
