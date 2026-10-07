@@ -50,7 +50,8 @@ const PHOTOS: Record<ZaoneLabFieldKey, Photo> = {
 
 /*
  * 위는 사진 칸(240px), 아래는 흰 글 칸이다. 카드 높이는 모바일 440px, 데스크톱 480px이고, 글이 길면 늘어난다.
- * 태그는 글 칸 아래에 붙고, 많거나 길면 줄을 바꿔 카드가 늘어난다. 태그 테두리 0.648px은 Figma 값이다.
+ * 태그는 글 칸 아래에 붙고, 많거나 길면 줄을 바꿔 카드가 늘어난다. 띄어쓰기 없는 긴 태그는 좁은 휴대폰(약 350px
+ * 아래)에서 카드 밖으로 나가지 않게 태그 안에서 줄을 바꾼다. 태그 테두리 0.648px은 Figma 값이다.
  * 설명의 줄바꿈(\n)은 1024·375 시안의 줄 위치다. 1440 시안은 한 줄이라 그 폭부터는 공백으로 흘린다.
  * 사진 틀은 폭이 424px 이상이라 카드가 그보다 좁은 375에서는 사진이 조금 확대되고 오른쪽이 잘린다(375 시안).
  * 마우스를 올리거나 포커스하면(키보드, 모바일은 탭) 다른 페이지 카드처럼 사진이 천천히 살짝 커진다.
@@ -95,7 +96,7 @@ function FieldCard({ field, id }: { field: Field; id: string }) {
             {field.tags.map((tag) => (
               <li
                 key={tag}
-                className="rounded-full border-[0.648px] border-text-primary px-md py-xs text-detail-xs-m text-text-primary"
+                className="rounded-full border-[0.648px] border-text-primary px-md py-xs text-detail-xs-m wrap-anywhere text-text-primary"
               >
                 {tag}
               </li>
@@ -114,7 +115,7 @@ function FieldCard({ field, id }: { field: Field; id: string }) {
  * 토큰을 쓴다.
  */
 export async function ApplicationsSection() {
-  // 게시된 태그 문서가 있으면 그 태그를, 없으면(아직 게시 전·불러오지 못함) 코드의 기본 태그를 쓴다.
+  // 게시된 태그 문서가 있으면 그 태그를, 없으면(아직 게시 전, 빌드·개발 중 불러오지 못함) 코드의 기본 태그를 쓴다.
   const tagDoc = await getFieldTagsDoc();
 
   return (

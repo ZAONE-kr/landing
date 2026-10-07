@@ -8,8 +8,13 @@
 // 태그 문서의 종류 이름이자 문서 ID. 문서가 하나뿐이라 둘을 같게 둔다.
 export const ZAONE_LAB_FIELD_TAGS_ID = "zaoneLabFieldTags";
 
-// 카드 순서다. key는 태그 문서의 필드 이름이라, 바꾸면 이미 입력한 태그와 이어지지 않는다.
-// 설명의 줄바꿈(\n)은 1024·375 시안의 줄 위치다. 1440 시안은 한 줄이라 그 폭부터는 공백으로 흘린다.
+/*
+ * 카드 순서다. key는 태그 문서의 필드 이름이라, 바꾸면 이미 입력한 태그와 이어지지 않는다.
+ * tags는 태그 문서를 처음 열 때 채워 둘 값이자, 문서를 아직 게시하지 않았을 때 보여 줄 태그다. 문서를 한 번
+ * 게시한 뒤에는 쓰이지 않는다. 그 뒤에 카드를 더하면 게시된 문서에 그 필드가 없어 태그 없이 보이므로, Studio에서
+ * 새 카드의 태그를 넣고 게시해야 한다(처음 값은 새 문서에만 채워진다).
+ * 설명의 줄바꿈(\n)은 1024·375 시안의 줄 위치다. 1440 시안은 한 줄이라 그 폭부터는 공백으로 흘린다.
+ */
 export const ZAONE_LAB_FIELDS = [
   {
     key: "teachers",
@@ -57,5 +62,5 @@ export const ZAONE_LAB_FIELDS = [
 
 export type ZaoneLabFieldKey = (typeof ZAONE_LAB_FIELDS)[number]["key"];
 
-// 게시된 태그 문서. 태그를 모두 지운 카드는 필드가 빠져서 올 수 있다.
+// 게시된 태그 문서에서 꺼낸 카드별 태그. 태그를 모두 지운 카드는 [], 문서에 없는 카드는 null이다.
 export type ZaoneLabFieldTags = Partial<Record<ZaoneLabFieldKey, string[] | null>>;

@@ -8,6 +8,9 @@ const MAX_TAG_LENGTH = 20;
 
 const TITLE = "ZAONE LAB 카드 태그";
 
+// 공백과 너비 없는 공백(붙여 넣을 때 섞여 들어온다)만으로 된 태그.
+const BLANK = /^[\s\u200B-\u200D\u2060\uFEFF]*$/;
+
 /*
  * ZAONE LAB 적용 현장 카드 6개의 태그만 담는 문서. 카드(사진·제목·설명·개수·순서)는 코드에 있다.
  * 문서는 하나뿐이고 ID가 종류 이름과 같다. 새로 만들기·삭제·복제는 sanity.config.ts에서 막고,
@@ -24,8 +27,9 @@ export const zaoneLabFieldTagsType = defineType({
     {
       name: "cards",
       title: "카드별 태그",
+      // Studio 버튼은 영어라(한국어 로캘 없음) 버튼 이름을 그대로 적는다.
       description:
-        "카드의 사진·제목·설명은 사이트 코드에 있어 여기서는 태그만 바꿀 수 있어요. 끌어서 순서를 바꾸고, 다 고치면 Publish를 누르세요. 게시 직후 첫 새로고침에는 이전 태그가 보일 수 있고, 다시 새로고침하면 바뀐 태그가 보여요.",
+        "카드의 사진·제목·설명은 사이트 코드에 있어 여기서는 태그만 바꿀 수 있어요. 새 태그는 목록 아래 Add item으로 넣고, 지울 때는 태그 오른쪽 ⋯ 메뉴의 Remove를 누르고, 순서는 태그 왼쪽 손잡이를 끌어서 바꿔요. 고친 내용은 바로 저장(Saved)되지만 사이트에는 오른쪽 아래 Publish를 눌러야 나가요. Publish는 고친 것이 있을 때만 눌려요. 게시한 뒤에는 이 창을 몇 초 열어 두세요. 사이트를 새로고침하면 처음 한 번은 이전 태그가 보일 수 있고, 한 번 더 새로고침하면 바뀐 태그가 보여요. 그래도 그대로면 늦어도 한 시간 안에 바뀌어요.",
     },
   ],
   fields: ZAONE_LAB_FIELDS.map((field) =>
@@ -45,8 +49,10 @@ export const zaoneLabFieldTagsType = defineType({
             rule.max(MAX_TAG_LENGTH).error(`태그는 ${MAX_TAG_LENGTH}자까지 쓸 수 있어요.`),
             rule.custom((value) => {
               if (!value) return true; // 빈 태그는 위 required가 잡는다.
-              if (value.trim() === "") return "공백만 있는 태그예요. 지우거나 글자를 써 주세요.";
+              if (BLANK.test(value)) return "공백만 있는 태그예요. 지우거나 글자를 써 주세요.";
               if (value !== value.trim()) return "태그 앞뒤의 공백을 지워 주세요.";
+              // macOS 파일 이름 등에서 붙여 넣으면 한글 자모가 나뉘어 들어와, 글자 수가 늘고 같은 태그도 못 찾는다.
+              if (value !== value.normalize("NFC")) return "글자를 지우고 다시 입력해 주세요.";
               return true;
             }),
           ],
