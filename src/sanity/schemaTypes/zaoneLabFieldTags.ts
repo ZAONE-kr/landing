@@ -8,8 +8,10 @@ const MAX_TAG_LENGTH = 20;
 
 const TITLE = "ZAONE LAB 카드 태그";
 
-// 공백과 너비 없는 공백(붙여 넣을 때 섞여 들어온다)만으로 된 태그.
+// 공백과 너비 없는 공백(붙여 넣을 때 섞여 들어온다)만으로 된 태그, 그리고 글자 사이에 섞인 너비 없는 공백.
+// 섞여 있으면 똑같아 보이는 두 태그를 같은 태그로 잡지 못하고 글자 수에도 들어간다.
 const BLANK = /^[\s\u200B-\u200D\u2060\uFEFF]*$/;
+const ZERO_WIDTH = /[\u200B-\u200D\u2060\uFEFF]/;
 
 /*
  * ZAONE LAB 적용 현장 카드 6개의 태그만 담는 문서. 카드(사진·제목·설명·개수·순서)는 코드에 있다.
@@ -42,6 +44,8 @@ export const zaoneLabFieldTagsType = defineType({
       of: [
         defineArrayMember({
           type: "string",
+          // 검증 패널에 "카드 이름 / 태그"로 보인다(없으면 영어 "String").
+          title: "태그",
           placeholder: "예: 워크숍",
           // 규칙마다 메시지를 따로 주려고 나눈다. .error()는 그 규칙에 걸린 조건 전체에 붙는다.
           validation: (rule) => [
@@ -50,6 +54,8 @@ export const zaoneLabFieldTagsType = defineType({
             rule.custom((value) => {
               if (!value) return true; // 빈 태그는 위 required가 잡는다.
               if (BLANK.test(value)) return "공백만 있는 태그예요. 지우거나 글자를 써 주세요.";
+              if (ZERO_WIDTH.test(value))
+                return "보이지 않는 글자가 섞여 있어요. 태그를 지우고 다시 입력해 주세요.";
               if (value !== value.trim()) return "태그 앞뒤의 공백을 지워 주세요.";
               // macOS 파일 이름 등에서 붙여 넣으면 한글 자모가 나뉘어 들어와, 글자 수가 늘고 같은 태그도 못 찾는다.
               if (value !== value.normalize("NFC")) return "글자를 지우고 다시 입력해 주세요.";

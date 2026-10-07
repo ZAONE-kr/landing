@@ -19,11 +19,12 @@ export default defineConfig({
   plugins: [structureTool({ title: "콘텐츠", structure })],
   schema: { types: schemaTypes },
   /*
-   * 릴리스·예약 게시·작업(Tasks)은 끈다. 태그 문서 하나만 고치는 Studio라 쓸 일이 없고, 영어 메뉴만 늘어난다.
-   * 릴리스 화면에서는 이 문서에 Publish가 없어 운영자가 막힐 수 있다. 쓰고 싶어지면 다시 켠다.
+   * 릴리스·예약 게시(새 방식과 예전 플러그인)·작업(Tasks)은 끈다. 태그 문서 하나만 고치는 Studio라 쓸 일이 없고,
+   * 영어 메뉴만 늘어난다. 릴리스 화면에서는 이 문서에 Publish가 없어 운영자가 막힐 수 있다. 쓰고 싶어지면 다시 켠다.
    */
   releases: { enabled: false },
   scheduledDrafts: { enabled: false },
+  scheduledPublishing: { enabled: false },
   tasks: { enabled: false },
   document: {
     // "새 문서" 메뉴에서만 뺀다. schema.templates에서 빼면 처음 열 때 태그(initialValue)가 채워지지 않는다.
