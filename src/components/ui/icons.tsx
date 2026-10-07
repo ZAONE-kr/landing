@@ -28,6 +28,15 @@ export function MenuIcon(props: IconProps) {
   );
 }
 
+// 임시 모바일 메뉴의 닫기 버튼. Figma에 아직 없어 메뉴 아이콘과 같은 굵기로 그렸다.
+export function CloseIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" strokeWidth={1.5} {...STROKE_PROPS} {...props}>
+      <path d="M18 6L6 18M6 6L18 18" />
+    </svg>
+  );
+}
+
 // Figma "check". 20px·24px 시안은 같은 도형을 키운 것이라 viewBox 하나로 모두 그린다.
 export function CheckIcon(props: IconProps) {
   return (

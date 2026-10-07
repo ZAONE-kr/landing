@@ -1,8 +1,9 @@
 import Link from "next/link";
 
 import { AutoHideHeader } from "@/components/layout/AutoHideHeader";
+import { MobileMenu } from "@/components/layout/MobileMenu";
 import { Button } from "@/components/ui/Button";
-import { MenuIcon, SearchIcon } from "@/components/ui/icons";
+import { SearchIcon } from "@/components/ui/icons";
 import { Logo } from "@/components/ui/Logo";
 
 const NAV_ITEMS = [
@@ -55,10 +56,8 @@ export function SiteHeader() {
             후원하기
           </Button>
         </div>
-        {/* TODO: 모바일 메뉴가 열린 상태의 디자인이 나오면 메뉴 패널과 열고 닫기를 붙인다. */}
-        <button type="button" aria-label="메뉴 열기" className="text-icon-primary lg:hidden">
-          <MenuIcon className="size-6" />
-        </button>
+        {/* 열린 상태의 시안이 없어 임시 메뉴를 붙여 두었다(MobileMenu). */}
+        <MobileMenu items={NAV_ITEMS} />
       </div>
     </AutoHideHeader>
   );
