@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/Button";
+import { CONTACT_FORM_HREF, NEW_TAB_PROPS, ZAONE_LAB_PROGRAMS_URL } from "@/lib/links";
 
 /*
  * 바탕은 섹션 아래 가운데에서 bg-brand → #012985 → bg-navy로 퍼지는 타원 그라데이션이다. 반지름이 섹션
@@ -6,7 +7,6 @@ import { Button } from "@/components/ui/Button";
  * 쓴 값이다(데스크톱 본문은 text-quaternary).
  * 버튼은 모바일 200px 폭에 세로로, 데스크톱 316px 폭에 가로로 놓는다. 글이 길면 버튼이 늘어난다.
  */
-// TODO: 버튼이 갈 곳을 아직 받지 못했다. 현재 프로그램은 INSIGHTS로, 문의는 문의하기 페이지로 보낸다.
 export function ExperienceCtaSection() {
   return (
     <section className="bg-[radial-gradient(87.13%_87.13%_at_50%_100%,var(--color-bg-brand),#012985,var(--color-bg-navy))] px-lg py-6xl lg:px-6xl lg:py-7xl">
@@ -23,13 +23,14 @@ export function ExperienceCtaSection() {
         </div>
         <div className="flex min-w-[12.5rem] flex-col gap-md lg:flex-row lg:gap-xl">
           <Button
-            href="/insights"
+            href={ZAONE_LAB_PROGRAMS_URL}
+            {...NEW_TAB_PROPS}
             className="px-xl py-md text-body-xs-b lg:min-w-[19.75rem] lg:py-xl lg:text-body-sm-b"
           >
             현재 프로그램 보기
           </Button>
           <Button
-            href="/contact"
+            href={CONTACT_FORM_HREF.education}
             variant="inverse"
             className="px-xl py-md text-body-xs-b lg:min-w-[19.75rem] lg:py-xl lg:text-body-sm-b"
           >

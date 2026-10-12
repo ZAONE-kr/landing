@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/Button";
 import { CheckIcon } from "@/components/ui/icons";
+import { CONTACT_FORM_HREF, NEW_TAB_PROPS, ZAONE_LAB_PROGRAMS_URL } from "@/lib/links";
 
 import { GiveOrUseScroll } from "./GiveOrUseScroll";
 import { ScrollToLink } from "./ScrollToLink";
@@ -11,7 +12,7 @@ type Panel = {
   checks: string[];
   // 같은 페이지의 자주 묻는 질문 섹션 id.
   faqHref: `#${string}`;
-  buttons: { label: string; href: string; variant: "solid" | "inverse" }[];
+  buttons: { label: string; href: string; variant: "solid" | "inverse"; newTab?: boolean }[];
   buttonClassName: string;
   // 데스크톱에서 접혔을 때 아래에 크게 놓이는 영문 낱말.
   word: string;
@@ -28,7 +29,6 @@ type Panel = {
   };
 };
 
-// TODO: 문의·신청 버튼이 갈 곳을 아직 받지 못해 문의하기 페이지로 보낸다. 폼이나 주소를 받으면 바꾼다.
 const PANELS: Panel[] = [
   {
     side: "give",
@@ -40,7 +40,9 @@ const PANELS: Panel[] = [
       "관련 법령과 기준에 따라 현물기부로 처리하여 기부금 영수증을 발급할 수 있습니다.",
     ],
     faqHref: "#how-to-give",
-    buttons: [{ label: "휴면자원 공급 문의하기", href: "/contact", variant: "solid" }],
+    buttons: [
+      { label: "휴면자원 공급 문의하기", href: CONTACT_FORM_HREF.supply, variant: "solid" },
+    ],
     buttonClassName: "px-2xl py-md text-body-xs-b lg:px-6xl lg:py-xl lg:text-body-sm-b",
     word: "GIVE",
     // 배경 #eaf2ff는 Figma의 bg/brand-soft2다. 파란색 primitive 이름 정리 후 토큰이 생기면 바꾼다.
@@ -69,8 +71,13 @@ const PANELS: Panel[] = [
     ],
     faqHref: "#how-to-use",
     buttons: [
-      { label: "기관 멤버십 신청하기", href: "/contact", variant: "solid" },
-      { label: "교육·훈련 프로그램 보기", href: "/zaone-lab", variant: "inverse" },
+      { label: "기관 멤버십 신청하기", href: CONTACT_FORM_HREF.use, variant: "solid" },
+      {
+        label: "교육·훈련 프로그램 보기",
+        href: ZAONE_LAB_PROGRAMS_URL,
+        variant: "inverse",
+        newTab: true,
+      },
     ],
     buttonClassName: "px-xl py-md text-body-xs-b lg:w-[316px] lg:px-6xl lg:py-xl lg:text-body-sm-b",
     word: "USE",
@@ -143,6 +150,7 @@ function GiveOrUsePanel({ panel }: { panel: Panel }) {
               key={button.label}
               href={button.href}
               variant={button.variant}
+              {...(button.newTab && NEW_TAB_PROPS)}
               className={panel.buttonClassName}
             >
               {button.label}

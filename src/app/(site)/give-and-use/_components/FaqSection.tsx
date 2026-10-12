@@ -3,6 +3,7 @@ import Link from "next/link";
 import type { ReactNode } from "react";
 
 import { Button } from "@/components/ui/Button";
+import { NEW_TAB_PROPS } from "@/lib/links";
 
 import { FaqDisclosure } from "./FaqDisclosure";
 
@@ -16,7 +17,7 @@ export type Faq = {
   question: ReactNode;
   answer: ReactNode;
   steps?: FaqStep[];
-  link?: { label: string; href: string };
+  link?: { label: string; href: string; newTab?: boolean };
 };
 
 export type FaqCta = {
@@ -64,6 +65,7 @@ function FaqItem({ faq }: { faq: Faq }) {
           {faq.link && (
             <Link
               href={faq.link.href}
+              {...(faq.link.newTab && NEW_TAB_PROPS)}
               className="self-start text-body-s-sb text-text-link underline lg:text-title-s-sb"
             >
               {faq.link.label}

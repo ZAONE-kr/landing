@@ -1,4 +1,5 @@
 import supplyCtaImage from "@/assets/give-and-use/supply-cta-metal-parts.jpg";
+import { CONTACT_FORM_HREF } from "@/lib/links";
 
 import { type Faq, type FaqCta, FaqSection } from "./FaqSection";
 
@@ -70,10 +71,9 @@ const FAQS: Faq[] = [
 ];
 
 // 데스크톱 사진 틀은 1360px 이상이고 왼쪽에 붙인다. 틀 높이의 37.7%를 위로 올려 사진 가운데쯤을 보인다(1024·1440 시안).
-// TODO: 문의 버튼이 갈 곳을 아직 받지 못해 문의하기 페이지로 보낸다.
 const CTA: FaqCta = {
   title: "휴면자원을 공급하시겠어요?",
-  button: { label: "휴면자원 공급 문의하기", href: "/contact" },
+  button: { label: "휴면자원 공급 문의하기", href: CONTACT_FORM_HREF.supply },
   image: supplyCtaImage,
   imageBoxClassName:
     "inset-0 lg:inset-auto lg:top-0 lg:left-0 lg:aspect-[3/2] lg:w-[max(85rem,100%)] lg:-translate-y-[37.7%]",

@@ -4,6 +4,7 @@ import communityImage from "@/assets/give-and-use/project-community-space.jpg";
 import employeeImage from "@/assets/give-and-use/project-employee-workshop.jpg";
 import futureImage from "@/assets/give-and-use/project-future-education.jpg";
 import { Button } from "@/components/ui/Button";
+import { CONTACT_FORM_HREF } from "@/lib/links";
 
 type Project = {
   title: string;
@@ -94,9 +95,8 @@ export function SocialProjectsSection() {
         </div>
 
         {/* 목록 열과 같은 폭으로 오른쪽에 붙여 목록 아래에 오게 한다. */}
-        {/* TODO: 문의 버튼이 갈 곳을 아직 받지 못해 문의하기 페이지로 보낸다. */}
         <div className="hidden lg:mt-6xl lg:ml-auto lg:block lg:w-[27.5rem]">
-          <Button href="/contact" className="px-6xl py-xl text-body-sm-b">
+          <Button href={CONTACT_FORM_HREF.project} className="px-6xl py-xl text-body-sm-b">
             사회공헌 프로젝트 문의하기
           </Button>
         </div>

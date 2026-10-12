@@ -17,8 +17,7 @@ type Pathway = {
   imageClassName: string;
 };
 
-// TODO: 시안이 없어 갈 곳을 임시로 정했다. 휴면자원 연결하기는 GIVE & USE로 보냈는데,
-// 시안이 나오면 PARTNER WITH US가 맞는지 다시 확인한다.
+// 갈 곳은 IA를 따른다. 협업 시작하기는 기업·재단 문의가 아니라 ABOUT으로 보낸다.
 const PATHWAYS: Pathway[] = [
   {
     audience: "For manufacturers",
@@ -32,7 +31,7 @@ const PATHWAYS: Pathway[] = [
     audience: "For companies & Foundations",
     title: ["환경과 어린 시절을", "함께 지키는 일을", "만들고 싶다면"],
     cta: "협업 시작하기",
-    href: "/partner-with-us",
+    href: "/about",
     image: companiesImage,
     imageClassName: "-scale-x-100 object-[50%_30%] lg:object-[50%_23%]",
   },

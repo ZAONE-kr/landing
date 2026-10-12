@@ -21,7 +21,6 @@ import { ExpandOnScroll } from "./ExpandOnScroll";
  * 스크롤해 버려 검정 막과 문구가 사진에서 어긋난 채 남는다.
  * 검정 50%는 두 상태 모두 같고, Figma에서 변수 없이 쓴 값이다.
  */
-// TODO: 버튼이 갈 곳을 아직 받지 못해 INSIGHTS로 보낸다. 주소를 받으면 바꾼다.
 export function ChangeRecordSection() {
   return (
     <ExpandOnScroll className="h-screen">

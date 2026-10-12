@@ -1,4 +1,5 @@
 import membershipCtaImage from "@/assets/give-and-use/membership-cta-child-tubes.jpg";
+import { CONTACT_FORM_HREF, ZAONE_LAB_PROGRAMS_URL } from "@/lib/links";
 
 import { type Faq, type FaqCta, FaqSection } from "./FaqSection";
 
@@ -22,7 +23,7 @@ const FAQS: Faq[] = [
     question: "휴면자원을 활용하는 교육이나 훈련도 받을 수 있나요?",
     answer:
       "네. ZAONE은 재료를 제공하는 데서 끝나지 않고, 교사와 교육자, 기관이 휴면자원의 특성을 이해하고 실제 교육에 활용할 수 있도록 교육과 훈련 프로그램을 운영합니다. 재료 탐색, 개방형 재료의 활용, 교육환경 구성 등 기관의 목적에 맞는 프로그램은 ZAONE LAB에서 확인하고 신청할 수 있습니다.",
-    link: { label: "교육·훈련 프로그램 보기", href: "/zaone-lab" },
+    link: { label: "교육·훈련 프로그램 보기", href: ZAONE_LAB_PROGRAMS_URL, newTab: true },
   },
   {
     question: "교육 현장에서 사용할 재료는 어떤 기준으로 검토하나요?",
@@ -36,10 +37,9 @@ const FAQS: Faq[] = [
  * 모바일도 아이 사진을 쓴다. 모바일은 아이 얼굴과 휴지심이 보이게 위쪽을 자른다.
  * 데스크톱 사진 틀은 배너 폭에 맞추고, 틀 높이의 26.7%를 위로 올린다(1024·1440 시안).
  */
-// TODO: 멤버십 신청이 갈 곳을 아직 받지 못해 문의하기 페이지로 보낸다.
 const CTA: FaqCta = {
   title: "기관에서 휴면자원을 사용하시겠어요?",
-  button: { label: "기관 멤버십 신청하기", href: "/contact" },
+  button: { label: "기관 멤버십 신청하기", href: CONTACT_FORM_HREF.use },
   image: membershipCtaImage,
   imageBoxClassName:
     "inset-0 lg:inset-auto lg:top-0 lg:left-0 lg:aspect-[3/4] lg:w-full lg:-translate-y-[26.7%]",
