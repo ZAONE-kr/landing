@@ -48,7 +48,7 @@ export function HeroSection() {
               </p>
             </div>
           </div>
-          <Button href="/about" className="px-4xl py-md text-detail-s-b 2xl:text-title-s-b">
+          <Button href="/impact" className="px-4xl py-md text-detail-s-b 2xl:text-title-s-b">
             ZAONE이 만드는 변화 보기
           </Button>
         </div>
