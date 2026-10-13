@@ -1,7 +1,10 @@
 import type { CroppedImage } from "@/sanity/lib/image";
 
 import { POST_COLUMN } from "./layout";
-import { SanityImage } from "./SanityImage";
+import { coverScale, SanityImage } from "./SanityImage";
+
+// 대표이미지 틀 비율(1024 864×480, 375 327×182).
+const FRAME_ASPECT_RATIO = 864 / 480;
 
 /*
  * 글 맨 위의 제목과 대표이미지. 1024 시안은 제목을 좌우 120px 더 안쪽(624px)에서 줄을 바꾸고, 사진은 864×480(12px 둥글림),
@@ -10,6 +13,11 @@ import { SanityImage } from "./SanityImage";
  * 넘어가지 않게 한다.
  * 대표이미지는 바로 위 제목이 설명하므로 대체 텍스트를 비운다. 화면에서 가장 큰 그림이라 먼저 받는다.
  */
+function headerImageSizes(image: CroppedImage): string {
+  const scale = coverScale(image, FRAME_ASPECT_RATIO);
+  return `(min-width: 1024px) ${Math.ceil(864 * scale)}px, calc((100vw - 48px) * ${scale.toFixed(2)})`;
+}
+
 export function PostHeader({ title, image }: { title: string; image: CroppedImage | null }) {
   return (
     <header
@@ -23,7 +31,7 @@ export function PostHeader({ title, image }: { title: string; image: CroppedImag
           <SanityImage
             image={image}
             alt=""
-            sizes="(min-width: 1024px) 864px, calc(100vw - 48px)"
+            sizes={headerImageSizes(image)}
             loading="eager"
             fetchPriority="high"
           />

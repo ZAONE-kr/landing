@@ -12,7 +12,7 @@ import { type SanityImageSource, toCroppedImage } from "@/sanity/lib/image";
 import { parseYouTubeId } from "@/sanity/youtubeUrl";
 
 import { POST_COLUMN } from "./layout";
-import { SanityImage } from "./SanityImage";
+import { coverScale, SanityImage } from "./SanityImage";
 import { YouTubeEmbed } from "./YouTubeEmbed";
 
 /*
@@ -112,6 +112,8 @@ function BodyImage({ value }: PortableTextTypeComponentProps<PostBodyImage>) {
   const image = toCroppedImage(value);
   if (!image) return null;
   const caption = value.caption?.trim();
+  // 틀은 16:10이고 폭은 화면(1440까지)이다.
+  const scale = coverScale(image, 16 / 10);
 
   return (
     <figure data-media data-block="image" className="mt-16">
@@ -119,7 +121,7 @@ function BodyImage({ value }: PortableTextTypeComponentProps<PostBodyImage>) {
         <SanityImage
           image={image}
           alt={value.alt?.trim() ?? ""}
-          sizes="(min-width: 1440px) 1440px, 100vw"
+          sizes={`(min-width: 1440px) ${Math.ceil(1440 * scale)}px, ${Math.ceil(100 * scale)}vw`}
         />
       </div>
       {/* TODO: 캡션 모양은 시안에 없어 임시로 정했다. 디자이너에게 받으면 바꾼다. */}

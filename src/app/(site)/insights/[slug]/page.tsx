@@ -8,6 +8,7 @@ import { PostBody, type PostBodyValue } from "@/components/post/PostBody";
 import { PostHeader } from "@/components/post/PostHeader";
 import { SanityImage } from "@/components/post/SanityImage";
 import { toCroppedImage } from "@/sanity/lib/image";
+import { insightHref } from "@/sanity/lib/insights";
 
 import { InsightMeta } from "../_components/InsightMeta";
 import { NextInsightsSection } from "../_components/NextInsightsSection";
@@ -15,7 +16,6 @@ import {
   decodeInsightSlug,
   getInsight,
   type Insight,
-  insightHref,
   insightOpenGraphImage,
   pickNextInsights,
 } from "../_lib/insight";
@@ -83,7 +83,10 @@ export default async function InsightPage({ params }: PageProps<"/insights/[slug
   return (
     <main>
       <article className={`${POST_WIDTH} pb-3xl lg:pb-7xl`}>
-        <PostHeader title={insight.title ?? ""} image={toCroppedImage(insight.mainImage)} />
+        <PostHeader
+          title={insight.title?.trim() || "제목 없음"}
+          image={toCroppedImage(insight.mainImage)}
+        />
         <InsightMeta projectName={insight.projectName} partner={insight.partner} />
         {/* 시안의 구분선은 두께 없는 선이라 위아래 간격을 선 자리에서 잰다. 선 두께(1px)만큼 아래 간격을 줄인다. */}
         <hr className={`${POST_COLUMN} mt-4xl -mb-px border-border-strong lg:mt-5xl`} />

@@ -2,16 +2,9 @@ import { cache } from "react";
 
 import type { PostBodyValue } from "@/components/post/PostBody";
 import { type SanityImageSource, toCroppedImage } from "@/sanity/lib/image";
+import { type InsightCard, type InsightRow, toInsightCard } from "@/sanity/lib/insights";
 import { sanityFetch } from "@/sanity/lib/live";
 import { INSIGHT_QUERY } from "@/sanity/lib/queries";
-
-// 다음 인사이트 카드에 보이는 칸(INSIGHT_QUERY의 INSIGHT_CARD_FIELDS).
-export type InsightCard = {
-  _id: string;
-  title: string | null;
-  slug: string;
-  mainImage: SanityImageSource | null;
-};
 
 /*
  * 인사이트 상세(INSIGHT_QUERY). Studio가 필수 칸을 막지만 API로 들어온 글은 비어 있을 수 있어 null을 받아 둔다.
@@ -25,8 +18,8 @@ export type Insight = {
   mainImage: SanityImageSource | null;
   body: PostBodyValue | null;
   posterImage: (SanityImageSource & { alt?: string | null }) | null;
-  olderInsights: InsightCard[];
-  newestInsights: InsightCard[];
+  olderInsights: InsightRow[];
+  newestInsights: InsightRow[];
 };
 
 // 다음 인사이트는 시안처럼 세 개까지 보인다.
@@ -46,14 +39,14 @@ export const getInsight = cache(async (slug: string): Promise<Insight | null> =>
   return data && typeof data === "object" ? (data as Insight) : null;
 });
 
-// 목록 순서에서 이 글 다음 글들. 끝에 가까워 모자라면 맨 앞(최신) 글로 돌아가 채운다.
+// 목록 순서에서 이 글 다음 글들. 끝에 가까워 모자라면 맨 앞(최신) 글로 돌아가 채운다. 카드는 목록과 같다.
 export function pickNextInsights(insight: Insight): InsightCard[] {
-  const picked = new Map<string, InsightCard>();
-  for (const card of [...(insight.olderInsights ?? []), ...(insight.newestInsights ?? [])]) {
+  const picked = new Map<string, InsightRow>();
+  for (const row of [...(insight.olderInsights ?? []), ...(insight.newestInsights ?? [])]) {
     if (picked.size === NEXT_INSIGHTS_COUNT) break;
-    picked.set(card._id, card);
+    picked.set(row._id, row);
   }
-  return [...picked.values()];
+  return [...picked.values()].map(toInsightCard);
 }
 
 /*
@@ -66,10 +59,6 @@ export function decodeInsightSlug(param: string): string | null {
   } catch {
     return null;
   }
-}
-
-export function insightHref(slug: string): string {
-  return `/insights/${encodeURIComponent(slug)}`;
 }
 
 /*

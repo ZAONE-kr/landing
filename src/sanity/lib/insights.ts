@@ -9,7 +9,8 @@ export const INSIGHTS_PER_PAGE = 18;
 // 다음 묶음을 주는 라우트 핸들러(src/app/api/insights/route.ts).
 const INSIGHTS_API_PATH = "/api/insights";
 
-type InsightRow = {
+// 쿼리가 주는 카드 한 장(queries.ts의 INSIGHT_ROW_FIELDS). 상세 페이지의 다음 인사이트도 같은 모양이다.
+export type InsightRow = {
   _id: string;
   _createdAt: string;
   publishedAt: string;
@@ -57,13 +58,17 @@ export function parseInsightCursor(params: URLSearchParams): InsightCursor | nul
   return { publishedAt, createdAt, id };
 }
 
-function toCard(row: InsightRow): InsightCard {
+// 글 상세 주소. 한글 주소를 그대로 두면 브라우저마다 인코딩 시점이 달라, 링크에서부터 퍼센트 인코딩해 둔다.
+export function insightHref(slug: string): string {
+  return `/insights/${encodeURIComponent(slug)}`;
+}
+
+export function toInsightCard(row: InsightRow): InsightCard {
   return {
     id: row._id,
     // Studio 검사가 빈 제목 게시를 막지만, API로 만든 글은 Studio 목록처럼 "제목 없음"으로 보인다.
     title: row.title?.trim() || "제목 없음",
-    // 한글 주소를 그대로 두면 브라우저마다 인코딩 시점이 달라, 링크에서부터 퍼센트 인코딩해 둔다.
-    href: `/insights/${encodeURIComponent(row.slug)}`,
+    href: insightHref(row.slug),
     image: toCroppedImage(row.image),
   };
 }
@@ -74,7 +79,7 @@ function toPage(rows: InsightRow[]): InsightPage {
   const last = pageRows.at(-1);
   const hasMore = rows.length > INSIGHTS_PER_PAGE && last !== undefined;
   return {
-    items: pageRows.map(toCard),
+    items: pageRows.map(toInsightCard),
     nextUrl: hasMore
       ? `${INSIGHTS_API_PATH}?${new URLSearchParams({
           publishedAt: last.publishedAt,
