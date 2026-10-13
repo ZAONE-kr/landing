@@ -152,6 +152,11 @@
   --text-title-lm-b--letter-spacing: -0.02em;
   --text-title-lm-b--font-weight: 700;
 
+  --text-title-mm-b: 1.75rem;
+  --text-title-mm-b--line-height: 1.5;
+  --text-title-mm-b--letter-spacing: -0.02em;
+  --text-title-mm-b--font-weight: 700;
+
   --text-title-mm-sb: 1.75rem;
   --text-title-mm-sb--line-height: 1.5;
   --text-title-mm-sb--letter-spacing: -0.02em;
