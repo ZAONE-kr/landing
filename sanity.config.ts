@@ -8,7 +8,7 @@ import { schemaTypes, SINGLETON_TYPES } from "@/sanity/schemaTypes";
 import { structure } from "@/sanity/structure";
 
 // 문서가 하나뿐인 종류에 남길 동작: 게시, 초안 버리기, 예전 버전으로 되돌리기.
-// 삭제·복제·게시 취소·예약 게시·Canvas 연결·작업(Task) 만들기는 뺀다.
+// 삭제·복제·게시 취소·예약 게시·Canvas 연결·작업(Task) 만들기는 뺀다. 블로그 글은 기본 동작을 모두 쓴다.
 const SINGLETON_ACTIONS = new Set<SanityDefinedAction>(["publish", "discardChanges", "restore"]);
 
 export default defineConfig({
@@ -19,8 +19,9 @@ export default defineConfig({
   plugins: [structureTool({ title: "콘텐츠", structure })],
   schema: { types: schemaTypes },
   /*
-   * 릴리스·예약 게시(새 방식과 예전 플러그인)·작업(Tasks)은 끈다. 태그 문서 하나만 고치는 Studio라 쓸 일이 없고,
-   * 영어 메뉴만 늘어난다. 릴리스 화면에서는 이 문서에 Publish가 없어 운영자가 막힐 수 있다. 쓰고 싶어지면 다시 켠다.
+   * 릴리스·예약 게시(새 방식과 예전 플러그인)·작업(Tasks)은 끈다. 글은 다 쓰면 바로 게시하는 흐름이라 쓸 일이 없고,
+   * 영어 메뉴만 늘어난다. 릴리스 화면에서는 태그 문서처럼 하나뿐인 문서에 Publish가 없어 운영자가 막힐 수 있다.
+   * 글을 정한 날에 내보내야 하면 그때 다시 켠다.
    */
   releases: { enabled: false },
   scheduledDrafts: { enabled: false },
