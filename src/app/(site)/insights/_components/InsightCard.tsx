@@ -38,7 +38,7 @@ export function InsightCard({
       prefetch={false}
       className="group/card flex h-full min-h-[7.75rem] overflow-hidden rounded-sm bg-bg-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus lg:min-h-[26.25rem] lg:flex-col-reverse lg:rounded-md"
     >
-      <Heading className="flex-1 py-lg pr-lg pl-md text-body-s-b text-balance text-text-primary lg:min-h-[8.75rem] lg:p-xl lg:text-center lg:text-title-s-b">
+      <Heading className="flex-1 p-lg text-body-s-b text-balance text-text-primary lg:min-h-[8.75rem] lg:p-xl lg:text-center lg:text-title-s-b">
         {insight.title}
       </Heading>
       <div className="relative w-[7.5rem] shrink-0 overflow-hidden bg-bg-muted lg:h-[17.5rem] lg:w-full">
