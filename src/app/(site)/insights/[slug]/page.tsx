@@ -3,7 +3,7 @@ import { notFound } from "next/navigation";
 import { type PortableTextBlock, toPlainText } from "next-sanity";
 
 import { pageOpenGraph } from "@/app/shared-metadata";
-import { POST_COLUMN, POST_WIDTH } from "@/components/post/layout";
+import { POST_COLUMN } from "@/components/post/layout";
 import { PostBody, type PostBodyValue } from "@/components/post/PostBody";
 import { PostHeader } from "@/components/post/PostHeader";
 import { SanityImage } from "@/components/post/SanityImage";
@@ -82,7 +82,7 @@ export default async function InsightPage({ params }: PageProps<"/insights/[slug
 
   return (
     <main>
-      <article className={`${POST_WIDTH} pb-3xl lg:pb-7xl`}>
+      <article className="pb-3xl lg:pb-7xl">
         <PostHeader
           title={insight.title?.trim() || "제목 없음"}
           image={toCroppedImage(insight.mainImage)}
