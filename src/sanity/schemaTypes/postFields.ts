@@ -1,4 +1,5 @@
 import {
+  defineArrayMember,
   defineField,
   getPublishedId,
   type SlugValue,
@@ -8,13 +9,21 @@ import {
 } from "sanity";
 
 import { apiVersion } from "@/sanity/env";
+import { formatFileSize } from "@/sanity/fileSize";
 import { normalizeSlug, SLUG_MAX_LENGTH, slugify } from "@/sanity/slug";
 
 /*
  * 세 카테고리(인사이트·사업소식·사업보고) 글이 함께 쓰는 필드·정렬·미리보기. 문서마다 필드를 상세 페이지에 보이는
- * 순서대로 놓는다: 제목 → 주소 → 게시일 → (인사이트: 대표이미지·프로젝트명·파트너) → 본문 → (인사이트: 포스터이미지).
+ * 순서대로 놓는다: 제목 → 주소 → 게시일 → (인사이트: 대표이미지·프로젝트명·파트너) → (사업소식·사업보고: 첨부파일)
+ * → 본문 → 포스터이미지.
  * 검사 메시지는 한국어 문자열로 쓴다. { "ko-KR": … } 객체는 "Unknown validation error"가 된다(zaoneLabFieldTags.ts).
  */
+
+// 대체 텍스트는 화면 낭독기가 한 번에 읽기 좋은 길이. 본문 사진(postBody.ts)도 같은 상한을 쓴다.
+export const IMAGE_ALT_MAX_LENGTH = 125;
+
+// 첨부파일 표시 이름. 상세 페이지 첨부 칸(1024 시안 756px)에서 한 줄에 40자쯤 들어간다.
+const ATTACHMENT_TITLE_MAX_LENGTH = 40;
 
 // 인사이트 목록 카드(416px)는 제목을 세 줄까지 보인다. 한 줄에 18자쯤 들어가지만 낱말 단위로 줄을 바꿔서(break-keep)
 // 줄마다 몇 자씩 비므로 45자를 넘으면 넘칠 수 있다.
@@ -149,6 +158,112 @@ export const bodyField = defineField({
       !Array.isArray(blocks) || hasBodyContent(blocks) ? true : "본문에 내용을 써 주세요.",
     ),
   ],
+});
+
+/*
+ * 사업소식·사업보고 본문. 예전 사이트 사업보고는 본문 없이 결산 공시 파일(PDF·엑셀)만 올렸으므로, 첨부파일이 있으면
+ * 비워 둘 수 있다. 둘 다 없으면 화면에 제목만 남아 막는다.
+ */
+export const noticeBodyField = defineField({
+  ...bodyField,
+  description:
+    "본문을 작성해주세요. 첨부파일만 올리는 글이면 비워 둬도 돼요. 이미지와 유튜브 영상의 경우 Insert Image·Insert YouTube 버튼을 눌러 추가해주세요.",
+  validation: (rule) =>
+    rule.custom((blocks, context) => {
+      if (Array.isArray(blocks) && hasBodyContent(blocks)) return true;
+      const attachments = context.document?.attachments;
+      return Array.isArray(attachments) && attachments.length > 0
+        ? true
+        : "본문을 쓰거나 첨부파일을 올려 주세요.";
+    }),
+});
+
+/*
+ * 사업소식·사업보고의 첨부파일. 올린 순서대로 제목·게시일 아래 칸에 놓이고, 누르면 내려받는다.
+ * 파일 종류는 막지 않는다(PDF·엑셀·한글 등). 파일은 Sanity 자산 CDN에 올라가 주소만 알면 누구나 받을 수 있다.
+ * 글에서 지워도 파일은 Media에 남으니, 내려야 하는 파일은 Media에서도 지워야 한다.
+ */
+export const attachmentsField = defineField({
+  name: "attachments",
+  title: "첨부파일",
+  type: "array",
+  description:
+    "내려받을 파일(PDF·엑셀·한글 등)을 올려 주세요. 올린 순서대로 보이고, 끌어서 순서를 바꿀 수 있어요.",
+  of: [
+    defineArrayMember({
+      type: "file",
+      title: "파일",
+      fields: [
+        defineField({
+          name: "title",
+          title: "표시 이름",
+          type: "string",
+          description: "화면에 보일 이름이에요. 비워 두면 올린 파일 이름이 그대로 보여요.",
+          validation: (rule) => [
+            rule
+              .max(ATTACHMENT_TITLE_MAX_LENGTH)
+              .warning(
+                `표시 이름이 ${ATTACHMENT_TITLE_MAX_LENGTH}자를 넘어요. 화면에서 여러 줄로 넘어갈 수 있어요.`,
+              ),
+            rule.custom(checkTyping),
+          ],
+        }),
+      ],
+      // 파일 없이 표시 이름만 남은 항목을 잡는다. 항목이 있으면 값이 있는 것이라 required 없이도 돈다.
+      validation: (rule) => rule.assetRequired().error("파일을 올리거나 이 항목을 지워 주세요."),
+      // 제목이 비면 Studio가 영어 "Untitled"를 띄워서, 표시 이름이 없으면 파일 이름을 쓴다.
+      preview: {
+        select: { title: "title", filename: "asset.originalFilename", size: "asset.size" },
+        prepare: ({
+          title,
+          filename,
+          size,
+        }: {
+          title?: string;
+          filename?: string;
+          size?: number;
+        }) => ({
+          title: title?.trim() || filename?.normalize("NFC") || "파일",
+          subtitle: [title?.trim() && filename?.normalize("NFC"), formatFileSize(size)]
+            .filter(Boolean)
+            .join(" · "),
+        }),
+      },
+    }),
+  ],
+});
+
+/*
+ * 본문 아래 포스터. 원래 비율 그대로 폭만 고정해 보인다(인사이트 상세 시안, 사업소식·사업보고 상세 시안 같음).
+ * 포스터는 행사 이름·날짜 같은 정보를 그림 속 글자로 담아서, 화면 낭독기가 읽을 글을 따로 받는다.
+ */
+export const posterImageField = defineField({
+  name: "posterImage",
+  title: "포스터이미지",
+  type: "image",
+  description: "본문 아래에 보이는 포스터 이미지가 있으면 올려 주세요.",
+  fields: [
+    defineField({
+      name: "alt",
+      title: "대체 텍스트",
+      type: "string",
+      description:
+        "포스터에 적힌 내용(행사 이름·날짜·장소 등)을 화면 낭독기가 읽을 수 있게 짧게 써 주세요.",
+      validation: (rule) => [
+        rule
+          .max(IMAGE_ALT_MAX_LENGTH)
+          .warning(`대체 텍스트가 ${IMAGE_ALT_MAX_LENGTH}자를 넘어요. 듣기 좋게 줄여 주세요.`),
+        rule.custom(checkTyping),
+      ],
+    }),
+  ],
+  // 포스터는 없어도 되지만, 파일 없이 대체 텍스트만 남으면 화면에 빈 자리가 생긴다.
+  validation: (rule) =>
+    rule.custom((value) =>
+      !value || value.asset
+        ? true
+        : "포스터 파일이 없어요. 포스터를 올리거나, 쓰지 않으면 대체 텍스트를 지워 주세요.",
+    ),
 });
 
 // 게시일 최신순(같은 날이면 나중에 만든 글이 위). Studio 목록의 기본 정렬이다(structure.ts).

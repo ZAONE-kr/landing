@@ -1,6 +1,6 @@
 import { defineArrayMember, defineField, defineType } from "sanity";
 
-import { checkTyping } from "./postFields";
+import { checkTyping, IMAGE_ALT_MAX_LENGTH } from "./postFields";
 
 /*
  * 블로그 글 본문 편집기. 세 카테고리(인사이트·사업소식·사업보고)가 같은 편집기를 쓴다.
@@ -10,8 +10,7 @@ import { checkTyping } from "./postFields";
  * 사진·유튜브처럼 문단과 따로 놓이는 블록은 block의 of(문장 안에 넣는 것)가 아니라 이 배열의 of에 둔다.
  */
 
-// 대체 텍스트는 화면 낭독기가 한 번에 읽기 좋은 길이, 캡션은 본문 폭에서 두 줄쯤.
-export const IMAGE_ALT_MAX_LENGTH = 125;
+// 캡션은 본문 폭에서 두 줄쯤.
 const IMAGE_CAPTION_MAX_LENGTH = 100;
 
 // 링크 주소 앞의 scheme(https:, mailto: 등). 있으면 허용하는 scheme인지는 uri 규칙이 본다.
