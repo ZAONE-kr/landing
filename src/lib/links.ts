@@ -17,5 +17,12 @@ export const CONTACT_FORM_HREF = {
   education: "/contact?type=education#contact-form",
 } as const;
 
+// CONTACT 페이지의 공지사항 목록. 목록이 notice로 사업소식·사업보고 탭을 골라 #notices 자리에 보여 준다(목록은 아직 준비중).
+// 사업소식·사업보고 상세 페이지의 "공지사항 목록 보기"가 보던 글의 탭으로 돌아간다.
+export const NOTICE_LIST_HREF = {
+  businessNews: "/contact?notice=news#notices",
+  businessReport: "/contact?notice=report#notices",
+} as const;
+
 // 새 탭으로 여는 외부 링크에 함께 넣는다.
 export const NEW_TAB_PROPS = { target: "_blank", rel: "noopener noreferrer" } as const;

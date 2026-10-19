@@ -2,11 +2,11 @@ import { defineField, defineType } from "sanity";
 
 import { INSIGHT } from "@/sanity/postCategories";
 
-import { IMAGE_ALT_MAX_LENGTH } from "./postBody";
 import {
   bodyField,
   checkTyping,
   POST_ORDERINGS,
+  posterImageField,
   publishedAtField,
   slugField,
   titleField,
@@ -83,35 +83,7 @@ export const insightType = defineType({
       ],
     }),
     bodyField,
-    defineField({
-      name: "posterImage",
-      title: "포스터이미지",
-      type: "image",
-      description: "해당 인사이트에 사용된 포스터 이미지",
-      fields: [
-        // 포스터는 행사 이름·날짜 같은 정보를 그림 속 글자로 담아서, 화면 낭독기가 읽을 글을 따로 받는다.
-        defineField({
-          name: "alt",
-          title: "대체 텍스트",
-          type: "string",
-          description:
-            "포스터에 적힌 내용(행사 이름·날짜·장소 등)을 화면 낭독기가 읽을 수 있게 짧게 써 주세요.",
-          validation: (rule) => [
-            rule
-              .max(IMAGE_ALT_MAX_LENGTH)
-              .warning(`대체 텍스트가 ${IMAGE_ALT_MAX_LENGTH}자를 넘어요. 듣기 좋게 줄여 주세요.`),
-            rule.custom(checkTyping),
-          ],
-        }),
-      ],
-      // 포스터는 없어도 되지만, 파일 없이 대체 텍스트만 남으면 화면에 빈 자리가 생긴다.
-      validation: (rule) =>
-        rule.custom((value) =>
-          !value || value.asset
-            ? true
-            : "포스터 파일이 없어요. 포스터를 올리거나, 쓰지 않으면 대체 텍스트를 지워 주세요.",
-        ),
-    }),
+    posterImageField,
   ],
   orderings: POST_ORDERINGS,
   preview: {

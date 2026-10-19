@@ -1,24 +1,19 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { type PortableTextBlock, toPlainText } from "next-sanity";
 
 import { pageOpenGraph } from "@/app/shared-metadata";
+import { describePostBody } from "@/components/post/describe";
 import { POST_COLUMN } from "@/components/post/layout";
-import { PostBody, type PostBodyValue } from "@/components/post/PostBody";
+import { PostBody } from "@/components/post/PostBody";
 import { PostHeader } from "@/components/post/PostHeader";
-import { SanityImage } from "@/components/post/SanityImage";
+import { PostPoster } from "@/components/post/PostPoster";
 import { toCroppedImage } from "@/sanity/lib/image";
 import { insightHref } from "@/sanity/lib/insights";
+import { decodeSlugParam } from "@/sanity/slug";
 
 import { InsightMeta } from "../_components/InsightMeta";
 import { NextInsightsSection } from "../_components/NextInsightsSection";
-import {
-  decodeInsightSlug,
-  getInsight,
-  type Insight,
-  insightOpenGraphImage,
-  pickNextInsights,
-} from "../_lib/insight";
+import { getInsight, type Insight, insightOpenGraphImage, pickNextInsights } from "../_lib/insight";
 
 /*
  * 인사이트 상세(Figma "[1012] INSIGHT 상세페이지 전달", 1024 1465:3244·1482:9073·1482:9586, 375 1482:10478).
@@ -34,24 +29,10 @@ export const fetchCache = "force-no-store";
 export const revalidate = 3600;
 
 async function loadInsight(params: PageProps<"/insights/[slug]">["params"]): Promise<Insight> {
-  const slug = decodeInsightSlug((await params).slug);
+  const slug = decodeSlugParam((await params).slug);
   const insight = slug ? await getInsight(slug) : null;
   if (!insight) notFound();
   return insight;
-}
-
-// 검색 결과·링크 공유에 보일 설명. 본문 문단 글자를 이어 앞부분만 쓴다.
-const DESCRIPTION_MAX_LENGTH = 120;
-
-function describe(body: PostBodyValue | null): string {
-  const paragraphs = (body ?? []).filter(
-    (block): block is PortableTextBlock =>
-      block._type === "block" && (block as PortableTextBlock).style === "normal",
-  );
-  const text = toPlainText(paragraphs).replace(/\s+/g, " ").trim();
-  return text.length > DESCRIPTION_MAX_LENGTH
-    ? `${text.slice(0, DESCRIPTION_MAX_LENGTH).trimEnd()}…`
-    : text;
 }
 
 export async function generateMetadata({
@@ -60,7 +41,7 @@ export async function generateMetadata({
   const insight = await loadInsight(params);
   const url = insightHref(insight.slug);
   const title = `${insight.title ?? "인사이트"} - 자원(ZAONE)`;
-  const description = describe(insight.body) || "자원(ZAONE)의 인사이트";
+  const description = describePostBody(insight.body) || "자원(ZAONE)의 인사이트";
   const ogImage = insightOpenGraphImage(insight.mainImage);
 
   return {
@@ -78,7 +59,6 @@ export async function generateMetadata({
 
 export default async function InsightPage({ params }: PageProps<"/insights/[slug]">) {
   const insight = await loadInsight(params);
-  const poster = toCroppedImage(insight.posterImage);
 
   return (
     <main>
@@ -91,19 +71,7 @@ export default async function InsightPage({ params }: PageProps<"/insights/[slug
         {/* 시안의 구분선은 두께 없는 선이라 위아래 간격을 선 자리에서 잰다. 선 두께(1px)만큼 아래 간격을 줄인다. */}
         <hr className={`${POST_COLUMN} mt-4xl -mb-px border-border-strong lg:mt-5xl`} />
         {insight.body && <PostBody value={insight.body} className="mt-4xl lg:mt-5xl" />}
-        {/* 포스터는 원래 비율 그대로, 폭만 고정한다(1024 350px, 375 160px). */}
-        {poster && (
-          <div
-            className="relative mx-auto mt-16 w-[160px] overflow-hidden rounded-sm lg:w-[350px]"
-            style={{ aspectRatio: poster.aspectRatio }}
-          >
-            <SanityImage
-              image={poster}
-              alt={insight.posterImage?.alt?.trim() ?? ""}
-              sizes="(min-width: 1024px) 350px, 160px"
-            />
-          </div>
-        )}
+        <PostPoster image={insight.posterImage} />
       </article>
       <NextInsightsSection insights={pickNextInsights(insight)} />
     </main>

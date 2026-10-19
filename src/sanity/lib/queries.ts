@@ -64,3 +64,38 @@ export const INSIGHT_QUERY = defineQuery(`*[_type == "${INSIGHT.type}" && slug.c
   )] | ${NEWEST_FIRST}[0...3]{${INSIGHT_ROW_FIELDS}},
   "newestInsights": *[${LISTED_INSIGHT} && _id != ^._id] | ${NEWEST_FIRST}[0...3]{${INSIGHT_ROW_FIELDS}}
 }`);
+
+// 목록에 나오는 사업소식·사업보고($type). 주소·게시일이 없는 글은 링크와 순서를 만들 수 없어 뺀다.
+const LISTED_NOTICE = `_type == $type && defined(slug.current) && defined(publishedAt)`;
+
+// 이전 글·다음 글 한 줄(src/sanity/lib/notices.ts의 NoticeRow).
+const NOTICE_ROW_FIELDS = `_id, title, "slug": slug.current, publishedAt`;
+
+/*
+ * 사업소식·사업보고 상세 페이지. 종류($type)와 주소(slug)로 글 하나를 찾는다. 없으면 null이다.
+ * 이전 글은 목록 순서(인사이트와 같은 최신순)에서 바로 아래, 다음 글은 바로 위 글이다. 같은 종류 안에서만 찾는다.
+ * 첨부파일은 Sanity 파일 자산의 주소·원래 이름·크기를 함께 받는다.
+ */
+export const NOTICE_QUERY = defineQuery(`*[_type == $type && slug.current == $slug][0]{
+  _id,
+  title,
+  "slug": slug.current,
+  publishedAt,
+  attachments[]{_key, title, "url": asset->url, "filename": asset->originalFilename, "size": asset->size},
+  body[]{..., _type == "image" => {${IMAGE_FIELDS}}},
+  posterImage{${IMAGE_FIELDS}, alt},
+  "older": *[${LISTED_NOTICE} && _id != ^._id && (
+    publishedAt < ^.publishedAt ||
+    (publishedAt == ^.publishedAt && (
+      _createdAt < ^._createdAt ||
+      (_createdAt == ^._createdAt && _id < ^._id)
+    ))
+  )] | ${NEWEST_FIRST}[0]{${NOTICE_ROW_FIELDS}},
+  "newer": *[${LISTED_NOTICE} && _id != ^._id && (
+    publishedAt > ^.publishedAt ||
+    (publishedAt == ^.publishedAt && (
+      _createdAt > ^._createdAt ||
+      (_createdAt == ^._createdAt && _id > ^._id)
+    ))
+  )] | order(publishedAt asc, _createdAt asc, _id asc)[0]{${NOTICE_ROW_FIELDS}}
+}`);

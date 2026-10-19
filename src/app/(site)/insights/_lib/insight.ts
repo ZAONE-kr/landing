@@ -50,18 +50,6 @@ export function pickNextInsights(insight: Insight): InsightCard[] {
 }
 
 /*
- * 주소창의 글 주소. 한글 주소는 퍼센트 인코딩되어 params로 들어오므로 풀어서 Sanity에 묻는다.
- * 잘못된 인코딩(%가 깨진 주소)이면 null이다. macOS에서 붙여 넣은 주소는 자모가 나뉘어 올 수 있어 합친다(NFC).
- */
-export function decodeInsightSlug(param: string): string | null {
-  try {
-    return decodeURIComponent(param).normalize("NFC");
-  } catch {
-    return null;
-  }
-}
-
-/*
  * 링크 공유 그림(1200×630). 카카오톡·페이스북 등은 사진을 제 비율로 다시 잘라 보여서, 운영자가 정한 중심점을 기준으로
  * 미리 잘라 둔다(Sanity 이미지 CDN의 focalpoint 자르기). 공유 미리보기가 WebP·AVIF를 못 읽는 곳이 있어 JPG로 받는다.
  */

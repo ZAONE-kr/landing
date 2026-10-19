@@ -17,12 +17,14 @@ export type SanityImageSource = {
  * 화면에 맞춰 붙인다. 틀 비율이 화면마다 달라(목록 카드는 데스크톱 277~416×280, 모바일 120×124) 사진을 미리 한
  * 비율로 자르지 않고 object-cover로 채우되, hotspot이 잘려 나가지 않게 objectPosition으로 그쪽을 남긴다.
  * aspectRatio는 자른 사진의 가로/세로 비율로, 틀을 덮을 때 실제로 그려지는 폭(sizes)을 셈하는 데 쓴다.
+ * width는 자른 사진의 실제 폭(px)이다. 원래 비율로 보이는 본문 사진이 이보다 크게 늘어나지 않게 한다.
  */
 export type CroppedImage = {
   src: string;
   blurDataURL?: string;
   objectPosition: string;
   aspectRatio: number;
+  width: number;
 };
 
 function clamp01(value: number): number {
@@ -66,5 +68,6 @@ export function toCroppedImage(image: SanityImageSource | null): CroppedImage | 
     blurDataURL: image.lqip ?? undefined,
     objectPosition: `${toPercent(x)} ${toPercent(y)}`,
     aspectRatio: rect.width / rect.height,
+    width: rect.width,
   };
 }

@@ -43,3 +43,15 @@ export function slugify(input: string, maxLength = SLUG_MAX_LENGTH): string {
   const lastHyphen = cut.lastIndexOf("-");
   return lastHyphen > 0 ? cut.slice(0, lastHyphen) : cut;
 }
+
+/*
+ * 사이트 주소창의 글 주소(라우트 params). 한글 주소는 퍼센트 인코딩되어 들어오므로 풀어서 Sanity에 묻는다.
+ * 잘못된 인코딩(%가 깨진 주소)이면 null이다. macOS에서 붙여 넣은 주소는 자모가 나뉘어 올 수 있어 합친다(NFC).
+ */
+export function decodeSlugParam(param: string): string | null {
+  try {
+    return decodeURIComponent(param).normalize("NFC");
+  } catch {
+    return null;
+  }
+}
