@@ -15,7 +15,7 @@ export function LegalDocument({ title, children }: { title: string; children: Re
   );
 }
 
-// level 3은 개인정보 처리방침 "4."의 하위 항목 "1)~8)"에 쓴다.
+// level 3은 개인정보 처리방침 "4."의 하위 항목 "1)~10)"에 쓴다.
 export function LegalSection({
   title,
   level = 2,
