@@ -99,3 +99,11 @@ export const NOTICE_QUERY = defineQuery(`*[_type == $type && slug.current == $sl
     ))
   )] | order(publishedAt asc, _createdAt asc, _id asc)[0]{${NOTICE_ROW_FIELDS}}
 }`);
+
+/*
+ * CONTACT 페이지 공지사항 목록의 한 탭($type). 순서는 상세 페이지의 이전 글·다음 글과 같은 최신순이다.
+ * 글이 수십 개 수준이라 한 번에 모두 받아 브라우저에서 5개씩 나눠 보인다.
+ */
+export const NOTICE_LIST_QUERY = defineQuery(
+  `*[${LISTED_NOTICE}] | ${NEWEST_FIRST}{${NOTICE_ROW_FIELDS}}`,
+);
