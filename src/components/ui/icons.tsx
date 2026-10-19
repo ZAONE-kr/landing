@@ -64,3 +64,26 @@ export function ArrowRightIcon(props: IconProps) {
     </svg>
   );
 }
+
+// Iconly/Sharp/Outline "Download". 선이 아니라 채운 도형이라 fill로 그린다. 24px·28px은 같은 도형을 키운 것이다.
+export function DownloadIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 28 28" fill="currentColor" aria-hidden {...props}>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M13.125 2.80845L13.125 19.4659H14.875L14.875 2.80845H13.125Z"
+      />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M8.94141 15.6248L13.9995 20.7054L19.0592 15.625L17.8192 14.3901L13.9997 18.2252L10.1816 14.3901L8.94141 15.6248Z"
+      />
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M2.33362 10.1081H9.47945V11.8581H4.08362V23.4417H23.917V11.8581H18.5211V10.1081H25.667V25.1917H2.33362V10.1081Z"
+      />
+    </svg>
+  );
+}
