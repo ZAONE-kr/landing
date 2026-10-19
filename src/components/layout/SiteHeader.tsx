@@ -12,7 +12,7 @@ const NAV_ITEMS = [
   { label: "IMPACT", href: "/impact" },
   { label: "INSIGHTS", href: "/insights" },
   { label: "ZAONE LAB", href: "/zaone-lab" },
-  { label: "PARTNER WITH US", href: "/partner-with-us" },
+  { label: "CONTACT", href: "/contact" },
 ];
 
 // 1024에서 데스크톱 메뉴로 바뀐다. 데스크톱은 1024 시안의 여백과 간격을 그대로 쓰고,
