@@ -66,6 +66,8 @@
   --color-bg-inverse: var(--primitive-neutral-950);
   --color-bg-brand: var(--primitive-blue-700);
   --color-bg-brand-soft: var(--primitive-blue-200);
+  /* Figma bg/brand-soft2. 같은 색의 Primitive가 없어 값을 그대로 쓴다(CONTACT 시안). */
+  --color-bg-brand-soft2: #eaf2ff;
   --color-bg-highlight: var(--primitive-yellow-50);
   --color-bg-accent: var(--primitive-pink-100);
   --color-bg-overlay-a8: var(--primitive-neutral-700-a8);

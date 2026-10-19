@@ -5,7 +5,7 @@
 // 교육·훈련 프로그램을 운영하는 외부 사이트. 이 사이트의 ZAONE LAB 소개(/zaone-lab)와 다른 곳이고 새 탭으로 연다.
 export const ZAONE_LAB_PROGRAMS_URL = "https://lab.zaone.org/";
 
-// 문의하기 페이지의 문의 폼. 문의하기 페이지가 type으로 폼을 골라 #contact-form 자리에 보여준다(페이지는 아직 준비중).
+// 문의하기 페이지의 문의 폼. 문의하기 페이지가 type으로 폼을 골라 #contact-form 자리에 보여준다.
 export const CONTACT_FORM_HREF = {
   // 휴면자원 공급 문의
   supply: "/contact?type=supply#contact-form",
@@ -17,7 +17,7 @@ export const CONTACT_FORM_HREF = {
   education: "/contact?type=education#contact-form",
 } as const;
 
-// CONTACT 페이지의 공지사항 목록. 목록이 notice로 사업소식·사업보고 탭을 골라 #notices 자리에 보여 준다(목록은 아직 준비중).
+// CONTACT 페이지의 공지사항 목록. 목록이 notice로 사업소식·사업보고 탭을 골라 #notices 자리에 보여 준다.
 // 사업소식·사업보고 상세 페이지의 "공지사항 목록 보기"가 보던 글의 탭으로 돌아간다.
 export const NOTICE_LIST_HREF = {
   businessNews: "/contact?notice=news#notices",

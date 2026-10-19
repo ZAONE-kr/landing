@@ -16,8 +16,11 @@ export const metadata: Metadata = {
   openGraph: pageOpenGraph({ url: "/privacy", title, description }),
 };
 
-// 본문은 기존 사이트(zaone.org/privacy, 아임웹) 문구를 옮기고, 뉴스레터 이메일 수집(1·2·4항)과
-// 개인정보관리 책임자(8항)만 더했다. 내용은 단체가 정한다.
+// 본문은 기존 사이트(zaone.org/privacy, 아임웹) 문구를 옮기고, 뉴스레터 이메일 수집(1·2·5항),
+// 개인정보관리 책임자(9항), 홈페이지 문의 폼(1·2·5항, 4항 위탁·국외 이전)만 더했다. 내용은 단체가 정한다.
+// 홈페이지 문의는 옛 사이트의 "파트너십 문의"를 대신해서 그 줄을 바꿨다(PARTNER WITH US가 CONTACT로 합쳐짐).
+// 위탁 업체 정보는 2026-10-19 각 회사 공개 자료 기준이다(Resend: resend.com/security·privacy-policy,
+// Google: policies.google.com/privacy/additional?gl=kr).
 // 원문에서 줄바꿈(<br>)으로 나뉜 문장은 <p>로 나눴다.
 export default function PrivacyPage() {
   return (
@@ -90,7 +93,12 @@ export default function PrivacyPage() {
             등의 문의, 프로그램 진행을 위해 아래와 같은 개인정보를 수집하고 있습니다.
           </p>
           <BulletList>
-            <li>파트너십 문의: 이름, 이메일, 전화번호</li>
+            <li>
+              홈페이지 문의(휴면자원 공급·사용, 프로젝트 협력, 교육 프로그램): 기업 또는 기관명,
+              소속/부서, 담당자명, 이메일, 연락처, 이용지역(시·군·구), 문의 유형별 선택·작성
+              항목(관심 협력 분야, 교육 대상, 주요 이용 대상, 자원 설명, 활용 계획), 문의 유형, 접수
+              일시, 동의 여부 및 동의 일시. 문의 유형에 따라 이 중 일부만 받습니다.
+            </li>
             <li>프로그램 참여: 이름, 이메일, 전화번호</li>
             <li>뉴스레터 구독: 이메일</li>
           </BulletList>
@@ -98,9 +106,9 @@ export default function PrivacyPage() {
         </LegalSection>
 
         <LegalSection level={3} title="2) 개인정보의 수집 및 이용목적">
-          <p>파트너십 문의 시 개인정보는 아래와 같은 목적으로 사용합니다.</p>
+          <p>홈페이지 문의 시 개인정보는 아래와 같은 목적으로 사용합니다.</p>
           <BulletList>
-            <li>문의에 대한 답변, 상담</li>
+            <li>문의 내용 확인, 상담 및 답변, 문의 처리 이력 관리</li>
           </BulletList>
           <p>뉴스레터 구독 시 이메일은 아래와 같은 목적으로 사용합니다.</p>
           <BulletList>
@@ -142,7 +150,44 @@ export default function PrivacyPage() {
           </p>
         </LegalSection>
 
-        <LegalSection level={3} title="4) 개인정보의 보유 및 이용기간">
+        <LegalSection level={3} title="4) 개인정보 취급 위탁">
+          <p>회사는 홈페이지 문의를 처리하기 위하여 아래와 같이 개인정보 처리 업무를 위탁합니다.</p>
+          <BulletList>
+            <li>Plus Five Five, Inc.(서비스명 Resend): 홈페이지 문의 알림 메일 발송</li>
+            <li>Google LLC(서비스명 Google 스프레드시트): 홈페이지 문의 기록 보관</li>
+          </BulletList>
+          <p>
+            위 수탁자는 국외에 있어, 홈페이지 문의로 받은 개인정보가 아래와 같이 국외로 이전됩니다.
+          </p>
+          <BulletList>
+            <li>
+              Plus Five Five, Inc.(Resend, support@resend.com)
+              <BulletList className="mt-xs">
+                <li>이전되는 국가: 미국</li>
+                <li>이전되는 항목: 1)의 홈페이지 문의 항목</li>
+                <li>이전 시기 및 방법: 문의를 접수할 때 네트워크를 통해 전송</li>
+                <li>이용 목적: 담당자에게 문의 알림 메일 발송</li>
+                <li>보유 및 이용 기간: 발송 후 30일이 지나면 삭제</li>
+              </BulletList>
+            </li>
+            <li>
+              Google LLC(googlekrsupport@google.com)
+              <BulletList className="mt-xs">
+                <li>이전되는 국가: 미국 등 Google 데이터 센터가 있는 국가</li>
+                <li>이전되는 항목: 1)의 홈페이지 문의 항목</li>
+                <li>이전 시기 및 방법: 문의를 접수할 때 네트워크를 통해 전송</li>
+                <li>이용 목적: 문의 기록 보관</li>
+                <li>보유 및 이용 기간: 문의 처리가 끝날 때까지</li>
+              </BulletList>
+            </li>
+          </BulletList>
+          <p>
+            국외 이전을 원하지 않으시면 문의 폼 대신 전화(070-4124-8887)로 문의해 주세요. 문의
+            폼으로 접수하면 위와 같이 국외로 이전됩니다.
+          </p>
+        </LegalSection>
+
+        <LegalSection level={3} title="5) 개인정보의 보유 및 이용기간">
           <p>
             회사는 본 서비스를 통해 개인정보 수집 및 이용목적인 달성된 후에는 해당 정보를 지체 없이
             파기합니다. 단, 다음의 정보에 대해서는 아래의 이유로 명시한 기간 동안 보존합니다.
@@ -151,10 +196,14 @@ export default function PrivacyPage() {
             <li>보존 항목 : 이름, 이메일, 휴대전화번호</li>
             <li>보존 근거 : 자원(ZAONE) 협업 등의 문의, 프로그램 참여 시 수집 동의</li>
           </BulletList>
+          <p>
+            홈페이지 문의로 받은 개인정보는 문의 처리가 끝나면 지체 없이 파기합니다. 다만 관계
+            법령에 따라 보존이 필요한 정보는 해당 법령에서 정한 기간 동안 별도 보관합니다.
+          </p>
           <p>뉴스레터 구독 이메일은 구독을 해지하면 지체 없이 파기합니다.</p>
         </LegalSection>
 
-        <LegalSection level={3} title="5) 개인정보의 파기절차 및 방법">
+        <LegalSection level={3} title="6) 개인정보의 파기절차 및 방법">
           <BulletList>
             <li>
               파기절차
@@ -175,7 +224,7 @@ export default function PrivacyPage() {
           </BulletList>
         </LegalSection>
 
-        <LegalSection level={3} title="6) 이용자 및 법정대리인의 권리와 그 행사 방법">
+        <LegalSection level={3} title="7) 이용자 및 법정대리인의 권리와 그 행사 방법">
           <p>
             이용자는 등록되어 있는 자신의 개인정보를 조회하거나 수정할 수 있으며 삭제를 요청할 수도
             있습니다. 이용자들의 개인정보 조회 및 수정을 위해서는 개인정보관리책임자에게 서면, 전화
@@ -196,7 +245,7 @@ export default function PrivacyPage() {
           </p>
         </LegalSection>
 
-        <LegalSection level={3} title="7) 개인정보 관리를 위한 기술적, 관리적 보호조치">
+        <LegalSection level={3} title="8) 개인정보 관리를 위한 기술적, 관리적 보호조치">
           <p>
             회사는 이용자의 개인정보를 취급함에 있어 개인정보가 분실, 도난, 누출, 변조 또는 훼손되지
             않도록 안전성 확보를 위하여 다음과 같은 기술적 대책을 강구하고 있습니다.
@@ -228,7 +277,7 @@ export default function PrivacyPage() {
           </p>
         </LegalSection>
 
-        <LegalSection level={3} title="8) 개인정보관리 책임자">
+        <LegalSection level={3} title="9) 개인정보관리 책임자">
           <p>
             회사는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의
             불만처리 및 피해구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.
@@ -244,7 +293,7 @@ export default function PrivacyPage() {
           </p>
         </LegalSection>
 
-        <LegalSection level={3} title="9) 처리방침 변경에 대한 고지의 의무">
+        <LegalSection level={3} title="10) 처리방침 변경에 대한 고지의 의무">
           <p>
             현 개인정보취급방침의 내용 추가, 삭제 및 수정이 있을 시에는 개정 최소 7일전부터
             홈페이지의 ‘공지사항’을 통해 고지할 것입니다.

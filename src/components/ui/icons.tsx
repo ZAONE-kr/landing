@@ -55,6 +55,31 @@ export function ChevronUpIcon(props: IconProps) {
   );
 }
 
+// Iconly/Sharp/Outline "Arrow - Left 2"·"Arrow - Right 2". 선이 아니라 채운 도형이라 fill로 그린다.
+export function ChevronLeftIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M16.5607 5L9.56066 12L16.5607 19L15.5 20.0607L7.43934 12L15.5 3.93934L16.5607 5Z"
+      />
+    </svg>
+  );
+}
+
+export function ChevronRightIcon(props: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden {...props}>
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M7.43934 19L14.4393 12L7.43934 5L8.5 3.93934L16.5607 12L8.5 20.0607L7.43934 19Z"
+      />
+    </svg>
+  );
+}
+
 // 20px·32px·36px 시안은 같은 도형을 키운 것이라 viewBox 하나로 모두 그린다.
 export function ArrowRightIcon(props: IconProps) {
   return (
