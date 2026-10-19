@@ -29,6 +29,8 @@ export type InquiryField =
       placeholder: string;
       inputType: "text" | "email" | "tel";
       autoComplete?: string;
+      // 입력값을 정해진 모양으로 바꾼다. 화면에서는 입력할 때마다, 서버에서는 접수할 때 부른다.
+      format?: (value: string) => string;
     }
   | {
       kind: "textarea";
@@ -97,6 +99,7 @@ const EMAIL = {
   autoComplete: "email",
 } as const satisfies InquiryField;
 
+// 숫자만 받고 하이픈은 자동으로 넣는다(사용자 요청, 2026-10-19).
 const PHONE = {
   kind: "text",
   name: "phone",
@@ -104,7 +107,38 @@ const PHONE = {
   placeholder: "000-0000-0000",
   inputType: "tel",
   autoComplete: "tel",
+  format: formatPhoneNumber,
 } as const satisfies InquiryField;
+
+/*
+ * 전화번호에 하이픈을 넣는다. 숫자만 남기고(다른 글자는 지운다) 한국 번호 모양대로 나눈다. 입력하는 중에도 부르므로
+ * 덜 쓴 번호는 쓴 만큼만 나눈다(010-12, 010-123-4 …). 끝에 하이픈을 남기지 않아 지우기(Backspace)가 걸리지 않는다.
+ * - 02(서울): 2-3-4, 다 쓰면(10자리) 2-4-4
+ * - 050x(안심번호): 4-3-4, 다 쓰면(12자리) 4-4-4
+ * - 1588 같은 대표번호(1로 시작): 4-4
+ * - 그 밖(010·031·070 등): 3-3-4, 다 쓰면(11자리) 3-4-4
+ * 브라우저 자동 완성이 넣는 국가번호(+82 10-…, +82 (0)10-…)는 0으로 바꾼다. 최대 자릿수를 넘는 숫자는 버린다.
+ */
+export function formatPhoneNumber(value: string): string {
+  let digits = value.replace(/\D/g, "");
+  if (value.trim().startsWith("+82")) digits = `0${digits.slice(2).replace(/^0/, "")}`;
+
+  if (digits.startsWith("1")) {
+    const number = digits.slice(0, 8);
+    return number.length <= 4 ? number : `${number.slice(0, 4)}-${number.slice(4)}`;
+  }
+  const [prefix, max] = digits.startsWith("02")
+    ? [2, 10]
+    : digits.startsWith("050")
+      ? [4, 12]
+      : [3, 11];
+  const number = digits.slice(0, max);
+  const head = number.slice(0, prefix);
+  if (number.length <= prefix) return number;
+  if (number.length <= prefix + 3) return `${head}-${number.slice(prefix)}`;
+  const middle = number.length === max ? 4 : 3;
+  return `${head}-${number.slice(prefix, prefix + middle)}-${number.slice(prefix + middle)}`;
+}
 
 export const INQUIRY_FORMS: Record<InquiryType, InquiryForm> = {
   supply: {
@@ -240,12 +274,15 @@ export type InquiryErrors = Partial<Record<InquiryFieldName, string>>;
 export const REQUIRED_MESSAGE = "필수 입력 항목입니다.";
 const CHOICE_REQUIRED_MESSAGE = "하나 이상 골라주세요.";
 const EMAIL_MESSAGE = "이메일 주소를 확인해주세요. 예) abcde@zaone.com";
-const PHONE_MESSAGE = "숫자와 하이픈(-)으로 입력해주세요. 예) 010-1234-5678";
+const PHONE_MESSAGE = "전화번호를 확인해주세요. 예) 010-1234-5678";
 
 // 흔한 오타(골뱅이 빠짐, 도메인 점 빠짐, 공백)만 거른다. 실제로 받는 주소인지는 답장해 봐야 안다.
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-// 숫자·하이픈·괄호·공백·+(국가 번호)만 쓰고, 숫자는 8~15자(지역번호 없는 대표번호부터 국제번호까지).
-const PHONE_PATTERN = /^[\d\s()+-]+$/;
+/*
+ * 전화번호 숫자. 0으로 시작하는 10~11자리(010·031·070 등, 02는 9~10자리, 050x 안심번호는 11~12자리)와
+ * 15xx·16xx·18xx 같은 8자리 대표번호.
+ */
+const PHONE_DIGITS = /^(?:02\d{7,8}|050\d{8,9}|0[1-9]\d{8,9}|1[5-9]\d{6})$/;
 
 export function checkField(field: InquiryField, values: InquiryValues): string | null {
   if (field.kind === "choices") {
@@ -257,10 +294,7 @@ export function checkField(field: InquiryField, values: InquiryValues): string |
   if (Array.from(value).length > maxLength) return `${maxLength}자까지 입력할 수 있어요.`;
   if (field.name === "email" && (value.length > EMAIL_MAX_LENGTH || !EMAIL_PATTERN.test(value)))
     return EMAIL_MESSAGE;
-  if (field.name === "phone") {
-    const digits = value.replace(/\D/g, "").length;
-    if (!PHONE_PATTERN.test(value) || digits < 8 || digits > 15) return PHONE_MESSAGE;
-  }
+  if (field.name === "phone" && !PHONE_DIGITS.test(value.replace(/\D/g, ""))) return PHONE_MESSAGE;
   return null;
 }
 
@@ -316,7 +350,8 @@ export function parseInquiryRequest(body: unknown): { inquiry: Inquiry; isBot: b
       values[field.name] = field.options.filter((option) => raw.includes(option));
     } else {
       if (typeof raw !== "string") return null;
-      values[field.name] = cleanText(raw, field.kind === "textarea");
+      const text = cleanText(raw, field.kind === "textarea");
+      values[field.name] = field.kind === "text" && field.format ? field.format(text) : text;
     }
   }
   if (Object.keys(validateInquiry(type, values)).length > 0) return null;
