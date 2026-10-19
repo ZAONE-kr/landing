@@ -18,9 +18,12 @@ type FieldProps<Value> = {
 const LABEL_CLASS = "px-sm text-body-s-b text-text-primary";
 const ERROR_CLASS = "text-detail-ss-m text-text-brand";
 
-// 포커스·입력 중에는 테두리만 포커스 색으로 바뀐다(시안 status=focused·typing).
+/*
+ * 포커스·입력 중에는 테두리가 포커스 색 1.6px로 바뀐다(시안 status=focused·typing은 1px인데 사용자 요청으로 굵게,
+ * 고른 칩과 같은 두께). 테두리를 굵히면 칸이 커져 글자가 밀리므로 1px 테두리 안쪽에 0.6px를 더 그린다.
+ */
 const INPUT_CLASS =
-  "w-full rounded-sm border border-border-strong bg-bg-default p-sm text-body-s-m text-text-secondary transition-colors duration-250 ease-out outline-none placeholder:text-text-quaternary focus:border-border-focus";
+  "w-full rounded-sm border border-border-strong bg-bg-default p-sm text-body-s-m text-text-secondary transition-[border-color,box-shadow] duration-250 ease-out outline-none placeholder:text-text-quaternary focus:border-border-focus focus:inset-ring-[0.6px] focus:inset-ring-border-focus";
 
 /*
  * 한 줄 칸. 정해진 모양이 있는 칸(연락처)은 입력할 때마다 그 모양으로 바꾼다(field.format).
