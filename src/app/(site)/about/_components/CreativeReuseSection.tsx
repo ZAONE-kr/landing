@@ -107,7 +107,7 @@ export function CreativeReuseSection() {
             </p>
           </div>
           <Button
-            href="/partner-with-us"
+            href="/contact"
             className="px-2xl py-md text-body-xs-b lg:px-4xl lg:text-title-s-b"
           >
             ZAONE과 협력하는 방법 보기
