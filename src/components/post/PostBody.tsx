@@ -12,7 +12,7 @@ import { type SanityImageSource, toCroppedImage } from "@/sanity/lib/image";
 import { parseYouTubeId } from "@/sanity/youtubeUrl";
 
 import { POST_COLUMN, POST_IMAGE_WIDTH } from "./layout";
-import { coverScale, SanityImage } from "./SanityImage";
+import { SanityImage } from "./SanityImage";
 import { YouTubeEmbed } from "./YouTubeEmbed";
 
 /*
@@ -28,8 +28,9 @@ import { YouTubeEmbed } from "./YouTubeEmbed";
  * | 목록(점·번호) | ul·ol      | Body-SM-M 20                  | Detail-S-M 16                | 24, 항목 사이 12       |
  *
  * 페이지 제목이 h1이라 Heading 1부터 h2로 그린다. 컴포넌트에 없는 사진·유튜브는 상세 시안(1465:3244 등)을 따른다:
- * 위아래 64px, 사진은 모바일에서 좌우 여백 없이 화면을 채우고 1024부터 가운데 칸(layout.ts)에 맞추며, 16:10으로
- * 잘린다. 사진이 이어지면 12px 간격이다. 1024 시안의 틀은 864×640이지만 폭만 따르고 비율은 16:10으로 둔다(사용자 결정).
+ * 위아래 64px, 사진은 모바일에서 좌우 여백 없이 화면을 채우고 1024부터 가운데 칸(layout.ts)에 맞추며, 자르지 않고
+ * 원래 비율 그대로 보인다(사용자 결정, 2026-10-19 — 예전 사이트에서 옮긴 세로 포스터·인포그래픽이 16:10 틀에 잘렸다).
+ * 사진이 이어지면 12px 간격이다.
  * 블록마다 위 간격만 두고, 앞 블록에 따라 달라지는 간격은 아래 BODY_CLASS가 형제 선택자로 정한다.
  */
 
@@ -113,17 +114,22 @@ function BodyImage({ value }: PortableTextTypeComponentProps<PostBodyImage>) {
   const image = toCroppedImage(value);
   if (!image) return null;
   const caption = value.caption?.trim();
-  // 틀은 16:10이고 폭은 모바일에서 화면, 1024부터 가운데 칸(864)이다.
-  const scale = coverScale(image, 16 / 10);
+  // 폭은 모바일에서 화면, 1024부터 가운데 칸(864)이고, 사진이 그보다 작으면 늘리지 않고 원래 폭으로 가운데 둔다.
+  // 높이는 사진 비율대로라 잘리지 않는다. Studio에서 운영자가 자른(crop) 영역만 반영된다.
 
   return (
     <figure data-media data-block="image" className="mt-16">
-      <div className={`${POST_IMAGE_WIDTH} relative aspect-[16/10]`}>
-        <SanityImage
-          image={image}
-          alt={value.alt?.trim() ?? ""}
-          sizes={`(min-width: 1024px) ${Math.ceil(864 * scale)}px, ${Math.ceil(100 * scale)}vw`}
-        />
+      <div className={POST_IMAGE_WIDTH}>
+        <div
+          className="relative mx-auto"
+          style={{ aspectRatio: image.aspectRatio, maxWidth: `${image.width}px` }}
+        >
+          <SanityImage
+            image={image}
+            alt={value.alt?.trim() ?? ""}
+            sizes={`(min-width: 1024px) ${Math.min(864, image.width)}px, 100vw`}
+          />
+        </div>
       </div>
       {/* TODO: 캡션 모양은 시안에 없어 임시로 정했다. 디자이너에게 받으면 바꾼다. */}
       {caption && (

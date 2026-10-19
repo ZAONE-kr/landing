@@ -85,13 +85,9 @@ export const postBodyType = defineType({
     defineArrayMember({
       type: "image",
       title: "Image",
-      options: {
-        hotspot: {
-          // 시안의 본문 사진은 1024·375 모두 16:10 틀(1024×640)에 맞춰 잘려 있다. 사이트가 원래 비율로 보이기로
-          // 하면 이 미리보기만 바꾼다.
-          previews: [{ title: "본문 사진 틀 (1024×640)", aspectRatio: 1024 / 640 }],
-        },
-      },
+      // 본문 사진은 사이트에서 원래 비율 그대로 보인다(src/components/post/PostBody.tsx). hotspot을 켜 둬야 Studio에
+      // 자르기(crop) 도구가 생기고, 운영자가 자른 영역만 화면에 반영된다. 중심점은 쓰이지 않는다.
+      options: { hotspot: true },
       fields: [
         defineField({
           name: "alt",
