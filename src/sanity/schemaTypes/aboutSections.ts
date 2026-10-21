@@ -26,7 +26,7 @@ function circleField(name: string, title: string) {
 export const aboutSectionTypes = [
   defineSectionType(ABOUT_HERO, [textField({ name: "title", title: "한 문장", max: 50 })]),
   defineSectionType(ABOUT_IMPERFECTION, [
-    textField({ name: "title", title: "제목", max: 80, rows: 2 }),
+    textField({ name: "title", title: "제목", max: 80, lineBreaks: true }),
     textField({ name: "first", title: "첫 문단", max: 260, rows: 5 }),
     textField({ name: "second", title: "둘째 문단", max: 520, rows: 8 }),
   ]),

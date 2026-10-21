@@ -1,5 +1,7 @@
 import { ABOUT_SECTIONS } from "./about";
+import { COMMON_SECTIONS } from "./common";
 import { GIVE_AND_USE_SECTIONS } from "./giveAndUse";
+import { HOME_SECTIONS } from "./home";
 import { IMPACT_SECTIONS } from "./impact";
 import { LAB_SECTIONS } from "./lab";
 import type { SectionMeta } from "./pages";
@@ -9,8 +11,10 @@ import type { SectionMeta } from "./pages";
  * 목록 순서가 폴더 안의 순서다.
  */
 export const SECTIONS: readonly SectionMeta[] = [
+  ...HOME_SECTIONS,
   ...ABOUT_SECTIONS,
   ...GIVE_AND_USE_SECTIONS,
   ...IMPACT_SECTIONS,
   ...LAB_SECTIONS,
+  ...COMMON_SECTIONS,
 ];

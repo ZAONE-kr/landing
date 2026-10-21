@@ -8,7 +8,9 @@ export async function ImperfectionSection() {
   return (
     <section className="px-lg py-3xl lg:px-6xl lg:py-7xl">
       <div className="mx-auto flex max-w-[37.5rem] flex-col gap-3xl lg:max-w-[54rem] lg:gap-4xl">
-        <h2 className="text-title-m-b text-balance text-text-primary lg:text-title-l-b">{title}</h2>
+        <h2 className="text-title-m-b text-balance whitespace-pre-line text-text-primary lg:text-title-l-b">
+          {title}
+        </h2>
         <div className="flex flex-col gap-xl text-body-s-m text-text-secondary lg:text-body-sm-r">
           <p>{first}</p>
           <p className="lg:max-w-[51.25rem]">{second}</p>

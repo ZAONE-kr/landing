@@ -4,6 +4,7 @@ import { aboutSectionTypes } from "./aboutSections";
 import { businessNewsType } from "./businessNews";
 import { businessReportType } from "./businessReport";
 import { giveAndUseSectionTypes } from "./giveAndUseSections";
+import { homeSectionTypes } from "./homeSections";
 import { impactSectionTypes } from "./impactSections";
 import { insightType } from "./insight";
 import { labSectionTypes } from "./labSections";
@@ -12,6 +13,7 @@ import { youtubeType } from "./youtube";
 import { zaoneLabFieldTagsType } from "./zaoneLabFieldTags";
 
 const sectionTypes = [
+  ...homeSectionTypes,
   ...aboutSectionTypes,
   ...giveAndUseSectionTypes,
   ...impactSectionTypes,
