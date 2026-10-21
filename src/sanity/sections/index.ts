@@ -1,3 +1,4 @@
+import { ABOUT_SECTIONS } from "./about";
 import { GIVE_AND_USE_SECTIONS } from "./giveAndUse";
 import { IMPACT_SECTIONS } from "./impact";
 import { LAB_SECTIONS } from "./lab";
