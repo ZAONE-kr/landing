@@ -1,22 +1,24 @@
+import { loadSection } from "@/sanity/lib/sections";
+import { HOME_NEWSLETTER } from "@/sanity/sections/home";
+
 import { NewsletterForm } from "./NewsletterForm";
 
-export function NewsletterSection() {
+// 글은 Studio에서 고친다. 시안의 줄바꿈은 두지 않고 제목은 시안의 줄을 기본값에 줄바꿈으로 담아 두었다(Enter로 고칠 수 있다).
+export async function NewsletterSection() {
+  const { title, body, emailLabel, placeholder, button } = await loadSection(HOME_NEWSLETTER);
+
   return (
     <section className="bg-bg-navy px-lg py-6xl lg:p-7xl">
       <div className="mx-auto flex max-w-[75rem] flex-col items-center gap-3xl lg:gap-6xl">
         <div className="flex flex-col items-center gap-xl text-center">
-          <h2 className="text-title-m-b text-text-inverse lg:text-heading-m-b">
-            우리가 더 오래
-            <br className="lg:hidden" /> 들여다보는 것들을
-            <br />
-            함께 받아보세요
+          <h2 className="text-title-m-b text-balance break-keep whitespace-pre-line text-text-inverse lg:text-heading-m-b">
+            {title}
           </h2>
-          <p className="text-body-xs-m text-text-quaternary lg:text-body-m-m">
-            물질과 교육, 지속가능성, 기업과 함께 만든 변화에 대한
-            <br className="lg:hidden" /> 새로운 기록을 보내드립니다.
+          <p className="max-w-[20rem] text-body-xs-m break-keep text-text-quaternary lg:max-w-[52rem] lg:text-body-m-m">
+            {body}
           </p>
         </div>
-        <NewsletterForm />
+        <NewsletterForm label={emailLabel} placeholder={placeholder} button={button} />
       </div>
     </section>
   );

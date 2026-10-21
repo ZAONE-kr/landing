@@ -1,18 +1,26 @@
 import { Button } from "@/components/ui/Button";
 import { CheckIcon } from "@/components/ui/icons";
-import { CONTACT_FORM_HREF, NEW_TAB_PROPS, ZAONE_LAB_PROGRAMS_URL } from "@/lib/links";
+import { linkTargetProps } from "@/lib/links";
+import { loadSection } from "@/sanity/lib/sections";
+import { GIVE_PANEL, USE_PANEL } from "@/sanity/sections/giveAndUse";
 
 import { GiveOrUseScroll } from "./GiveOrUseScroll";
 import { ScrollToLink } from "./ScrollToLink";
 
-type Panel = {
-  side: "give" | "use";
-  title: [string, string];
+type PanelText = {
+  title: string;
   description: string;
   checks: string[];
+  faqLabel: string;
+  buttons: { label: string; href: string }[];
+};
+
+type Panel = {
+  side: "give" | "use";
   // 같은 페이지의 자주 묻는 질문 섹션 id.
   faqHref: `#${string}`;
-  buttons: { label: string; href: string; variant: "solid" | "inverse"; newTab?: boolean }[];
+  // 버튼의 모양. 글과 주소는 Studio에서 고친 내용(PanelText)에서 같은 순서로 온다.
+  buttonVariants: ("solid" | "inverse")[];
   buttonClassName: string;
   // 데스크톱에서 접혔을 때 아래에 크게 놓이는 영문 낱말.
   word: string;
@@ -32,17 +40,8 @@ type Panel = {
 const PANELS: Panel[] = [
   {
     side: "give",
-    title: ["휴면자원을", "가지고 있다면"],
-    description:
-      "생산 과정에서 발생한 부산물, 규격 외 용품, 불량, 재고 등 휴면자원을 공급할 수 있습니다. 자원의 종류와 상태, 수량, 발생 주기를 확인한 뒤 교육 재료로 활용할 수 있는지 검토하고 운송 방식을 협의합니다.",
-    checks: [
-      "휴면자원의 검토와 공급에는 별도의 비용이 들지 않습니다.",
-      "관련 법령과 기준에 따라 현물기부로 처리하여 기부금 영수증을 발급할 수 있습니다.",
-    ],
     faqHref: "#how-to-give",
-    buttons: [
-      { label: "휴면자원 공급 문의하기", href: CONTACT_FORM_HREF.supply, variant: "solid" },
-    ],
+    buttonVariants: ["solid"],
     buttonClassName: "px-2xl py-md text-body-xs-b lg:px-6xl lg:py-xl lg:text-body-sm-b",
     word: "GIVE",
     // 배경 #eaf2ff는 Figma의 bg/brand-soft2다. 파란색 primitive 이름 정리 후 토큰이 생기면 바꾼다.
@@ -61,24 +60,8 @@ const PANELS: Panel[] = [
   },
   {
     side: "use",
-    title: ["휴면자원을", "사용하고 싶다면"],
-    description:
-      "학교와 교육·돌봄기관, 복지기관, 도서관·문화공간은 기관 단위 멤버십을 통해 ZAONE LAB을 이용할 수 있습니다. 재료를 직접 탐색하고 선택해 수업, 놀이, 탐구, 제작, 워크숍에 활용합니다.",
-    // 첫 줄은 375 시안("운영되며 유료입니다")과 1024 시안이 다르다. 나중에 만든 1024 시안을 따른다.
-    checks: [
-      "멤버십은 기관 단위로 운영되는 유료 서비스입니다.",
-      "재료를 교육적으로 활용할 수 있도록 교사·기관 대상 교육과 훈련 프로그램을 운영합니다.",
-    ],
     faqHref: "#how-to-use",
-    buttons: [
-      { label: "기관 멤버십 신청하기", href: CONTACT_FORM_HREF.use, variant: "solid" },
-      {
-        label: "교육·훈련 프로그램 보기",
-        href: ZAONE_LAB_PROGRAMS_URL,
-        variant: "inverse",
-        newTab: true,
-      },
-    ],
+    buttonVariants: ["solid", "inverse"],
     buttonClassName: "px-xl py-md text-body-xs-b lg:w-[316px] lg:px-6xl lg:py-xl lg:text-body-sm-b",
     word: "USE",
     // 모바일 점검 목록 배경(neutral-950 32%)과 접힌 낱말 색 #1e3f89는 Figma에서 변수 없이 쓴 값이다.
@@ -100,7 +83,7 @@ const PANELS: Panel[] = [
  * 사용 면(1024 831:8890, 1440 831:9441 시안)으로 펼친 면이 점점 바뀐다. 고정과 진행도는 GiveOrUseScroll이 맡는다.
  * 펼친 내용은 펼쳤을 때의 폭으로 고정해 두어 면 폭이 바뀌어도 줄이 다시 나뉘지 않고, 좁아지는 면에서 잘린다.
  */
-function GiveOrUsePanel({ panel }: { panel: Panel }) {
+function GiveOrUsePanel({ panel, text }: { panel: Panel; text: PanelText }) {
   const { className } = panel;
 
   return (
@@ -108,9 +91,10 @@ function GiveOrUsePanel({ panel }: { panel: Panel }) {
       data-side={panel.side}
       className={`relative flex flex-col gap-xl overflow-hidden px-xl py-3xl lg:gap-2xl lg:pt-7xl lg:pb-6xl ${className.panel}`}
     >
-      <h2 className={`text-title-m-b lg:text-body-l-eb ${className.title}`}>
-        {panel.title[0]}
-        <br className="hidden lg:inline" /> {panel.title[1]}
+      <h2
+        className={`text-title-m-b break-keep lg:max-w-[13rem] lg:text-body-l-eb ${className.title}`}
+      >
+        {text.title}
       </h2>
 
       <div
@@ -118,12 +102,12 @@ function GiveOrUsePanel({ panel }: { panel: Panel }) {
       >
         <div className="flex w-full flex-col gap-xl">
           <p className={`text-body-s-m lg:text-body-sm-r ${className.description}`}>
-            {panel.description}
+            {text.description}
           </p>
           <ul
             className={`flex flex-col gap-2.5 rounded-md p-md lg:rounded-none lg:bg-transparent lg:py-0 lg:pr-0 lg:pl-sm ${className.checks}`}
           >
-            {panel.checks.map((check) => (
+            {text.checks.map((check) => (
               <li key={check} className="flex items-center gap-sm">
                 <CheckIcon className="size-5 shrink-0 text-icon-secondary lg:size-6" />
                 <span className={`text-body-xs-m lg:text-body-s-m ${className.check}`}>
@@ -137,7 +121,7 @@ function GiveOrUsePanel({ panel }: { panel: Panel }) {
                 href={panel.faqHref}
                 className={`text-detail-ss-m underline lg:text-body-s-m ${className.faqLink}`}
               >
-                자주묻는 질문 보러가기
+                {text.faqLabel}
               </ScrollToLink>
             </li>
           </ul>
@@ -145,12 +129,12 @@ function GiveOrUsePanel({ panel }: { panel: Panel }) {
 
         {/* 모바일에서 버튼 줄(334px)이 글 폭(327px)보다 넓어 좌우로 조금 나간다(375 시안). 더 좁으면 줄을 바꾼다. */}
         <div className="-mx-s flex flex-wrap justify-center gap-s lg:mx-0 lg:flex-col lg:items-center lg:gap-xl">
-          {panel.buttons.map((button) => (
+          {text.buttons.map((button, index) => (
             <Button
               key={button.label}
               href={button.href}
-              variant={button.variant}
-              {...(button.newTab && NEW_TAB_PROPS)}
+              variant={panel.buttonVariants[index]}
+              {...linkTargetProps(button.href)}
               className={panel.buttonClassName}
             >
               {button.label}
@@ -182,11 +166,29 @@ function GiveOrUsePanel({ panel }: { panel: Panel }) {
  * 섹션 높이는 816px(더 긴 쪽인 사용 면 시안)과 화면 높이 중 큰 값이다. 고정된 동안 화면을 다 채워
  * 아래에 멈춘 빈 띠가 보이지 않는다.
  */
-export function GiveOrUseSection() {
+export async function GiveOrUseSection() {
+  const [give, use] = await Promise.all([loadSection(GIVE_PANEL), loadSection(USE_PANEL)]);
+  const texts: PanelText[] = [
+    {
+      title: give.title,
+      description: give.description,
+      checks: [give.check1, give.check2],
+      faqLabel: give.faqLabel,
+      buttons: [give.button],
+    },
+    {
+      title: use.title,
+      description: use.description,
+      checks: [use.check1, use.check2],
+      faqLabel: use.faqLabel,
+      buttons: [use.primaryButton, use.secondaryButton],
+    },
+  ];
+
   return (
     <GiveOrUseScroll className="group/split @container flex flex-col [--collapsed:clamp(20.125rem,calc(38cqw-4.195rem),30rem)] [--content-width:calc(100cqw-var(--collapsed)-7.5rem)] [--give-fade:clamp(0,calc(1-var(--p)/0.6),1)] [--give-width:calc(var(--collapsed)+(100cqw-2*var(--collapsed))*(1-var(--p)))] [--give-word-fade:clamp(0,calc((var(--p)-0.6)/0.4),1)] [--p:0] [--use-fade:clamp(0,calc((var(--p)-0.4)/0.6),1)] [--use-word-fade:clamp(0,calc(1-var(--p)/0.4),1)] lg:min-h-[max(51rem,100vh)] lg:flex-row">
-      {PANELS.map((panel) => (
-        <GiveOrUsePanel key={panel.side} panel={panel} />
+      {PANELS.map((panel, index) => (
+        <GiveOrUsePanel key={panel.side} panel={panel} text={texts[index]} />
       ))}
     </GiveOrUseScroll>
   );

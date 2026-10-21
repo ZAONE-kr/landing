@@ -28,15 +28,25 @@ type TextOptions = {
   max: number;
   // 여러 줄로 쓰는 글(본문)이면 입력칸 줄 수. 없으면 한 줄 입력칸(제목)이다.
   rows?: number;
+  // 제목처럼 시안이 문장 중간에서 줄을 나눈 곳에서만 쓴다. 켜면 Enter로 줄을 바꿀 수 있고, 안 바꾸면 자동으로 나뉜다.
+  lineBreaks?: boolean;
 };
 
-export function textField({ name, title, description, max, rows }: TextOptions) {
+export function textField({ name, title, description, max, rows, lineBreaks }: TextOptions) {
   return defineField({
     name,
     title,
-    description: [description, `${max}자까지 쓸 수 있어요.`].filter(Boolean).join(" "),
-    type: rows ? "text" : "string",
-    rows,
+    description: [
+      description,
+      lineBreaks
+        ? "줄을 바꾸고 싶은 곳에서 Enter를 누르세요. 바꾸지 않으면 화면에 맞춰 자동으로 나뉘어요."
+        : "",
+      `${max}자까지 쓸 수 있어요.`,
+    ]
+      .filter(Boolean)
+      .join(" "),
+    type: rows || lineBreaks ? "text" : "string",
+    rows: rows ?? (lineBreaks ? 2 : undefined),
     validation: (rule) => [
       rule.required().error("비워 둘 수 없어요. 글을 써 주세요."),
       rule.max(max).error(`${max}자까지 쓸 수 있어요.`),
@@ -48,14 +58,37 @@ export function textField({ name, title, description, max, rows }: TextOptions) 
 // 사이트 안 주소는 /로 시작하고, 외부 주소는 https://로 시작한다. //로 시작하면 다른 사이트로 가서 막는다.
 const HREF = /^(\/(?!\/)\S*|https?:\/\/\S+)$/i;
 
-type ButtonOptions = {
+type LinkOptions = {
   name: string;
   title: string;
   description?: string;
 };
 
+// 주소 입력칸. 사이트 안 주소(/로 시작)나 외부 주소(https://로 시작)만 받는다.
+export function hrefField({
+  name,
+  title,
+  description = "사이트 안 페이지는 /contact 처럼 /로 시작하고, 다른 사이트는 https://로 시작해서 주소 전체를 붙여 넣어요. 다른 사이트는 새 탭으로 열려요.",
+}: LinkOptions) {
+  return defineField({
+    name,
+    title,
+    description,
+    type: "string",
+    validation: (rule) => [
+      rule.required().error("주소를 써 주세요."),
+      rule.custom((value) => {
+        if (!value) return true;
+        const text = checkText(value);
+        if (text !== true) return text;
+        return HREF.test(value) || "주소가 /로 시작하거나 https://로 시작해야 해요.";
+      }),
+    ],
+  });
+}
+
 // 버튼 하나. 글과 주소를 받고, 외부 주소(https://…)는 사이트에서 새 탭으로 열린다(linkTargetProps).
-export function buttonField({ name, title, description }: ButtonOptions) {
+export function buttonField({ name, title, description }: LinkOptions) {
   return defineField({
     name,
     title,
@@ -64,22 +97,7 @@ export function buttonField({ name, title, description }: ButtonOptions) {
     options: { collapsible: false },
     fields: [
       textField({ name: "label", title: "버튼 글", max: 24 }),
-      defineField({
-        name: "href",
-        title: "연결할 주소",
-        description:
-          "사이트 안 페이지는 /contact 처럼 /로 시작하고, 다른 사이트는 https://로 시작해서 주소 전체를 붙여 넣어요. 다른 사이트는 새 탭으로 열려요.",
-        type: "string",
-        validation: (rule) => [
-          rule.required().error("주소를 써 주세요."),
-          rule.custom((value) => {
-            if (!value) return true;
-            const text = checkText(value);
-            if (text !== true) return text;
-            return HREF.test(value) || "주소가 /로 시작하거나 https://로 시작해야 해요.";
-          }),
-        ],
-      }),
+      hrefField({ name: "href", title: "연결할 주소" }),
     ],
   });
 }

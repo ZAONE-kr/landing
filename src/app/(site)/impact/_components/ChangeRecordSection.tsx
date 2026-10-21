@@ -2,6 +2,9 @@ import Image from "next/image";
 
 import closingImage from "@/assets/impact/closing-mattress-factory.jpg";
 import { Button } from "@/components/ui/Button";
+import { linkTargetProps } from "@/lib/links";
+import { loadSection } from "@/sanity/lib/sections";
+import { IMPACT_CHANGE_RECORD } from "@/sanity/sections/impact";
 
 import { ExpandOnScroll } from "./ExpandOnScroll";
 
@@ -20,8 +23,11 @@ import { ExpandOnScroll } from "./ExpandOnScroll";
  * 창은 overflow-clip으로 자른다. hidden이면 아래로 밀려 있는 버튼에 키보드로 들어갈 때 브라우저가 창 안을
  * 스크롤해 버려 검정 막과 문구가 사진에서 어긋난 채 남는다.
  * 검정 50%는 두 상태 모두 같고, Figma에서 변수 없이 쓴 값이다.
+ * 글과 버튼은 Studio에서 고친다. 시안의 줄바꿈은 두지 않고 폭을 묶어 고르게 나눈다(text-balance).
  */
-export function ChangeRecordSection() {
+export async function ChangeRecordSection() {
+  const { title, body, button } = await loadSection(IMPACT_CHANGE_RECORD);
+
   return (
     <ExpandOnScroll className="h-screen">
       <div className="absolute inset-x-0 top-0 -bottom-px overflow-clip [--ib:var(--spacing-xl)] [--ix:var(--spacing-xl)] [--r:var(--radius-sm)] [clip-path:inset(0_calc(var(--ix)*(1-var(--e)))_calc((var(--ib)+1px)*(1-var(--e)))_round_calc(var(--r)*(1-var(--e))))] lg:[--ib:var(--spacing-3xl)] lg:[--ix:var(--spacing-3xl)] lg:[--r:var(--radius-lg)]">
@@ -39,22 +45,20 @@ export function ChangeRecordSection() {
 
         <div className="absolute inset-0 flex translate-y-[calc((1-var(--q))*50%)] flex-col items-center justify-center gap-xl px-lg py-4xl text-center opacity-[calc(1-(1-var(--q))*(1-var(--q)))] group-data-[revealed=false]/expand:pointer-events-none lg:gap-5xl lg:p-7xl">
           <div className="flex max-w-[51.25rem] flex-col gap-s text-text-inverse lg:gap-xl">
-            <h2 className="text-title-m-b lg:text-heading-s-b">
-              변화는 한 번의 결과로
-              <br className="lg:hidden" /> 끝나지 않습니다.
+            <h2 className="max-w-[16rem] text-title-m-b text-balance lg:max-w-full lg:text-heading-s-b">
+              {title}
             </h2>
-            <p className="text-body-xs-m text-pretty lg:text-body-sm-m">
-              ZAONE은 현장에서 확인한 변화와 데이터를 계속 축적하고,
-              <br /> 그 과정에서 발견한 질문과 인사이트를
-              <br className="lg:hidden" /> 기록합니다.
+            <p className="max-w-[20rem] text-body-xs-m text-balance lg:max-w-[34rem] lg:text-body-sm-m">
+              {body}
             </p>
           </div>
           <Button
-            href="/insights"
+            href={button.href}
+            {...linkTargetProps(button.href)}
             variant="inverse"
             className="px-xl py-sm text-body-xs-b lg:px-6xl lg:py-xl lg:text-body-sm-b"
           >
-            데이터와 변화의 기록 보기
+            {button.label}
           </Button>
         </div>
       </div>

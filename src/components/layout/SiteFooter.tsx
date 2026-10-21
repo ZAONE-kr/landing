@@ -5,6 +5,8 @@ import { Fragment, type ReactNode } from "react";
 import acrcLogo from "@/assets/footer/acrc-logo.svg";
 import ntsLogo from "@/assets/footer/nts-logo.png";
 import { Logo } from "@/components/ui/Logo";
+import { loadSection } from "@/sanity/lib/sections";
+import { COMMON_FOOTER } from "@/sanity/sections/common";
 
 // TODO: 시안이 없어 갈 곳을 임시로 정했다. 휴면자원·교육 협력은 메인의 같은 역할 카드와
 // 맞췄고, 문의 두 개는 폼이나 메일로 바뀔 수 있다. 시안이 나오면 다시 확인한다.
@@ -44,7 +46,10 @@ function InfoRow({ items }: { items: ReactNode[] }) {
   );
 }
 
-export function SiteFooter() {
+// 저작권 글, SNS 주소, 단체 정보는 Studio에서 고친다. 바로가기 링크와 감독기관 로고는 코드에 있다.
+export async function SiteFooter() {
+  const footer = await loadSection(COMMON_FOOTER);
+
   return (
     <footer className="bg-bg-strong px-lg py-6xl lg:px-7xl">
       <div className="mx-auto flex max-w-[75rem] flex-col gap-[50px]">
@@ -52,12 +57,12 @@ export function SiteFooter() {
           <div className="flex w-[300px] flex-col gap-sm lg:gap-[18px]">
             <Logo className="h-auto w-40 text-icon-inverse lg:w-50" />
             <div className="flex flex-col gap-xs text-detail-xs-m text-text-tertiary lg:gap-s lg:text-detail-m-m">
-              <p>© 2026 ZAONE. All rights reserved.</p>
+              <p>{footer.copyright}</p>
               <p>
                 <Link
                   target="_blank"
                   rel="noopener noreferrer"
-                  href="https://www.instagram.com/zaone.play/"
+                  href={footer.instagramUrl}
                   className="link-underline"
                 >
                   Instagram
@@ -66,7 +71,7 @@ export function SiteFooter() {
                 <Link
                   target="_blank"
                   rel="noopener noreferrer"
-                  href="https://www.youtube.com/@zaone_org"
+                  href={footer.youtubeUrl}
                   className="link-underline"
                 >
                   YouTube
@@ -94,13 +99,13 @@ export function SiteFooter() {
           <div className="flex flex-col gap-xs text-body-xs-m whitespace-nowrap text-text-tertiary lg:gap-s lg:text-detail-m-m">
             <InfoRow
               items={[
-                "사단법인 ZAONE (자원)",
-                "대표 이수영",
-                "사업자등록번호 885-82-00479",
-                "hello@zaone.org",
+                footer.organization,
+                footer.representative,
+                footer.businessNumber,
+                footer.email,
               ]}
             />
-            <InfoRow items={["서울시 용산구 효창원로70길 14, 3F", "070-4124-8887"]} />
+            <InfoRow items={[footer.address, footer.phone]} />
             {/* 링크는 문서마다 따로 걸고, 밑줄은 가운뎃점까지 이어지게 바깥에 준다(시안과 같다). */}
             <p className="underline">
               <Link target="_blank" rel="noopener noreferrer" href="/privacy">
