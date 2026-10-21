@@ -5,6 +5,7 @@ import {
   cardsField,
   defineSectionType,
   hrefField,
+  isCustomCard,
   photoField,
   textField,
 } from "@/sanity/fields";
@@ -16,6 +17,8 @@ import {
   HOME_HERO,
   HOME_INSIGHTS,
   HOME_NEWSLETTER,
+  HOME_PATHWAYS,
+  HOME_SUPPORTERS,
 } from "@/sanity/sections/home";
 
 const IMAGE_ALT_HELP =
@@ -98,6 +101,59 @@ export const homeSectionTypes = [
       },
     }),
     buttonField({ name: "button", title: "맨 아래 버튼 (모든 인사이트 보기)" }),
+  ]),
+  defineSectionType(HOME_PATHWAYS, [
+    textField({ name: "title", title: "제목", max: 40 }),
+    textField({ name: "description", title: "소개 글", max: 130, rows: 3 }),
+    cardsField({
+      title: "활용 경로 카드",
+      min: 1,
+      max: 6,
+      defaults: HOME_PATHWAYS.defaults.cards,
+      member: {
+        name: "pathway",
+        title: "활용 경로 카드",
+        previewTitle: "audience",
+        fields: [
+          textField({ name: "audience", title: "분류 (영문)", max: 40 }),
+          textField({ name: "title", title: "카드 제목", max: 60, lineBreaks: true }),
+          textField({ name: "cta", title: "버튼 글", max: 20 }),
+          hrefField({ name: "href", title: "버튼을 누르면 갈 주소" }),
+          photoField({
+            required: isCustomCard(HOME_PATHWAYS.defaults.cards),
+            description:
+              "세로로 긴 사진이 잘 맞아요(컴퓨터 화면에서 가로:세로 = 500:640). 사진을 올린 뒤 점을 끌어 꼭 보여야 할 곳에 놓으세요. 아래쪽에 어두운 막이 덮여 글이 읽혀요. 기본 카드는 비워 두면 지금 사이트의 사진을 그대로 써요.",
+          }),
+        ],
+      },
+    }),
+  ]),
+  defineSectionType(HOME_SUPPORTERS, [
+    cardsField({
+      title: "기관 로고",
+      min: 4,
+      max: 30,
+      defaults: HOME_SUPPORTERS.defaults.cards,
+      member: {
+        name: "supporter",
+        title: "기관 로고",
+        previewTitle: "name",
+        fields: [
+          textField({
+            name: "name",
+            title: "기관 이름",
+            description: "화면에는 안 보이고, 눈이 불편한 방문자에게 읽어 줘요.",
+            max: 30,
+          }),
+          photoField({
+            title: "로고",
+            required: isCustomCard(HOME_SUPPORTERS.defaults.cards),
+            description:
+              "로고 규격: 가로로 긴 상자 비율(가로:세로 = 206:80, 예: 412×160px) 안에 로고를 위아래·좌우 여백을 두고 가운데 놓은 PNG(투명 또는 흰 배경)예요. 올린 로고는 상자 안에 통째로 보여요. 기본 기관은 비워 두면 지금 사이트의 로고를 그대로 써요.",
+          }),
+        ],
+      },
+    }),
   ]),
   defineSectionType(HOME_NEWSLETTER, [
     textField({ name: "title", title: "제목", max: 60, lineBreaks: true }),

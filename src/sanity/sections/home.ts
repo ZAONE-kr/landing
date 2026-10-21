@@ -163,11 +163,102 @@ export const HOME_INSIGHTS: SectionMeta<{
   },
 };
 
+export type Pathway = {
+  // 코드의 기본 카드와 이어 주는 이름. 새로 더한 카드는 Studio가 붙인 임의의 값이다.
+  _key: string;
+  // 카드 위의 영문 분류.
+  audience: string;
+  title: string;
+  cta: string;
+  href: string;
+  photo: SanityImageSource | null;
+};
+
+// 갈 곳은 IA를 따른다. 협업 시작하기는 기업·재단 문의가 아니라 ABOUT으로 보낸다.
+export const HOME_PATHWAYS: SectionMeta<{
+  title: string;
+  description: string;
+  cards: Pathway[];
+}> = {
+  id: "homePathways",
+  page: "home",
+  title: "활용 경로 (사진 카드)",
+  where:
+    "홈 중간, '다음 쓰임을 함께 만드는 방법' 제목 아래에 큰 사진 카드 세 장이 놓이는 부분이에요. 카드는 끌어서 순서를 바꾸고, 목록 아래 Add item으로 더하고, ⋯ 메뉴의 Remove로 지울 수 있어요. 컴퓨터 화면에서는 옆으로 넘겨 봐요. 고친 내용은 오른쪽 아래 Publish를 눌러야 사이트에 나가요.",
+  defaults: {
+    title: "다음 쓰임을 함께 만드는 방법",
+    description:
+      "환경을 지키는 일과 어린 시절을 지키는 일은 여러 자리에서 시작될 수 있습니다. ZAONE은 산업과 기업, 교육 현장이 가진 서로 다른 자원과 역할을 연결합니다.",
+    cards: [
+      {
+        _key: "pathway-manufacturers",
+        audience: "For manufacturers",
+        title: "생산 과정에서\n더 이상 쓰이지 않는\n물질이 있다면",
+        cta: "휴면자원 연결하기",
+        href: "/give-and-use",
+        photo: null,
+      },
+      {
+        _key: "pathway-companies",
+        audience: "For companies & Foundations",
+        title: "환경과 어린 시절을\n함께 지키는 일을\n만들고 싶다면",
+        cta: "협업 시작하기",
+        href: "/about",
+        photo: null,
+      },
+      {
+        _key: "pathway-educators",
+        audience: "For educators",
+        title: "배움의 환경에\n더 많은 가능성을\n남기고 싶다면",
+        cta: "ZAONE LAB보기",
+        href: "/zaone-lab",
+        photo: null,
+      },
+    ],
+  },
+};
+
+export type Supporter = {
+  _key: string;
+  // 로고 이름(화면에는 안 보이고, 눈이 불편한 방문자에게 읽어 준다).
+  name: string;
+  // 운영자가 올린 로고. 기본 기관은 비워 두면 코드의 로고를 쓴다.
+  photo: SanityImageSource | null;
+};
+
+export const HOME_SUPPORTERS: SectionMeta<{ cards: Supporter[] }> = {
+  id: "homeSupporters",
+  page: "home",
+  title: "함께하는 기관 로고 (흐르는 로고 줄)",
+  where:
+    "홈 아래쪽, 기관 로고가 옆으로 계속 흐르는 줄이에요. 로고는 끌어서 순서를 바꾸고, 목록 아래 Add item으로 더하고, ⋯ 메뉴의 Remove로 지울 수 있어요. 새 로고는 아래 '로고 규격'을 지켜 올려 주세요. 고친 내용은 오른쪽 아래 Publish를 눌러야 사이트에 나가요.",
+  defaults: {
+    cards: [
+      { _key: "samsung-medical-center", name: "삼성서울병원", photo: null },
+      { _key: "yuhan-kimberly", name: "유한킴벌리", photo: null },
+      { _key: "beautiful-store", name: "아름다운가게", photo: null },
+      { _key: "childfund-korea", name: "초록우산", photo: null },
+      { _key: "seoul", name: "서울특별시", photo: null },
+      { _key: "world-vision", name: "월드비전", photo: null },
+      { _key: "root-impact", name: "루트임팩트", photo: null },
+      { _key: "huggies", name: "하기스", photo: null },
+      { _key: "amorepacific", name: "아모레퍼시픽", photo: null },
+      { _key: "nhn", name: "NHN", photo: null },
+      { _key: "fursys-group", name: "퍼시스 그룹", photo: null },
+      { _key: "hyundai-transys", name: "현대트랜시스", photo: null },
+      { _key: "hyundai", name: "현대", photo: null },
+      { _key: "dauning", name: "다우닝", photo: null },
+    ],
+  },
+};
+
 export const HOME_SECTIONS = [
   HOME_HERO,
   HOME_CLIMATE_STORY,
   HOME_ENVIRONMENT,
   HOME_DORMANT_RESOURCE,
+  HOME_PATHWAYS,
   HOME_INSIGHTS,
+  HOME_SUPPORTERS,
   HOME_NEWSLETTER,
 ] as const;

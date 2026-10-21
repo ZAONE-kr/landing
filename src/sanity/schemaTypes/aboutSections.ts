@@ -1,9 +1,19 @@
 import { defineField } from "sanity";
 
-import { buttonField, defineSectionType, textField } from "@/sanity/fields";
 import {
+  buttonField,
+  cardsField,
+  defineSectionType,
+  hrefField,
+  isCustomCard,
+  photoField,
+  textField,
+} from "@/sanity/fields";
+import {
+  ABOUT_BOARD,
   ABOUT_CREATIVE_REUSE,
   ABOUT_CREATIVITY_QUESTION,
+  ABOUT_GLOBAL_NETWORK,
   ABOUT_HERO,
   ABOUT_IMPERFECTION,
   ABOUT_MANUFACTURING,
@@ -64,5 +74,58 @@ export const aboutSectionTypes = [
     circleField("circleRight", "원 3 (오른쪽 위)"),
     circleField("circleBottomLeft", "원 4 (왼쪽 아래)"),
     circleField("circleBottomRight", "원 5 (오른쪽 아래)"),
+  ]),
+  defineSectionType(ABOUT_BOARD, [
+    textField({ name: "title", title: "제목", max: 50, lineBreaks: true }),
+    textField({ name: "intro", title: "소개 글", max: 300, rows: 6 }),
+    cardsField({
+      title: "이사·감사 카드",
+      min: 1,
+      max: 12,
+      defaults: ABOUT_BOARD.defaults.cards,
+      member: {
+        name: "boardMember",
+        title: "이사·감사",
+        previewTitle: "name",
+        fields: [
+          textField({ name: "name", title: "이름", max: 12 }),
+          textField({ name: "role", title: "직함", max: 40, lineBreaks: true }),
+          textField({ name: "bio", title: "소개 (마우스를 올리면 나와요)", max: 150, rows: 4 }),
+          photoField({
+            title: "사진",
+            required: isCustomCard(ABOUT_BOARD.defaults.cards),
+            description:
+              "사진 규격: 배경이 투명한 PNG, 카드와 같은 세로로 긴 비율(가로:세로 = 306:420, 예: 612×840px). 사람이 카드 안에서 보일 모습 그대로 배치해 주세요(머리 위가 위에서 25~30% 지점, 몸은 카드 아래까지). 올린 사진은 카드를 꽉 채워 보여서 따로 자르거나 옮길 수 없어요. 기본 카드는 비워 두면 지금 사이트의 사진을 그대로 써요.",
+          }),
+        ],
+      },
+    }),
+  ]),
+  defineSectionType(ABOUT_GLOBAL_NETWORK, [
+    textField({ name: "title", title: "제목", max: 50, lineBreaks: true }),
+    cardsField({
+      title: "연결 카드",
+      min: 1,
+      max: 6,
+      defaults: ABOUT_GLOBAL_NETWORK.defaults.cards,
+      member: {
+        name: "connection",
+        title: "연결 카드",
+        previewTitle: "title",
+        fields: [
+          textField({ name: "title", title: "카드 제목", max: 60, lineBreaks: true }),
+          hrefField({
+            name: "href",
+            title: "자세히 보기 주소",
+            description: "누르면 이동할 주소예요. 지금은 인사이트 목록으로 임시 연결돼 있어요.",
+          }),
+          photoField({
+            required: isCustomCard(ABOUT_GLOBAL_NETWORK.defaults.cards),
+            description:
+              "가로로 긴 사진(가로:세로 = 3:1 안팎)이 잘 맞아요. 왼쪽에 어두운 막이 덮여 글이 읽혀요. 사진을 올린 뒤 점을 끌어 꼭 보여야 할 곳에 놓으세요. 기본 카드는 비워 두면 지금 사이트의 사진을 그대로 써요.",
+          }),
+        ],
+      },
+    }),
   ]),
 ];
