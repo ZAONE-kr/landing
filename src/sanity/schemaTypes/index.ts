@@ -3,7 +3,7 @@ import { SECTIONS } from "@/sanity/sections";
 import { businessNewsType } from "./businessNews";
 import { businessReportType } from "./businessReport";
 import { insightType } from "./insight";
-import { labExperienceCtaType } from "./labExperienceCta";
+import { labSectionTypes } from "./labSections";
 import { postBodyType } from "./postBody";
 import { youtubeType } from "./youtube";
 import { zaoneLabFieldTagsType } from "./zaoneLabFieldTags";
@@ -14,7 +14,7 @@ export const schemaTypes = [
   businessNewsType,
   businessReportType,
   zaoneLabFieldTagsType,
-  labExperienceCtaType,
+  ...labSectionTypes,
   postBodyType,
   youtubeType,
 ];
