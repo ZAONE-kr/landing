@@ -38,6 +38,8 @@ export function withDefaults<T extends object>(defaults: T, doc: unknown): T {
   for (const [key, fallback] of Object.entries(defaults)) {
     const value = source[key];
     if (typeof fallback === "string") merged[key] = cleanText(value) ?? fallback;
+    else if (typeof fallback === "number")
+      merged[key] = typeof value === "number" ? value : fallback;
     else if (fallback === null) merged[key] = value ?? null;
     else if (Array.isArray(fallback))
       merged[key] = Array.isArray(value) ? mergeList(fallback, value) : fallback;

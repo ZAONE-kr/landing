@@ -1,3 +1,5 @@
+import type { SanityImageSource } from "@/sanity/lib/image";
+
 import type { SectionMeta } from "./pages";
 
 // 홈(/)의 섹션. 활용 경로·인사이트·후원사 카드는 카드 섹션으로 따로 옮긴다. 브랜드 영상은 글이 없다.
@@ -101,10 +103,71 @@ export const HOME_NEWSLETTER: SectionMeta<{
   },
 };
 
+// 인사이트 글은 외부에서 만드는 블로그(inblog)에 있다. 블로그가 완성될 때까지 카드는 여기서 직접 고친다.
+const BLOG_URL = "https://blog.zaone.org";
+
+export type HomeInsight = {
+  // 코드의 기본 카드와 이어 주는 이름. 새로 더한 카드는 Studio가 붙인 임의의 값이다.
+  _key: string;
+  category: string;
+  title: string;
+  readingMinutes: number;
+  href: string;
+  // 운영자가 올린 사진. 기본 카드는 비워 두면 코드의 사진을 쓴다.
+  photo: SanityImageSource | null;
+};
+
+export const HOME_INSIGHTS: SectionMeta<{
+  title: string;
+  description: string;
+  cards: HomeInsight[];
+  button: { label: string; href: string };
+}> = {
+  id: "homeInsights",
+  page: "home",
+  title: "인사이트 카드 (홈 아래쪽)",
+  where:
+    "홈 아래쪽, '우리가 더 오래 들여다보는 것들' 제목 아래에 사진 카드 세 장이 놓이는 부분이에요. 인사이트 글은 외부 블로그에서 쓰기 때문에, 블로그가 완성될 때까지 카드의 제목·사진·읽는 시간·연결할 글 주소를 여기서 직접 고쳐요. 카드는 끌어서 순서를 바꾸고, 목록 아래 Add item으로 더하고, ⋯ 메뉴의 Remove로 지울 수 있어요. 컴퓨터 화면에서는 세 장이 가장 보기 좋아요. 고친 내용은 오른쪽 아래 Publish를 눌러야 사이트에 나가요.",
+  // TODO: 아래 카드는 시안의 자리표시 내용이고 읽는 시간도 임시 값이다. 블로그 글이 정해지면 Studio에서 바꾼다.
+  defaults: {
+    title: "우리가 더 오래\n들여다보는 것들",
+    description:
+      "물질과 교육, 지속가능성, 그리고 기업과 함께 만든 변화까지.\n현장에서 시작된 질문과 관찰을 기록합니다.",
+    cards: [
+      {
+        _key: "insight-material",
+        category: "Material",
+        title: "버려진 자원에서\n새로운 가능성을 보다",
+        readingMinutes: 1,
+        href: BLOG_URL,
+        photo: null,
+      },
+      {
+        _key: "insight-partnership",
+        category: "Partnership",
+        title: "함께 만들어가는\n지속가능한 변화",
+        readingMinutes: 1,
+        href: BLOG_URL,
+        photo: null,
+      },
+      {
+        _key: "insight-education",
+        category: "Education",
+        title: "물질이 만드는\n다른 배움의 장면",
+        readingMinutes: 1,
+        href: BLOG_URL,
+        photo: null,
+      },
+    ],
+    button: { label: "모든 인사이트 보기", href: BLOG_URL },
+  },
+};
+
 export const HOME_SECTIONS = [
   HOME_HERO,
   HOME_CLIMATE_STORY,
   HOME_ENVIRONMENT,
   HOME_DORMANT_RESOURCE,
+  HOME_INSIGHTS,
   HOME_NEWSLETTER,
 ] as const;
