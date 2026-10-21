@@ -387,3 +387,8 @@
     transition: none;
   }
 }
+
+/* 카드 위에 마우스를 올리면 사진 칸이 천천히 살짝 커진다. 카드에 group/card를 둔다. */
+@utility card-zoom {
+  @apply transition-transform duration-600 ease-out motion-safe:group-hover/card:scale-[1.03];
+}

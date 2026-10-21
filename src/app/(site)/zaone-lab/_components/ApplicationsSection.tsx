@@ -79,7 +79,7 @@ function FieldCard({ field, id }: { field: Field; id: string }) {
     >
       <div className="relative h-60 shrink-0 overflow-hidden">
         {/* 사진 칸 가운데를 기준으로 커지도록, 칸에 맞춘 요소를 키운다(코드 사진 틀은 칸보다 크고 카드마다 위치가 다르다). */}
-        <div className="absolute inset-0 transition-transform duration-600 ease-out motion-safe:group-hover/card:scale-[1.03] motion-safe:group-focus/card:scale-[1.03]">
+        <div className="absolute inset-0 card-zoom motion-safe:group-focus/card:scale-[1.03]">
           {field.photo?.kind === "uploaded" && (
             <SanityImage image={field.photo.image} alt="" sizes={PHOTO_SIZES} />
           )}

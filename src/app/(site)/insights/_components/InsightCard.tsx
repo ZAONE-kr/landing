@@ -43,7 +43,7 @@ export function InsightCard({
       </Heading>
       <div className="relative w-[7.5rem] shrink-0 overflow-hidden bg-bg-muted lg:h-[17.5rem] lg:w-full">
         {image && (
-          <div className="absolute inset-0 transition-transform duration-600 ease-out motion-safe:group-hover/card:scale-[1.03] motion-safe:group-focus-visible/card:scale-[1.03]">
+          <div className="absolute inset-0 card-zoom motion-safe:group-focus-visible/card:scale-[1.03]">
             <Image
               src={image.src}
               alt=""

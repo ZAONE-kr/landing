@@ -42,7 +42,7 @@ function PathwayCard({ pathway }: { pathway: Pathway }) {
   return (
     <article className="group/card relative isolate flex h-[240px] w-full shrink-0 flex-col overflow-hidden rounded-md px-lg py-xl lg:h-[640px] lg:w-[500px] lg:rounded-xl lg:px-3xl lg:py-5xl">
       {/* 마우스를 올리면 사진이 천천히 살짝 커진다. 좌우 반전(scale-x)과 겹치지 않게 감싸는 요소를 키운다. */}
-      <div className="absolute inset-0 -z-10 transition-transform duration-600 ease-out motion-safe:group-hover/card:scale-[1.03]">
+      <div className="absolute inset-0 -z-10 card-zoom">
         {uploaded ? (
           <SanityImage image={uploaded} alt="" sizes={sizes} />
         ) : (

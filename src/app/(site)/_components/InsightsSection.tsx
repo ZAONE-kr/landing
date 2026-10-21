@@ -21,8 +21,7 @@ const CODE_PHOTOS: Record<string, { image: StaticImageData; imageClassName?: str
 function InsightCard({ insight }: { insight: HomeInsight }) {
   const uploaded = toCroppedImage(insight.photo);
   const codePhoto = CODE_PHOTOS[insight._key];
-  const photoClassName =
-    "transition-transform duration-600 ease-out motion-safe:group-hover/card:scale-[1.03]";
+  const photoClassName = "card-zoom";
 
   return (
     <Link
