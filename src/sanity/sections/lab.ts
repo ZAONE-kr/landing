@@ -1,4 +1,6 @@
 import { CONTACT_FORM_HREF, ZAONE_LAB_PROGRAMS_URL } from "@/lib/links";
+import type { SanityImageSource } from "@/sanity/lib/image";
+import { ZAONE_LAB_FIELDS } from "@/sanity/zaoneLabFields";
 
 import type { SectionMeta } from "./pages";
 
@@ -95,7 +97,36 @@ export const LAB_EXPERIENCE_CTA: SectionMeta<LabExperienceCtaContent> = {
   },
 };
 
+export type LabCard = {
+  // 코드의 기본 카드와 이어 주는 이름(teachers 등). 새로 더한 카드는 Studio가 붙인 임의의 값이다.
+  _key: string;
+  title: string;
+  description: string;
+  tags: string[];
+  // 운영자가 올린 사진. 기본 카드는 비워 두면 코드의 사진을 쓴다.
+  photo: SanityImageSource | null;
+};
+
+export const LAB_APPLICATIONS: SectionMeta<{ title: string; cards: LabCard[] }> = {
+  id: "labApplications",
+  page: "zaone-lab",
+  title: "적용 현장 카드 (페이지 아래쪽 카드 목록)",
+  where:
+    "ZAONE LAB 페이지 아래쪽, '교육현장에서 조직, 지역의 장소까지…' 제목 아래에 사진 카드가 두 장씩 놓이는 부분이에요. 카드는 끌어서 순서를 바꾸고, 목록 아래 Add item으로 더하고, ⋯ 메뉴의 Remove로 지울 수 있어요. 카드 수가 짝수일 때 가장 보기 좋아요. 고친 내용은 오른쪽 아래 Publish를 눌러야 사이트에 나가요.",
+  defaults: {
+    title: "교육현장에서 조직, 지역의 장소까지\nZAONE LAB의 실험은 다르게 적용됩니다.",
+    cards: ZAONE_LAB_FIELDS.map((field) => ({
+      _key: field.key,
+      title: field.title,
+      description: field.description.replaceAll("\n", " "),
+      tags: [...field.tags],
+      photo: null,
+    })),
+  },
+};
+
 export const LAB_SECTIONS = [
+  LAB_APPLICATIONS,
   LAB_HERO,
   LAB_QUESTION,
   LAB_MATERIAL_PLAY,

@@ -9,7 +9,7 @@ export const ZAONE_LAB_FIELD_TAGS_QUERY = defineQuery(
 );
 
 // 사진 필드를 src/sanity/lib/image.ts의 SanityImageSource 모양으로 펼친다.
-const IMAGE_FIELDS = `crop, hotspot, "url": asset->url, "lqip": asset->metadata.lqip, "width": asset->metadata.dimensions.width, "height": asset->metadata.dimensions.height`;
+export const IMAGE_FIELDS = `crop, hotspot, "url": asset->url, "lqip": asset->metadata.lqip, "width": asset->metadata.dimensions.width, "height": asset->metadata.dimensions.height`;
 
 // 목록에 나오는 인사이트. 주소·게시일이 없는 글은 상세 링크와 순서를 만들 수 없어 뺀다(Studio 검사로 게시는 막히지만
 // API로 만든 글 대비).

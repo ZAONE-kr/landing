@@ -1,12 +1,20 @@
 import { defineField } from "sanity";
 
-import { buttonField, defineSectionType, hrefField, textField } from "@/sanity/fields";
+import {
+  buttonField,
+  cardsField,
+  defineSectionType,
+  hrefField,
+  photoField,
+  textField,
+} from "@/sanity/fields";
 import { COMMON_FOOTER, COMMON_PAGE_SEO } from "@/sanity/sections/common";
 import {
   HOME_CLIMATE_STORY,
   HOME_DORMANT_RESOURCE,
   HOME_ENVIRONMENT,
   HOME_HERO,
+  HOME_INSIGHTS,
   HOME_NEWSLETTER,
 } from "@/sanity/sections/home";
 
@@ -50,6 +58,47 @@ export const homeSectionTypes = [
   ]),
   defineSectionType(HOME_ENVIRONMENT, featureFields),
   defineSectionType(HOME_DORMANT_RESOURCE, featureFields),
+  defineSectionType(HOME_INSIGHTS, [
+    textField({ name: "title", title: "제목", max: 40, lineBreaks: true }),
+    textField({ name: "description", title: "소개 글", max: 110, lineBreaks: true }),
+    cardsField({
+      title: "인사이트 카드",
+      min: 1,
+      max: 6,
+      defaults: HOME_INSIGHTS.defaults.cards,
+      member: {
+        name: "homeInsight",
+        title: "인사이트 카드",
+        previewTitle: "title",
+        fields: [
+          textField({ name: "category", title: "분류 (영문)", max: 20 }),
+          textField({ name: "title", title: "글 제목", max: 50, lineBreaks: true }),
+          defineField({
+            name: "readingMinutes",
+            title: "읽는 시간 (분)",
+            type: "number",
+            validation: (rule) => [
+              rule.required().error("읽는 시간을 써 주세요."),
+              rule.integer().error("정수로 써 주세요."),
+              rule.min(1).max(60).error("1~60분 사이로 써 주세요."),
+            ],
+          }),
+          hrefField({
+            name: "href",
+            title: "연결할 글 주소",
+            description: "블로그 글의 주소 전체를 붙여 넣어요. 예: https://blog.zaone.org/…",
+          }),
+          photoField({
+            required: (card) =>
+              !card?._key || !HOME_INSIGHTS.defaults.cards.some((c) => c._key === card._key),
+            description:
+              "비워 두면 지금 사이트의 사진을 그대로 써요. 새로 더한 카드는 꼭 올려야 해요.",
+          }),
+        ],
+      },
+    }),
+    buttonField({ name: "button", title: "맨 아래 버튼 (모든 인사이트 보기)" }),
+  ]),
   defineSectionType(HOME_NEWSLETTER, [
     textField({ name: "title", title: "제목", max: 60, lineBreaks: true }),
     textField({ name: "body", title: "소개 글", max: 100, rows: 3 }),

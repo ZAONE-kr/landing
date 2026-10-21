@@ -4,7 +4,6 @@ import { POST_CATEGORIES } from "@/sanity/postCategories";
 import { NEWEST_FIRST } from "@/sanity/schemaTypes/postFields";
 import { SECTIONS } from "@/sanity/sections";
 import { SITE_PAGES } from "@/sanity/sections/pages";
-import { ZAONE_LAB_FIELD_TAGS_ID } from "@/sanity/zaoneLabFields";
 
 /*
  * Studio 왼쪽 목록. 블로그 카테고리 셋을 위에 두고, 줄을 그은 뒤 페이지별 폴더를 둔다. 폴더를 열면 그 페이지에서
@@ -21,8 +20,6 @@ export const structure: StructureResolver = (S) => {
     const items = SECTIONS.filter((section) => section.page === page.id).map((section) =>
       singleton(section.id, section.title),
     );
-    // 카드 태그는 아직 카드 섹션으로 옮기지 않아 ZAONE LAB 폴더에 따로 둔다.
-    if (page.id === "zaone-lab") items.push(singleton(ZAONE_LAB_FIELD_TAGS_ID, "카드 태그"));
     if (items.length === 0) return [];
     return [
       S.listItem()
