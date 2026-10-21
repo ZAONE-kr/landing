@@ -35,11 +35,21 @@ type TextOptions = {
   max: number;
   // 여러 줄로 쓰는 글(본문)이면 입력칸 줄 수. 없으면 한 줄 입력칸(제목)이다.
   rows?: number;
+  // 비워 둘 수 있는 글이면 true. 비워 두면 그 자리는 사이트에서 빠진다.
+  optional?: boolean;
   // 제목처럼 시안이 문장 중간에서 줄을 나눈 곳에서만 쓴다. 켜면 Enter로 줄을 바꿀 수 있고, 안 바꾸면 자동으로 나뉜다.
   lineBreaks?: boolean;
 };
 
-export function textField({ name, title, description, max, rows, lineBreaks }: TextOptions) {
+export function textField({
+  name,
+  title,
+  description,
+  max,
+  rows,
+  lineBreaks,
+  optional,
+}: TextOptions) {
   return defineField({
     name,
     title,
@@ -55,7 +65,7 @@ export function textField({ name, title, description, max, rows, lineBreaks }: T
     type: rows || lineBreaks ? "text" : "string",
     rows: rows ?? (lineBreaks ? 2 : undefined),
     validation: (rule) => [
-      rule.required().error("비워 둘 수 없어요. 글을 써 주세요."),
+      optional ? rule : rule.required().error("비워 둘 수 없어요. 글을 써 주세요."),
       rule.max(max).error(`${max}자까지 쓸 수 있어요.`),
       rule.custom((value) => (typeof value === "string" ? checkText(value) : true)),
     ],
@@ -89,6 +99,38 @@ export function hrefField({
         const text = checkText(value);
         if (text !== true) return text;
         return HREF.test(value) || "주소가 /로 시작하거나 https://로 시작해야 해요.";
+      }),
+    ],
+  });
+}
+
+// 있어도 없어도 되는 링크. 글과 주소를 둘 다 쓰거나 둘 다 비워 둔다.
+export function optionalLinkField({ name, title, description }: LinkOptions) {
+  return defineField({
+    name,
+    title,
+    description,
+    type: "object",
+    options: { collapsible: false },
+    fields: [
+      textField({ name: "label", title: "링크 글", max: 24, optional: true }),
+      defineField({
+        name: "href",
+        title: "연결할 주소",
+        description: "사이트 안 페이지는 /로 시작하고, 다른 사이트는 https://로 시작해요.",
+        type: "string",
+        validation: (rule) => [
+          rule.custom((value) => {
+            if (!value) return true;
+            const text = checkText(value);
+            if (text !== true) return text;
+            return HREF.test(value) || "주소가 /로 시작하거나 https://로 시작해야 해요.";
+          }),
+          rule.custom((value, context) => {
+            const label = (context.parent as { label?: string } | undefined)?.label;
+            return !!label === !!value || "링크 글과 주소를 둘 다 쓰거나 둘 다 비워 주세요.";
+          }),
+        ],
       }),
     ],
   });
@@ -187,6 +229,8 @@ type CardsOptions = {
   max: number;
   // 카드 한 장의 종류 이름(문서 안에서만 쓴다)과 입력칸.
   member: { name: string; title: string; fields: ObjectDefinition["fields"]; previewTitle: string };
+  // 카드 안의 목록 칸 이름 → 그 목록 항목의 종류 이름. 처음 열었을 때 채울 항목에 붙인다.
+  nested?: Record<string, string>;
   // 기본 카드. 문서를 처음 열었을 때 채워 두어, 지금 사이트에 보이는 카드를 그대로 고칠 수 있게 한다.
   defaults: readonly object[];
 };
@@ -202,6 +246,7 @@ export function cardsField({
   min,
   max,
   member,
+  nested = {},
   defaults,
 }: CardsOptions) {
   return defineField({
@@ -221,7 +266,16 @@ export function cardsField({
     options: { disableActions: ["duplicate"] },
     initialValue: defaults.map((card) => ({
       _type: member.name,
-      ...Object.fromEntries(Object.entries(card).filter(([, value]) => value !== null)),
+      ...Object.fromEntries(
+        Object.entries(card)
+          .filter(([, value]) => value !== null)
+          .map(([key, value]) => [
+            key,
+            nested[key] && Array.isArray(value)
+              ? value.map((item) => ({ _type: nested[key], ...item }))
+              : value,
+          ]),
+      ),
     })),
     validation: (rule) => [
       rule.min(min).error(`카드는 ${min}장 이상이어야 해요.`),

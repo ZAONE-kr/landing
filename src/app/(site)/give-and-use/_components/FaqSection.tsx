@@ -1,24 +1,10 @@
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
-
 import { Button } from "@/components/ui/Button";
-import { NEW_TAB_PROPS } from "@/lib/links";
+import { linkTargetProps } from "@/lib/links";
+import type { FaqContent, FaqStepContent } from "@/sanity/sections/giveAndUse";
 
 import { FaqDisclosure } from "./FaqDisclosure";
-
-export type FaqStep = {
-  title: string;
-  // 줄바꿈(\n)은 시안의 줄 위치 그대로다(모바일·데스크톱 같다).
-  description: string;
-};
-
-export type Faq = {
-  question: ReactNode;
-  answer: ReactNode;
-  steps?: FaqStep[];
-  link?: { label: string; href: string; newTab?: boolean };
-};
 
 export type FaqCta = {
   title: string;
@@ -35,11 +21,11 @@ export type FaqCta = {
  * 데스크톱은 240px 칸을 864px 안에 세 개씩 놓는다(1024 시안). 단계 수가 바뀌어도 줄이 이어진다.
  * 번호(Axiforma 24·36px)는 Figma 텍스트 스타일이 없는 크기라 값을 직접 쓴다.
  */
-function FaqSteps({ steps }: { steps: FaqStep[] }) {
+function FaqSteps({ steps }: { steps: FaqStepContent[] }) {
   return (
     <ol className="grid grid-cols-[repeat(auto-fill,minmax(10rem,1fr))] gap-x-[7px] gap-y-3xl lg:mt-md lg:grid-cols-[repeat(auto-fill,15rem)] lg:gap-x-xl lg:gap-y-4xl">
       {steps.map((step, index) => (
-        <li key={step.title} className="flex flex-col gap-1">
+        <li key={step._key} className="flex flex-col gap-1">
           <span className="font-display text-[1.5rem] leading-[1.4] font-light tracking-[-0.8px] text-text-quaternary lg:text-[2.25rem]">
             {String(index + 1).padStart(2, "0")}
           </span>
@@ -54,18 +40,19 @@ function FaqSteps({ steps }: { steps: FaqStep[] }) {
 }
 
 // 시안의 구분선은 높이가 0이라 간격에 더해지지 않는다. 선 두께(1px)만큼 위 여백을 줄인다.
+// 질문과 답변은 Studio에서 고치고 줄은 자동으로 나뉜다(시안의 수동 줄바꿈은 두지 않는다).
 // 열린 질문에만 있는 질문 아래 간격과 아래 여백(16px)은 답변 쪽에 넣어 함께 접는다(시안 status=open).
-function FaqItem({ faq }: { faq: Faq }) {
+function FaqItem({ faq }: { faq: FaqContent }) {
   return (
     <li className="not-first:border-t not-first:border-border-strong not-first:pt-[calc(var(--spacing-md)-1px)] lg:not-first:pt-[calc(var(--spacing-2xl)-1px)]">
       <FaqDisclosure question={faq.question}>
         <div className="flex flex-col gap-md py-md">
           <p className="text-body-s-m text-text-tertiary lg:text-body-sm-r">{faq.answer}</p>
-          {faq.steps && <FaqSteps steps={faq.steps} />}
-          {faq.link && (
+          {faq.steps.length > 0 && <FaqSteps steps={faq.steps} />}
+          {faq.link.label && faq.link.href && (
             <Link
               href={faq.link.href}
-              {...(faq.link.newTab && NEW_TAB_PROPS)}
+              {...linkTargetProps(faq.link.href)}
               className="self-start text-body-s-sb text-text-link underline lg:text-title-s-sb"
             >
               {faq.link.label}
@@ -97,6 +84,7 @@ function FaqCtaBanner({ cta }: { cta: FaqCta }) {
         <p className="text-title-s-b text-text-inverse lg:text-heading-s-b">{cta.title}</p>
         <Button
           href={cta.button.href}
+          {...linkTargetProps(cta.button.href)}
           variant="inverse"
           className="px-xl py-sm text-body-xs-b lg:px-5xl lg:py-lg lg:text-body-sm-b"
         >
@@ -114,13 +102,15 @@ function FaqCtaBanner({ cta }: { cta: FaqCta }) {
 export function FaqSection({
   id,
   eyebrow,
+  heading,
   faqs,
   cta,
   className,
 }: {
   id: string;
   eyebrow: string;
-  faqs: Faq[];
+  heading: string;
+  faqs: FaqContent[];
   cta: FaqCta;
   className: string;
 }) {
@@ -133,12 +123,12 @@ export function FaqSection({
             {eyebrow}
           </p>
           <h2 id={`${id}-title`} className="text-title-m-b text-text-primary lg:text-title-l-b">
-            자주 묻는 질문
+            {heading}
           </h2>
         </div>
         <ul className="flex w-full max-w-[54rem] flex-col gap-md lg:gap-2xl">
-          {faqs.map((faq, index) => (
-            <FaqItem key={index} faq={faq} />
+          {faqs.map((faq) => (
+            <FaqItem key={faq._key} faq={faq} />
           ))}
         </ul>
       </div>
