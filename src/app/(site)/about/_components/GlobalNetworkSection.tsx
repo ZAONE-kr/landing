@@ -51,7 +51,7 @@ function ConnectionCard({
   return (
     <article className="group/card relative isolate flex h-[180px] flex-col items-start overflow-hidden rounded-md px-lg py-xl lg:h-[400px] lg:gap-6xl lg:rounded-xl lg:px-3xl lg:py-4xl">
       {/* 마우스를 올리면 사진이 천천히 살짝 커진다. */}
-      <div className="absolute inset-0 -z-10 transition-transform duration-600 ease-out motion-safe:group-hover/card:scale-[1.03]">
+      <div className="absolute inset-0 -z-10 card-zoom">
         {uploaded ? (
           <SanityImage image={uploaded} alt="" sizes={sizes} />
         ) : (
