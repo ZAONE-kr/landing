@@ -10,15 +10,6 @@ const STROKE_PROPS = {
   "aria-hidden": true,
 } as const;
 
-export function SearchIcon(props: IconProps) {
-  return (
-    <svg viewBox="0 0 24 24" strokeWidth={1.5} {...STROKE_PROPS} {...props}>
-      <circle cx="10.9985" cy="10.7888" r="8.03854" />
-      <path d="M16.4872 16.7083L21.0407 21.25" />
-    </svg>
-  );
-}
-
 // Figma에서는 Iconly "Scan" 틀 안에 선 SVG 하나를 세 번 겹쳐 놓았다. 그 좌표 그대로 합쳤다.
 export function MenuIcon(props: IconProps) {
   return (

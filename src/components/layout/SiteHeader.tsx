@@ -3,7 +3,6 @@ import Link from "next/link";
 import { AutoHideHeader } from "@/components/layout/AutoHideHeader";
 import { MobileMenu } from "@/components/layout/MobileMenu";
 import { Button } from "@/components/ui/Button";
-import { SearchIcon } from "@/components/ui/icons";
 import { Logo } from "@/components/ui/Logo";
 
 const NAV_ITEMS = [
@@ -39,10 +38,6 @@ export function SiteHeader() {
       </nav>
 
       <div className="flex flex-1 items-center justify-end gap-md lg:flex-none lg:gap-xl">
-        {/* TODO: 검색 동작 디자인이 나오면 연결한다. */}
-        <button type="button" aria-label="검색" className="text-icon-primary">
-          <SearchIcon className="size-6" />
-        </button>
         <div className="hidden lg:block">
           <Button
             href="https://secure.donus.org/zaone/pay/step1"
