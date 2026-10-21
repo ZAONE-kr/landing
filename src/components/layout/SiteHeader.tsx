@@ -44,12 +44,10 @@ export function SiteHeader() {
           <SearchIcon className="size-6" />
         </button>
         <div className="hidden lg:block">
-          {/*
-           * 새 헤더 시안(1024)의 버튼은 옛 헤더 컴포넌트의 42px 버튼(텍스트 스타일 없음)을 그대로 가져왔다.
-           * 코드는 홈 시안이 토큰으로 다시 잡은 버튼(Body-S-M, 53px)을 유지한다.
-           */}
           <Button
-            href="/donation"
+            href="https://secure.donus.org/zaone/pay/step1"
+            target="_blank"
+            rel="noopener noreferrer"
             variant="outline"
             className="w-[150px] px-md py-sm text-body-s-m"
           >
