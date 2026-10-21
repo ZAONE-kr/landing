@@ -9,6 +9,7 @@ import type { SectionMeta } from "./pages";
  * 목록 순서가 폴더 안의 순서다.
  */
 export const SECTIONS: readonly SectionMeta[] = [
+  ...ABOUT_SECTIONS,
   ...GIVE_AND_USE_SECTIONS,
   ...IMPACT_SECTIONS,
   ...LAB_SECTIONS,
