@@ -26,3 +26,8 @@ export const NOTICE_LIST_HREF = {
 
 // 새 탭으로 여는 외부 링크에 함께 넣는다.
 export const NEW_TAB_PROPS = { target: "_blank", rel: "noopener noreferrer" } as const;
+
+// 주소가 외부(https://…)면 새 탭으로 연다. 운영자가 Studio에서 주소를 바꿔도 알맞게 열리도록 주소를 보고 정한다.
+export function linkTargetProps(href: string) {
+  return /^https?:\/\//i.test(href) ? NEW_TAB_PROPS : {};
+}

@@ -1,37 +1,17 @@
-import { PHASE_PRODUCTION_BUILD } from "next/constants";
-import { unstable_rethrow } from "next/navigation";
-
-import { sanityFetch } from "@/sanity/lib/live";
+import { fetchPublished } from "@/sanity/lib/published";
 import { ZAONE_LAB_FIELD_TAGS_QUERY } from "@/sanity/lib/queries";
 import { ZAONE_LAB_FIELD_TAGS_ID, type ZaoneLabFieldTags } from "@/sanity/zaoneLabFields";
 
 /*
  * 게시된 카드 태그 문서. null이면 카드는 코드의 태그를 쓴다(문서를 아직 게시하지 않았거나, 빌드·개발 중 Sanity에
- * 닿지 못함). 운영 서버에서 실패하면 던진다. 그러면 Next가 마지막으로 성공한 페이지를 계속 보여 주고 30초 뒤
- * 요청부터 다시 시도한다. 여기서 코드 태그로 대신하면 그 화면이 캐시를 덮어쓰고 Sanity 태그도 빠져서, 다음에
- * 시간 기준으로 다시 만들 때까지(page.tsx의 revalidate) 운영자가 바꾼 태그가 안 보인다.
- * 프로젝트·데이터셋 설정이 틀렸거나 쿼리가 잘못된 4xx 응답은 일시적인 장애가 아니라서 빌드에서도 던져 알게 한다.
+ * 닿지 못함). 실패했을 때 어떻게 하는지는 fetchPublished에 적어 두었다.
  */
-export async function getFieldTagsDoc(): Promise<ZaoneLabFieldTags | null> {
-  try {
-    const { data } = await sanityFetch({
-      query: ZAONE_LAB_FIELD_TAGS_QUERY,
-      params: { id: ZAONE_LAB_FIELD_TAGS_ID },
-      perspective: "published",
-      stega: false,
-    });
-    return data && typeof data === "object" ? (data as ZaoneLabFieldTags) : null;
-  } catch (error) {
-    unstable_rethrow(error);
-    const status = (error as { statusCode?: number }).statusCode;
-    if (status !== undefined && status >= 400 && status < 500 && status !== 408 && status !== 429)
-      throw error;
-    const isProductionServer =
-      process.env.NODE_ENV === "production" && process.env.NEXT_PHASE !== PHASE_PRODUCTION_BUILD;
-    if (isProductionServer) throw error;
-    console.warn("[zaone-lab] Sanity에서 카드 태그를 불러오지 못해 코드의 태그를 씁니다.", error);
-    return null;
-  }
+export function getFieldTagsDoc(): Promise<ZaoneLabFieldTags | null> {
+  return fetchPublished<ZaoneLabFieldTags>(
+    ZAONE_LAB_FIELD_TAGS_QUERY,
+    { id: ZAONE_LAB_FIELD_TAGS_ID },
+    "zaone-lab",
+  );
 }
 
 // 너비 없는 공백. trim()이 지우지 않아 이것만 있는 태그는 빈 알약으로 그려진다.
