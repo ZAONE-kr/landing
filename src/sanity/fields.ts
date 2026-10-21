@@ -1,4 +1,11 @@
-import { defineField, defineType, type FieldDefinition } from "sanity";
+import {
+  defineArrayMember,
+  defineField,
+  defineType,
+  type DocumentDefinition,
+  type FieldDefinition,
+  type ObjectDefinition,
+} from "sanity";
 
 import type { SectionMeta } from "@/sanity/sections/pages";
 
@@ -102,6 +109,127 @@ export function buttonField({ name, title, description }: LinkOptions) {
   });
 }
 
+type PhotoOptions = {
+  name?: string;
+  title?: string;
+  description?: string;
+  // 이 카드에 사진이 꼭 있어야 하는지. 기본 카드는 코드에 사진이 있어 비워 둘 수 있고, 새로 더한 카드는 올려야 한다.
+  required?: (card: { _key?: string } | undefined) => boolean;
+};
+
+// 카드 사진. 올리면 사진에서 꼭 보여야 할 곳(hotspot)과 자를 영역을 Studio에서 정할 수 있다.
+export function photoField({
+  name = "photo",
+  title = "사진",
+  description = "사진을 올린 뒤 점을 끌어 꼭 보여야 할 곳에 놓으세요. 카드 모양에 맞춰 잘려도 그곳은 남아요.",
+  required,
+}: PhotoOptions = {}) {
+  return defineField({
+    name,
+    title,
+    description,
+    type: "image",
+    options: { hotspot: true },
+    validation: (rule) =>
+      rule.custom((value, context) => {
+        const card = context.parent as { _key?: string } | undefined;
+        if (value?.asset || !required?.(card)) return true;
+        return "새로 더한 카드에는 사진을 올려 주세요.";
+      }),
+  });
+}
+
+// 글 목록(태그처럼 짧은 글을 여러 개). 같은 글은 두 번 넣을 수 없다.
+export function textListField({
+  name,
+  title,
+  description,
+  max,
+  maxLength,
+}: {
+  name: string;
+  title: string;
+  description?: string;
+  max: number;
+  maxLength: number;
+}) {
+  return defineField({
+    name,
+    title,
+    description: [description, `${max}개까지, 한 개에 ${maxLength}자까지 쓸 수 있어요.`]
+      .filter(Boolean)
+      .join(" "),
+    type: "array",
+    of: [
+      defineArrayMember({
+        type: "string",
+        title: "항목",
+        validation: (rule) => [
+          rule.required().error("빈 항목이에요. 글자를 쓰거나 이 항목을 지워 주세요."),
+          rule.max(maxLength).error(`${maxLength}자까지 쓸 수 있어요.`),
+          rule.custom((value) => (typeof value === "string" ? checkText(value) : true)),
+        ],
+      }),
+    ],
+    options: { disableActions: ["duplicate"] },
+    validation: (rule) => [
+      rule.max(max).error(`${max}개까지 넣을 수 있어요.`),
+      rule.unique().error("같은 항목이 두 번 들어 있어요. 하나를 지워 주세요."),
+    ],
+  });
+}
+
+type CardsOptions = {
+  name?: string;
+  title: string;
+  description?: string;
+  min: number;
+  max: number;
+  // 카드 한 장의 종류 이름(문서 안에서만 쓴다)과 입력칸.
+  member: { name: string; title: string; fields: ObjectDefinition["fields"]; previewTitle: string };
+  // 기본 카드. 문서를 처음 열었을 때 채워 두어, 지금 사이트에 보이는 카드를 그대로 고칠 수 있게 한다.
+  defaults: readonly object[];
+};
+
+/*
+ * 카드 목록. 카드는 끌어서 순서를 바꾸고, 목록 아래 Add item으로 더하고, ⋯ 메뉴의 Remove로 지운다. 기본 카드는 처음
+ * 열었을 때 채워 두고, 코드의 기본값과 이어 주는 _key를 붙여 둔다(src/sanity/lib/content.ts의 withDefaults).
+ */
+export function cardsField({
+  name = "cards",
+  title,
+  description,
+  min,
+  max,
+  member,
+  defaults,
+}: CardsOptions) {
+  return defineField({
+    name,
+    title,
+    description,
+    type: "array",
+    of: [
+      defineArrayMember({
+        type: "object",
+        name: member.name,
+        title: member.title,
+        fields: member.fields,
+        preview: { select: { title: member.previewTitle, media: "photo" } },
+      }),
+    ],
+    options: { disableActions: ["duplicate"] },
+    initialValue: defaults.map((card) => ({
+      _type: member.name,
+      ...Object.fromEntries(Object.entries(card).filter(([, value]) => value !== null)),
+    })),
+    validation: (rule) => [
+      rule.min(min).error(`카드는 ${min}장 이상이어야 해요.`),
+      rule.max(max).error(`카드는 ${max}장까지 넣을 수 있어요.`),
+    ],
+  });
+}
+
 /*
  * 섹션 문서 하나의 스키마. 문서는 하나뿐이고 ID가 종류 이름과 같다. 새로 만들기·삭제·복제는 sanity.config.ts에서
  * 막고, 왼쪽 목록에는 structure.ts가 페이지 폴더 안에 이 문서만 보여 준다. 편집 창 위의 설명은 fieldset 설명으로 둔다.
@@ -110,17 +238,20 @@ export function buttonField({ name, title, description }: LinkOptions) {
 export function defineSectionType<T extends object>(
   section: SectionMeta<T>,
   fields: (FieldDefinition & { name: string })[],
+  // 문서를 처음 열 때 다른 곳의 값을 가져와 채워야 할 때만 쓴다(입력칸마다 정한 초기값보다 우선한다).
+  documentInitialValue?: DocumentDefinition["initialValue"],
 ) {
   const defaults = section.defaults as Record<string, unknown>;
   return defineType({
     name: section.id,
     title: section.title,
     type: "document",
+    initialValue: documentInitialValue,
     fieldsets: [{ name: "content", title: "내용", description: section.where }],
     fields: fields.map((field) => ({
       ...field,
       fieldset: "content",
-      initialValue: defaults[field.name],
+      initialValue: field.initialValue ?? defaults[field.name],
     })),
     // 제목으로 쓸 글자 필드가 없어 이름을 직접 준다. 없으면 문서 머리글이 "Untitled"가 된다.
     preview: { prepare: () => ({ title: section.title }) },

@@ -6,7 +6,11 @@ import curiousPeopleImage from "@/assets/zaone-lab/field-curious-people.jpg";
 import librariesImage from "@/assets/zaone-lab/field-libraries.jpg";
 import localOperatorsImage from "@/assets/zaone-lab/field-local-operators.jpg";
 import teachersImage from "@/assets/zaone-lab/field-teachers.jpg";
-import { ZAONE_LAB_FIELDS, type ZaoneLabFieldKey } from "@/sanity/zaoneLabFields";
+import { SanityImage } from "@/components/post/SanityImage";
+import { withDefaults } from "@/sanity/lib/content";
+import { toCroppedImage } from "@/sanity/lib/image";
+import { getSection } from "@/sanity/lib/sections";
+import { LAB_APPLICATIONS, type LabCard } from "@/sanity/sections/lab";
 
 import { cleanTags, getFieldTagsDoc } from "../_lib/fieldTags";
 
@@ -18,21 +22,27 @@ type Photo = {
   imageClassName: string;
 };
 
-type Field = Photo & {
+// 카드가 그리는 사진. 운영자가 올린 사진이 있으면 그것을, 없으면 기본 카드의 코드 사진을 쓴다.
+type CardPhoto =
+  | { kind: "uploaded"; image: NonNullable<ReturnType<typeof toCroppedImage>> }
+  | ({ kind: "code" } & Photo)
+  | null;
+
+type Field = {
   title: string;
   description: string;
   tags: readonly string[];
+  photo: CardPhoto;
 };
 
 // 모바일·1024 시안은 대부분 사진 가운데를 보여 준다.
 const CENTER = "top-1/2 -translate-y-1/2";
 
 /*
- * 카드 사진. 카드 글(제목·설명·기본 태그)과 순서는 Studio 태그 문서와 함께 쓰려고 zaoneLabFields.ts에 있다.
- * 태그만 운영자가 Sanity Studio(/admin의 "ZAONE LAB 카드 태그")에서 추가·수정·삭제·순서 변경한다(단체 결정).
- * 사진·제목·설명·카드 개수는 코드에서 바꾼다.
+ * 기본 카드 6장의 코드 사진(카드의 _key로 찾는다). 카드의 글·태그·순서·개수는 Studio의 "적용 현장 카드"에서 고치고,
+ * 운영자가 사진을 올린 카드는 그 사진을 쓴다. 새로 더한 카드는 사진을 올려야 한다.
  */
-const PHOTOS: Record<ZaoneLabFieldKey, Photo> = {
+const PHOTOS: Record<string, Photo> = {
   teachers: { image: teachersImage, imageClassName: `${CENTER} 2xl:top-[-50px] 2xl:translate-y-0` },
   companies: {
     image: companiesImage,
@@ -57,6 +67,9 @@ const PHOTOS: Record<ZaoneLabFieldKey, Photo> = {
  * 마우스를 올리거나 포커스하면(키보드, 모바일은 탭) 다른 페이지 카드처럼 사진이 천천히 살짝 커진다.
  * 링크가 없는 카드라 About 이사 카드처럼 카드 자체가 포커스를 받고, 화면 낭독기는 제목을 카드 이름으로 읽는다.
  */
+const PHOTO_SIZES =
+  "(min-width: 1440px) 632px, (min-width: 1024px) calc(50vw - 88px), (min-width: 648px) 600px, (min-width: 472px) calc(100vw - 48px), 424px";
+
 function FieldCard({ field, id }: { field: Field; id: string }) {
   return (
     <article
@@ -65,20 +78,25 @@ function FieldCard({ field, id }: { field: Field; id: string }) {
       className="group/card flex h-full min-h-[27.5rem] flex-col overflow-hidden rounded-md bg-bg-default focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus lg:min-h-[30rem]"
     >
       <div className="relative h-60 shrink-0 overflow-hidden">
-        {/* 사진 칸 가운데를 기준으로 커지도록, 칸에 맞춘 요소를 키운다(사진 틀은 칸보다 크고 카드마다 위치가 다르다). */}
+        {/* 사진 칸 가운데를 기준으로 커지도록, 칸에 맞춘 요소를 키운다(코드 사진 틀은 칸보다 크고 카드마다 위치가 다르다). */}
         <div className="absolute inset-0 transition-transform duration-600 ease-out motion-safe:group-hover/card:scale-[1.03] motion-safe:group-focus/card:scale-[1.03]">
-          <div
-            className={`absolute left-0 aspect-[3/2] w-[max(26.5rem,100%)] ${field.imageClassName}`}
-          >
-            <Image
-              src={field.image}
-              alt=""
-              fill
-              placeholder="blur"
-              sizes="(min-width: 1440px) 632px, (min-width: 1024px) calc(50vw - 88px), (min-width: 648px) 600px, (min-width: 472px) calc(100vw - 48px), 424px"
-              className="object-cover"
-            />
-          </div>
+          {field.photo?.kind === "uploaded" && (
+            <SanityImage image={field.photo.image} alt="" sizes={PHOTO_SIZES} />
+          )}
+          {field.photo?.kind === "code" && (
+            <div
+              className={`absolute left-0 aspect-[3/2] w-[max(26.5rem,100%)] ${field.photo.imageClassName}`}
+            >
+              <Image
+                src={field.photo.image}
+                alt=""
+                fill
+                placeholder="blur"
+                sizes={PHOTO_SIZES}
+                className="object-cover"
+              />
+            </div>
+          )}
         </div>
       </div>
       <div className="flex flex-1 flex-col gap-sm px-xl py-lg lg:pt-2xl lg:pb-3xl">
@@ -115,31 +133,50 @@ function FieldCard({ field, id }: { field: Field; id: string }) {
  * 토큰을 쓴다.
  */
 export async function ApplicationsSection() {
-  // 게시된 태그 문서가 있으면 그 태그를, 없으면(아직 게시 전, 빌드·개발 중 불러오지 못함) 코드의 기본 태그를 쓴다.
-  const tagDoc = await getFieldTagsDoc();
+  const [doc, legacyTags] = await Promise.all([getSection(LAB_APPLICATIONS.id), getFieldTagsDoc()]);
+  const content = withDefaults(LAB_APPLICATIONS.defaults, doc);
+  // 새 카드 문서를 아직 게시하지 않았으면 기본 카드를 보여 주되, 예전 "카드 태그" 문서에 게시한 태그가 있으면 그것을 쓴다.
+  const cardsPublished =
+    !!doc && typeof doc === "object" && Array.isArray((doc as { cards?: unknown }).cards);
+  const cards: LabCard[] =
+    cardsPublished || !legacyTags
+      ? content.cards
+      : content.cards.map((card) => ({
+          ...card,
+          tags: cleanTags(legacyTags[card._key as keyof typeof legacyTags]),
+        }));
 
   return (
     <section className="bg-bg-surface px-xl py-3xl lg:px-6xl lg:py-7xl">
       <div className="mx-auto flex max-w-[37.5rem] flex-col gap-2xl lg:max-w-[80rem] lg:gap-6xl">
-        <h2 className="text-title-m-b text-[#22293f] lg:text-title-l-b lg:text-text-primary">
-          교육현장에서 조직, 지역의 장소까지
-          <br /> ZAONE LAB의 실험은 다르게 적용됩니다.
+        <h2 className="text-title-m-b text-balance whitespace-pre-line text-[#22293f] lg:text-title-l-b lg:text-text-primary">
+          {content.title}
         </h2>
         <ul className="grid gap-md lg:grid-cols-2 lg:gap-y-2xl">
-          {ZAONE_LAB_FIELDS.map((field, index) => (
-            <li key={field.key}>
-              <FadeUpOnView className="h-full">
-                <FieldCard
-                  field={{
-                    ...field,
-                    ...PHOTOS[field.key],
-                    tags: tagDoc ? cleanTags(tagDoc[field.key]) : field.tags,
-                  }}
-                  id={`lab-field-${index}`}
-                />
-              </FadeUpOnView>
-            </li>
-          ))}
+          {cards.map((card, index) => {
+            const uploaded = toCroppedImage(card.photo);
+            const codePhoto = PHOTOS[card._key];
+            const photo: CardPhoto = uploaded
+              ? { kind: "uploaded", image: uploaded }
+              : codePhoto
+                ? { kind: "code", ...codePhoto }
+                : null;
+            return (
+              <li key={card._key}>
+                <FadeUpOnView className="h-full">
+                  <FieldCard
+                    field={{
+                      title: card.title,
+                      description: card.description,
+                      tags: cleanTags(card.tags),
+                      photo,
+                    }}
+                    id={`lab-field-${index}`}
+                  />
+                </FadeUpOnView>
+              </li>
+            );
+          })}
         </ul>
       </div>
     </section>
