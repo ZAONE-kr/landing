@@ -151,6 +151,12 @@ export function buttonField({ name, title, description }: LinkOptions) {
   });
 }
 
+// 코드에 기본 카드로 들어 있지 않은, 운영자가 새로 더한 카드인지. 새 카드는 사진을 꼭 올려야 한다.
+export function isCustomCard(defaults: readonly { _key: string }[]) {
+  return (card: { _key?: string } | undefined) =>
+    !card?._key || !defaults.some((item) => item._key === card._key);
+}
+
 type PhotoOptions = {
   name?: string;
   title?: string;

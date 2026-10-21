@@ -6,60 +6,48 @@ import kimJungtaePhoto from "@/assets/about/board/kim-jungtae.png";
 import leeSooyoungPhoto from "@/assets/about/board/lee-sooyoung.png";
 import leeTaeinPhoto from "@/assets/about/board/lee-taein.png";
 
+import { SanityImage } from "@/components/post/SanityImage";
+import { toCroppedImage } from "@/sanity/lib/image";
+import { loadSection } from "@/sanity/lib/sections";
+import { ABOUT_BOARD, type BoardMember } from "@/sanity/sections/about";
+
 import { BoardCardList } from "./BoardCardList";
 
-type BoardMember = {
-  name: string;
-  // 줄을 바꿀 자리는 \n으로 적는다.
-  role: string;
-  bio: string;
+type CodePhoto = {
   // 배경을 지운 PNG다. 회색 카드 위에 시안과 같은 자리·크기로 놓는다.
   photo: StaticImageData;
   // 시안에서 사진을 놓은 자리. 모바일은 카드 폭(left·width)과 높이(top)에 대한 비율이고,
   // 데스크톱은 카드 크기가 고정(306×420)이라 시안의 px 값 그대로다.
-  photoClassName: string;
+  className: string;
 };
 
-const MEMBERS: BoardMember[] = [
-  {
-    name: "이수영",
-    role: "이사 · CVO",
-    bio: "사단법인 자원(ZAONE)을 설립하였으며, 조직의 비전과 사업을 총괄합니다.",
+/*
+ * 기본 카드 다섯 장의 코드 사진과 놓은 자리(카드의 _key로 찾는다). 이름·직함·소개·순서·개수는 Studio의 "이사회·감사"에서
+ * 고친다. 운영자가 올린 사진은 카드와 같은 비율의 투명 PNG라 카드를 꽉 채워 보여 주고(자리를 따로 정하지 않는다),
+ * 올리지 않은 기본 카드는 이 사진을 쓴다.
+ */
+const CODE_PHOTOS: Record<string, CodePhoto> = {
+  "lee-sooyoung": {
     photo: leeSooyoungPhoto,
-    photoClassName:
-      "top-[28.2%] left-[-9.4%] w-[148.1%] lg:top-[110px] lg:left-[-48px] lg:w-[540px]",
+    className: "top-[28.2%] left-[-9.4%] w-[148.1%] lg:top-[110px] lg:left-[-48px] lg:w-[540px]",
   },
-  {
-    name: "김정태",
-    role: "이사 · MYSC CEO",
-    bio: "사회혁신과 임팩트 투자 분야의 관점에서 자원의 사회적 가치, 사업의 확장 가능성, 지속가능한 조직 운영 방향을 함께 살핍니다.",
+  "kim-jungtae": {
     photo: kimJungtaePhoto,
-    photoClassName:
-      "top-[28.6%] left-[-14.4%] w-[153.1%] lg:top-[112px] lg:left-[-78px] lg:w-[558px]",
+    className: "top-[28.6%] left-[-14.4%] w-[153.1%] lg:top-[112px] lg:left-[-78px] lg:w-[558px]",
   },
-  {
-    name: "이태인",
-    role: "이사 · 제주한라대학교\n사회복지학과 교수",
-    bio: "사회복지의 관점에서 자원의 활동이 아동과 지역사회, 복지 현장에 어떤 의미를 갖는지 살피고 조직의 공공성과 사회적 역할을 함께 검토합니다.",
+  "lee-taein": {
     photo: leeTaeinPhoto,
-    photoClassName: "top-[26.7%] left-[25%] w-[74.8%] lg:top-[118px] lg:left-[72px] lg:w-[240px]",
+    className: "top-[26.7%] left-[25%] w-[74.8%] lg:top-[118px] lg:left-[72px] lg:w-[240px]",
   },
-  {
-    name: "한명수",
-    role: "이사 · 우아한형제들 CCO",
-    bio: "브랜드와 커뮤니케이션의 관점에서 자원의 미션이 사회와 어떻게 관계 맺고, 더 많은 사람들에게 전달될 수 있을지 함께 살핍니다.",
+  "han-myungsu": {
     photo: hanMyungsuPhoto,
-    photoClassName: "top-[32.4%] left-[0.6%] w-[135%] lg:top-[142px] lg:left-[-10px] lg:w-[432px]",
+    className: "top-[32.4%] left-[0.6%] w-[135%] lg:top-[142px] lg:left-[-10px] lg:w-[432px]",
   },
-  {
-    name: "전민경",
-    role: "감사 · 사단법인 온율 변호사",
-    bio: "공익법인의 재무·회계 투명성을 점검합니다. 아동의 권리와 사회복지 영역에 대한 전문성을 바탕으로 자원의 공익성과 책임성을 함께 살핍니다.",
+  "jeon-minkyung": {
     photo: jeonMinkyungPhoto,
-    photoClassName:
-      "top-[18.6%] left-[-18.3%] w-[159.1%] lg:top-[92px] lg:left-[-78px] lg:w-[509px]",
+    className: "top-[18.6%] left-[-18.3%] w-[159.1%] lg:top-[92px] lg:left-[-78px] lg:w-[509px]",
   },
-];
+};
 
 /*
  * 마우스를 올리거나 포커스하면(키보드, 모바일은 탭) 소개 면이 0.25초에 걸쳐 덮인다.
@@ -69,6 +57,11 @@ const MEMBERS: BoardMember[] = [
  * 모바일 소개 글은 시안에서 텍스트 스타일 없이 크기를 정했다(13px). 데스크톱은 Body-SM-M이다.
  */
 function ProfileCard({ member, id }: { member: BoardMember; id: string }) {
+  const uploaded = toCroppedImage(member.photo);
+  const codePhoto = CODE_PHOTOS[member._key];
+  const photoFade =
+    "transition-opacity duration-250 ease-out group-hover/profile:opacity-0 group-focus/profile:opacity-0";
+
   return (
     <article
       tabIndex={0}
@@ -81,12 +74,23 @@ function ProfileCard({ member, id }: { member: BoardMember; id: string }) {
         className="absolute inset-x-0 top-0 h-[67.5%] bg-linear-to-b from-bg-overlay-a80 to-transparent opacity-75 lg:h-[66.19%]"
       />
       {/* 소개 면이 덮일 때 사진도 같이 흐려진다. 사진이 남아 있으면 둥근 모서리 끝에 한 줄로 비친다. */}
-      <Image
-        src={member.photo}
-        alt=""
-        sizes="(min-width: 1024px) 560px, 260px"
-        className={`absolute h-auto max-w-[none] transition-opacity duration-250 ease-out group-hover/profile:opacity-0 group-focus/profile:opacity-0 ${member.photoClassName}`}
-      />
+      {uploaded ? (
+        <SanityImage
+          image={uploaded}
+          alt=""
+          sizes="(min-width: 1024px) 306px, 160px"
+          className={photoFade}
+        />
+      ) : (
+        codePhoto && (
+          <Image
+            src={codePhoto.photo}
+            alt=""
+            sizes="(min-width: 1024px) 560px, 260px"
+            className={`absolute h-auto max-w-[none] ${photoFade} ${codePhoto.className}`}
+          />
+        )
+      )}
       <div className="relative flex flex-col p-sm text-text-inverse lg:p-2xl">
         <h3 id={id} className="text-title-s-b lg:text-title-lm-b">
           {member.name}
@@ -115,32 +119,23 @@ function ProfileCard({ member, id }: { member: BoardMember; id: string }) {
  * 데스크톱은 한 줄에 세 장씩 놓고 남는 카드는 가운데로 모은다. 카드 폭이 306px로 고정이라 목록 폭을
  * 세 장(942px)에 묶어서, 1440처럼 넓은 화면에서도 네 장씩 놓이지 않게 한다. 모바일은 가로로 넘겨 본다.
  */
-export function BoardSection() {
+// 제목·소개·카드는 Studio에서 고친다. 제목의 줄바꿈은 기본값에 담아 두었고(Enter로 고칠 수 있다), 소개는 자동으로 나뉜다.
+export async function BoardSection() {
+  const { title, intro, cards } = await loadSection(ABOUT_BOARD);
+
   return (
     <section className="bg-bg-subtle px-lg pt-5xl pb-2xl lg:bg-bg-default lg:px-3xl lg:py-7xl">
       <div className="mx-auto flex max-w-[37.5rem] flex-col gap-3xl lg:max-w-[75rem] lg:items-center lg:gap-6xl">
         <div className="flex flex-col gap-xl lg:max-w-[51.25rem] lg:gap-2xl lg:text-center">
-          <h2 className="text-title-m-b text-text-primary lg:text-title-l-b">
-            조직의 방향을 함께 결정하고,
-            <br />
-            책임 있게 운영합니다.
+          <h2 className="text-title-m-b whitespace-pre-line text-text-primary lg:text-title-l-b">
+            {title}
           </h2>
-          {/*
-           * 시안은 "공익을 위해" 뒤에서 줄을 바꾸는데, 375에서는 이 두 낱말만 한 줄에 남아서 640부터 바꾼다.
-           * 데스크톱 시안은 "살핍니다." 뒤에서도 바꾼다.
-           */}
-          <p className="text-body-s-m text-text-secondary lg:text-body-sm-r">
-            사단법인 자원(ZAONE)은 서로 다른 전문성을 가진 이사회와 감사가 조직의 운영을 함께
-            살핍니다. <br className="hidden lg:inline" />
-            이사회는 자원의 미션과 중장기 방향을 검토하고, 조직의 자원이 공익을 위해
-            <br className="hidden sm:inline" /> 책임 있게 사용되도록 주요 사업과 자원의 사용에 관한
-            의사결정에 참여합니다.
-          </p>
+          <p className="text-body-s-m text-text-secondary lg:text-body-sm-r">{intro}</p>
         </div>
 
         <BoardCardList>
-          {MEMBERS.map((member, index) => (
-            <li key={member.name} className="shrink-0 snap-start">
+          {cards.map((member, index) => (
+            <li key={member._key} className="shrink-0 snap-start">
               <ProfileCard member={member} id={`board-member-${index}`} />
             </li>
           ))}

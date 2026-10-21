@@ -8,6 +8,8 @@ type SanityImageProps = {
   alt: string;
   sizes: string;
   className?: string;
+  // 틀을 덮지 않고 틀 안에 전부 보이게 할 때(로고). 기본은 틀을 덮는다.
+  fit?: "cover" | "contain";
 } & Pick<ComponentProps<typeof Image>, "loading" | "fetchPriority">;
 
 /*
@@ -23,7 +25,14 @@ export function coverScale(image: CroppedImage, frameAspectRatio: number): numbe
  * (src/sanity/lib/image.ts). 크기별 사진은 Sanity 이미지 CDN이 만든다(next-sanity의 로더). 그래서 next.config에
  * 외부 이미지 주소를 열지 않는다.
  */
-export function SanityImage({ image, alt, sizes, className = "", ...rest }: SanityImageProps) {
+export function SanityImage({
+  image,
+  alt,
+  sizes,
+  className = "",
+  fit = "cover",
+  ...rest
+}: SanityImageProps) {
   return (
     <Image
       src={image.src}
@@ -32,7 +41,7 @@ export function SanityImage({ image, alt, sizes, className = "", ...rest }: Sani
       sizes={sizes}
       placeholder={image.blurDataURL ? "blur" : "empty"}
       blurDataURL={image.blurDataURL}
-      className={`object-cover ${className}`}
+      className={`${fit === "contain" ? "object-contain" : "object-cover"} ${className}`}
       style={{ objectPosition: image.objectPosition }}
       {...rest}
     />

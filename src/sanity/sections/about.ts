@@ -1,3 +1,5 @@
+import type { SanityImageSource } from "@/sanity/lib/image";
+
 import type { SectionMeta } from "./pages";
 
 // ABOUT 페이지(/about)의 섹션. 이사회와 글로벌 네트워크 카드는 카드 섹션으로 따로 옮긴다.
@@ -112,10 +114,106 @@ export const ABOUT_CREATIVE_REUSE: SectionMeta<{
   },
 };
 
+export type BoardMember = {
+  // 코드의 기본 카드와 이어 주는 이름. 새로 더한 카드는 Studio가 붙인 임의의 값이다.
+  _key: string;
+  name: string;
+  // 직함. 줄을 바꾸고 싶은 곳에서 Enter를 누른다.
+  role: string;
+  bio: string;
+  // 배경을 지운 투명 PNG. 기본 카드는 비워 두면 코드의 사진을 쓴다.
+  photo: SanityImageSource | null;
+};
+
+export const ABOUT_BOARD: SectionMeta<{ title: string; intro: string; cards: BoardMember[] }> = {
+  id: "aboutBoard",
+  page: "about",
+  title: "이사회·감사 (회색 카드)",
+  where:
+    "ABOUT 페이지 아래쪽, 제목과 소개 글 아래에 이사·감사 카드가 가로로 놓이는 부분이에요. 카드에 마우스를 올리면 소개 글이 나와요. 카드는 끌어서 순서를 바꾸고, 목록 아래 Add item으로 더하고, ⋯ 메뉴의 Remove로 지울 수 있어요. 새 사진은 아래 '사진 규격'을 지켜 올려 주세요. 고친 내용은 오른쪽 아래 Publish를 눌러야 사이트에 나가요.",
+  defaults: {
+    title: "조직의 방향을 함께 결정하고,\n책임 있게 운영합니다.",
+    intro:
+      "사단법인 자원(ZAONE)은 서로 다른 전문성을 가진 이사회와 감사가 조직의 운영을 함께 살핍니다. 이사회는 자원의 미션과 중장기 방향을 검토하고, 조직의 자원이 공익을 위해 책임 있게 사용되도록 주요 사업과 자원의 사용에 관한 의사결정에 참여합니다.",
+    cards: [
+      {
+        _key: "lee-sooyoung",
+        name: "이수영",
+        role: "이사 · CVO",
+        bio: "사단법인 자원(ZAONE)을 설립하였으며, 조직의 비전과 사업을 총괄합니다.",
+        photo: null,
+      },
+      {
+        _key: "kim-jungtae",
+        name: "김정태",
+        role: "이사 · MYSC CEO",
+        bio: "사회혁신과 임팩트 투자 분야의 관점에서 자원의 사회적 가치, 사업의 확장 가능성, 지속가능한 조직 운영 방향을 함께 살핍니다.",
+        photo: null,
+      },
+      {
+        _key: "lee-taein",
+        name: "이태인",
+        role: "이사 · 제주한라대학교\n사회복지학과 교수",
+        bio: "사회복지의 관점에서 자원의 활동이 아동과 지역사회, 복지 현장에 어떤 의미를 갖는지 살피고 조직의 공공성과 사회적 역할을 함께 검토합니다.",
+        photo: null,
+      },
+      {
+        _key: "han-myungsu",
+        name: "한명수",
+        role: "이사 · 우아한형제들 CCO",
+        bio: "브랜드와 커뮤니케이션의 관점에서 자원의 미션이 사회와 어떻게 관계 맺고, 더 많은 사람들에게 전달될 수 있을지 함께 살핍니다.",
+        photo: null,
+      },
+      {
+        _key: "jeon-minkyung",
+        name: "전민경",
+        role: "감사 · 사단법인 온율 변호사",
+        bio: "공익법인의 재무·회계 투명성을 점검합니다. 아동의 권리와 사회복지 영역에 대한 전문성을 바탕으로 자원의 공익성과 책임성을 함께 살핍니다.",
+        photo: null,
+      },
+    ],
+  },
+};
+
+type Connection = {
+  _key: string;
+  title: string;
+  href: string;
+  photo: SanityImageSource | null;
+};
+
+// TODO: "자세히 보기"가 갈 곳을 아직 받지 못해 인사이트 목록으로 보낸다. 주소를 받으면 Studio에서 바꾼다.
+export const ABOUT_GLOBAL_NETWORK: SectionMeta<{ title: string; cards: Connection[] }> = {
+  id: "aboutGlobalNetwork",
+  page: "about",
+  title: "글로벌 네트워크 (사진 카드)",
+  where:
+    "ABOUT 페이지 맨 아래, '우리는 더 넓은 세계와 연결되어 있습니다.' 제목 아래에 가로로 긴 사진 카드가 세로로 쌓이는 부분이에요. 카드는 끌어서 순서를 바꾸고, 목록 아래 Add item으로 더하고, ⋯ 메뉴의 Remove로 지울 수 있어요. 고친 내용은 오른쪽 아래 Publish를 눌러야 사이트에 나가요.",
+  defaults: {
+    title: "우리는 더 넓은 세계와\n연결되어 있습니다.",
+    cards: [
+      {
+        _key: "connection-italy",
+        title: "30년을 이어온 이탈리아의\n창의적 재사용 센터",
+        href: "/insights",
+        photo: null,
+      },
+      {
+        _key: "connection-one-percent",
+        title: "1% for the Planet이\n인증한 환경단체",
+        href: "/insights",
+        photo: null,
+      },
+    ],
+  },
+};
+
 export const ABOUT_SECTIONS = [
   ABOUT_HERO,
   ABOUT_IMPERFECTION,
   ABOUT_CREATIVITY_QUESTION,
   ABOUT_MANUFACTURING,
   ABOUT_CREATIVE_REUSE,
+  ABOUT_BOARD,
+  ABOUT_GLOBAL_NETWORK,
 ] as const;
