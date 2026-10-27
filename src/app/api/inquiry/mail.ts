@@ -2,7 +2,8 @@ import "server-only";
 
 import { INQUIRY_FORMS, type Inquiry } from "@/lib/inquiry";
 
-import { inquiryRows, isTestInquiry, seoulTime } from "./rows";
+import { isTestSubmission, seoulTime } from "../_lib/submission";
+import { inquiryRows } from "./rows";
 
 /*
  * 문의 알림 메일. 문의자가 아니라 단체 담당자에게 보내고, 담당자가 답장을 누르면 문의자에게 가도록 답장 주소를
@@ -11,13 +12,13 @@ import { inquiryRows, isTestInquiry, seoulTime } from "./rows";
 const SENDER = "ZAONE 문의 <noreply@mail.zaone.org>";
 
 /*
- * 받는 사람. 실제 사이트만 담당자에게 보내고 시험 접수는 개발용 주소로 보낸다(rows.ts의 isTestInquiry).
+ * 받는 사람. 실제 사이트만 담당자에게 보내고 시험 접수는 개발용 주소로 보낸다(../_lib/submission.ts의 isTestSubmission).
  * 담당자가 바뀌면 배포 환경 변수 CONTACT_INQUIRY_TO로 바꾼다(코드 수정 없음).
  */
 function recipient(): string {
   const override = process.env.CONTACT_INQUIRY_TO?.trim();
   if (override) return override;
-  return isTestInquiry() ? "develop@zaone.org" : "lee@zaone.org";
+  return isTestSubmission() ? "develop@zaone.org" : "lee@zaone.org";
 }
 
 const RESEND_ENDPOINT = "https://api.resend.com/emails";

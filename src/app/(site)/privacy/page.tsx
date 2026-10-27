@@ -18,6 +18,7 @@ export const metadata: Metadata = {
 
 // 본문은 기존 사이트(zaone.org/privacy, 아임웹) 문구를 옮기고, 뉴스레터 이메일 수집(1·2·5항),
 // 개인정보관리 책임자(9항), 홈페이지 문의 폼(1·2·5항, 4항 위탁·국외 이전)만 더했다. 내용은 단체가 정한다.
+// 뉴스레터 구독 이메일도 문의와 같은 구글 시트에 쌓여서(2026-10-27) 4항의 Google 위탁·국외 이전에 더했다.
 // 홈페이지 문의는 옛 사이트의 "파트너십 문의"를 대신해서 그 줄을 바꿨다(PARTNER WITH US가 CONTACT로 합쳐짐).
 // 위탁 업체 정보는 2026-10-19 각 회사 공개 자료 기준이다(Resend: resend.com/security·privacy-policy,
 // Google: policies.google.com/privacy/additional?gl=kr).
@@ -151,13 +152,20 @@ export default function PrivacyPage() {
         </LegalSection>
 
         <LegalSection level={3} title="4) 개인정보 취급 위탁">
-          <p>회사는 홈페이지 문의를 처리하기 위하여 아래와 같이 개인정보 처리 업무를 위탁합니다.</p>
+          <p>
+            회사는 홈페이지 문의와 뉴스레터 구독을 처리하기 위하여 아래와 같이 개인정보 처리 업무를
+            위탁합니다.
+          </p>
           <BulletList>
             <li>Plus Five Five, Inc.(서비스명 Resend): 홈페이지 문의 알림 메일 발송</li>
-            <li>Google LLC(서비스명 Google 스프레드시트): 홈페이지 문의 기록 보관</li>
+            <li>
+              Google LLC(서비스명 Google 스프레드시트): 홈페이지 문의 기록 보관, 뉴스레터 구독자
+              명단 보관
+            </li>
           </BulletList>
           <p>
-            위 수탁자는 국외에 있어, 홈페이지 문의로 받은 개인정보가 아래와 같이 국외로 이전됩니다.
+            위 수탁자는 국외에 있어, 홈페이지 문의와 뉴스레터 구독으로 받은 개인정보가 아래와 같이
+            국외로 이전됩니다.
           </p>
           <BulletList>
             <li>
@@ -174,16 +182,25 @@ export default function PrivacyPage() {
               Google LLC(googlekrsupport@google.com)
               <BulletList className="mt-xs">
                 <li>이전되는 국가: 미국 등 Google 데이터 센터가 있는 국가</li>
-                <li>이전되는 항목: 1)의 홈페이지 문의 항목</li>
-                <li>이전 시기 및 방법: 문의를 접수할 때 네트워크를 통해 전송</li>
-                <li>이용 목적: 문의 기록 보관</li>
-                <li>보유 및 이용 기간: 문의 처리가 끝날 때까지</li>
+                <li>이전되는 항목: 1)의 홈페이지 문의 항목, 뉴스레터 구독 이메일</li>
+                <li>
+                  이전 시기 및 방법: 문의를 접수하거나 뉴스레터를 구독할 때 네트워크를 통해 전송
+                </li>
+                <li>이용 목적: 문의 기록 보관, 뉴스레터 구독자 명단 보관</li>
+                <li>
+                  보유 및 이용 기간: 문의는 처리가 끝날 때까지, 뉴스레터 구독 이메일은 구독을 해지할
+                  때까지
+                </li>
               </BulletList>
             </li>
           </BulletList>
           <p>
             국외 이전을 원하지 않으시면 문의 폼 대신 전화(070-4124-8887)로 문의해 주세요. 문의
             폼으로 접수하면 위와 같이 국외로 이전됩니다.
+          </p>
+          <p>
+            뉴스레터 구독자 명단은 위 Google 스프레드시트에만 보관하므로, 국외 이전을 원하지
+            않으시면 뉴스레터를 구독하실 수 없습니다.
           </p>
         </LegalSection>
 

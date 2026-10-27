@@ -166,6 +166,22 @@ export const homeSectionTypes = [
     }),
     textField({ name: "placeholder", title: "입력칸 안내 글", max: 30 }),
     textField({ name: "button", title: "버튼 글", max: 12 }),
+    textField({
+      name: "doneMessage",
+      title: "구독 완료 알림 글",
+      description:
+        "구독하기를 누르고 신청이 저장되면 뜨는 알림창의 글이에요. Enter로 줄을 바꿀 수 있어요.",
+      max: 80,
+      rows: 2,
+    }),
+    textField({
+      name: "errorMessage",
+      title: "구독 실패 알림 글",
+      description:
+        "인터넷이 끊기는 등으로 신청을 저장하지 못했을 때 뜨는 알림창의 글이에요. Enter로 줄을 바꿀 수 있어요.",
+      max: 80,
+      rows: 2,
+    }),
   ]),
   defineSectionType(COMMON_PAGE_SEO, [
     seoField("about", "ABOUT 페이지"),

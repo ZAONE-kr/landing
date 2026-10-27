@@ -88,18 +88,23 @@ export const HOME_NEWSLETTER: SectionMeta<{
   emailLabel: string;
   placeholder: string;
   button: string;
+  doneMessage: string;
+  errorMessage: string;
 }> = {
   id: "homeNewsletter",
   page: "home",
   title: "뉴스레터 (맨 아래 남색 부분)",
   where:
-    "홈 맨 아래, 남색 배경에 제목·소개 글과 이메일 입력칸이 있는 부분이에요. 입력칸 안내 글과 버튼 글도 고칠 수 있어요. 글은 화면 너비에 맞춰 줄이 자동으로 나뉘어요.",
+    "홈 맨 아래, 남색 배경에 제목·소개 글과 이메일 입력칸이 있는 부분이에요. 입력칸 안내 글과 버튼 글, 구독하기를 누른 뒤 뜨는 알림창 글도 고칠 수 있어요. 글은 화면 너비에 맞춰 줄이 자동으로 나뉘어요. 구독한 이메일은 단체 구글 시트의 뉴스레터 구독 탭에 쌓여요.",
   defaults: {
     title: "우리가 더 오래 들여다보는 것들을\n함께 받아보세요",
     body: "물질과 교육, 지속가능성, 기업과 함께 만든 변화에 대한 새로운 기록을 보내드립니다.",
     emailLabel: "이메일",
     placeholder: "이메일을 입력해주세요",
     button: "구독하기",
+    // 완료·실패 화면이 시안에 없어 브라우저 알림창(alert)으로 띄운다(사용자 결정, 2026-10-27).
+    doneMessage: "구독 신청이 완료되었습니다.",
+    errorMessage: "구독 신청을 보내지 못했어요.\n잠시 후 다시 시도해주세요.",
   },
 };
 

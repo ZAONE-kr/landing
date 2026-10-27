@@ -5,7 +5,8 @@ import { NewsletterForm } from "./NewsletterForm";
 
 // 글은 Studio에서 고친다. 시안의 줄바꿈은 두지 않고 제목은 시안의 줄을 기본값에 줄바꿈으로 담아 두었다(Enter로 고칠 수 있다).
 export async function NewsletterSection() {
-  const { title, body, emailLabel, placeholder, button } = await loadSection(HOME_NEWSLETTER);
+  const { title, body, emailLabel, placeholder, button, doneMessage, errorMessage } =
+    await loadSection(HOME_NEWSLETTER);
 
   return (
     <section className="bg-bg-navy px-lg py-6xl lg:p-7xl">
@@ -18,7 +19,13 @@ export async function NewsletterSection() {
             {body}
           </p>
         </div>
-        <NewsletterForm label={emailLabel} placeholder={placeholder} button={button} />
+        <NewsletterForm
+          label={emailLabel}
+          placeholder={placeholder}
+          button={button}
+          doneMessage={doneMessage}
+          errorMessage={errorMessage}
+        />
       </div>
     </section>
   );

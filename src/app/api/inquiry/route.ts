@@ -2,6 +2,7 @@ import { after } from "next/server";
 
 import { parseInquiryRequest } from "@/lib/inquiry";
 
+import { isCrossSite } from "../_lib/submission";
 import { sendInquiryMail } from "./mail";
 import { saveInquiryToSheet } from "./sheet";
 
@@ -15,26 +16,11 @@ import { saveInquiryToSheet } from "./sheet";
  * 긴 문의를 다 쓰고 보내면 "Failed to find Server Action"으로 실패한다. 이 주소는 배포해도 그대로다.
  */
 
-// 응답 뒤의 시트 저장까지 이 시간 안에 끝난다(메일 10초·시트 15초 제한, mail.ts·sheet.ts).
+// 응답 뒤의 시트 저장까지 이 시간 안에 끝난다(메일 10초·시트 15초 제한, mail.ts·../_lib/sheet.ts).
 export const maxDuration = 30;
 
 // 폼 값은 많아야 수 KB다. 큰 본문은 읽기 전에 거절한다.
 const MAX_BODY_BYTES = 32 * 1024;
-
-/*
- * 다른 사이트의 페이지가 방문자 브라우저로 이 주소에 보내는 것을 막는다. Origin이 없는 요청(브라우저 밖)은 어차피
- * 누구나 보낼 수 있어 막지 않는다. 그런 요청도 입력 검사와 숨은 칸은 똑같이 거친다.
- */
-function isCrossSite(request: Request): boolean {
-  const origin = request.headers.get("origin");
-  if (!origin) return false;
-  const host = request.headers.get("x-forwarded-host") ?? request.headers.get("host");
-  try {
-    return new URL(origin).host !== host;
-  } catch {
-    return true;
-  }
-}
 
 export async function POST(request: Request) {
   if (isCrossSite(request)) {
