@@ -1,10 +1,12 @@
 /*
  * CONTACT 페이지의 문의 4종. 카드·폼(브라우저)과 접수 라우트 핸들러·알림 메일(서버)이 이 정의를 함께 쓰고, 입력 검사도
- * 양쪽이 같은 함수로 한다. 그래서 다른 모듈을 불러오지 않는다.
+ * 양쪽이 같은 함수로 한다. 그래서 양쪽에서 쓸 수 있는 모듈(이메일 검사)만 불러온다.
  * 항목·필수 여부·여러 개 고르기는 기획 명세(Figma 1465:7619~7622)를, 라벨·안내 문구·배치는 1024 시안을 따른다.
  * 공급·사용 시안은 카드 선택 표시가 서로 바뀌어 있어서(공급 카드 시안 1465:5994에 사용 폼이 있다) 명세와 폼 내용으로
  * 짝지었다. 명세대로 모든 항목이 필수다. 고르는 칸의 가운뎃점은 시안 글자(・, 앞뒤가 넓다)를 따른다.
  */
+
+import { EMAIL_MESSAGE, isEmail } from "./email";
 
 export const INQUIRY_TYPES = ["supply", "project", "education", "use"] as const;
 export type InquiryType = (typeof INQUIRY_TYPES)[number];
@@ -61,8 +63,6 @@ export type InquiryForm = {
 export const TEXT_MAX_LENGTH = 100;
 // 여러 줄 입력칸의 최대 글자 수(시안 00 / 500).
 export const LONG_TEXT_MAX_LENGTH = 500;
-// 이메일 주소의 최대 길이(RFC 5321).
-const EMAIL_MAX_LENGTH = 254;
 
 const ORGANIZATION = {
   kind: "text",
@@ -273,11 +273,8 @@ export type InquiryErrors = Partial<Record<InquiryFieldName, string>>;
 
 export const REQUIRED_MESSAGE = "필수 입력 항목입니다.";
 const CHOICE_REQUIRED_MESSAGE = "하나 이상 골라주세요.";
-const EMAIL_MESSAGE = "이메일 주소를 확인해주세요. 예) abcde@zaone.com";
 const PHONE_MESSAGE = "전화번호를 확인해주세요. 예) 010-1234-5678";
 
-// 흔한 오타(골뱅이 빠짐, 도메인 점 빠짐, 공백)만 거른다. 실제로 받는 주소인지는 답장해 봐야 안다.
-const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 /*
  * 전화번호 숫자. 0으로 시작하는 10~11자리(010·031·070 등, 02는 9~10자리, 050x 안심번호는 11~12자리)와
  * 15xx·16xx·18xx 같은 8자리 대표번호.
@@ -292,8 +289,7 @@ export function checkField(field: InquiryField, values: InquiryValues): string |
   if (!value) return REQUIRED_MESSAGE;
   const maxLength = field.kind === "textarea" ? LONG_TEXT_MAX_LENGTH : TEXT_MAX_LENGTH;
   if (Array.from(value).length > maxLength) return `${maxLength}자까지 입력할 수 있어요.`;
-  if (field.name === "email" && (value.length > EMAIL_MAX_LENGTH || !EMAIL_PATTERN.test(value)))
-    return EMAIL_MESSAGE;
+  if (field.name === "email" && !isEmail(value)) return EMAIL_MESSAGE;
   if (field.name === "phone" && !PHONE_DIGITS.test(value.replace(/\D/g, ""))) return PHONE_MESSAGE;
   return null;
 }
