@@ -130,9 +130,7 @@ export function MobileMenu({ items }: { items: { label: string; href: string }[]
 
           <div className="mt-auto p-xl">
             <Button
-              href="https://secure.donus.org/zaone/pay/step1"
-              target="_blank"
-              rel="noopener noreferrer"
+              href="/donation"
               variant="outline"
               onClick={close}
               className="w-full px-md py-sm text-body-s-m"
