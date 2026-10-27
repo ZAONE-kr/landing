@@ -14,8 +14,6 @@ type Backdrop = {
   frameClassName: string;
   // 모바일 시안의 사진 위치(--pan-x). 0이면 사진 왼쪽 끝, 1이면 오른쪽 끝이 틀에 맞는다.
   mobilePositionClassName: string;
-  // 모바일에서 스크롤하면 사진이 시안 위치 앞뒤로 조금 오가는지(PanOnScroll). 멈춰 있을 때는 시안 위치에 있다.
-  pan?: boolean;
   sizes: string;
 };
 
@@ -31,7 +29,6 @@ const BACKDROPS: Record<"first" | "third", Backdrop> = {
     frameClassName:
       "inset-0 lg:inset-auto lg:-top-[33.39%] lg:-left-[0.11%] lg:h-[159.76%] lg:w-[136.65%]",
     mobilePositionClassName: "[--pan-x:0.354]",
-    pan: true,
     sizes: "(min-width: 1024px) 137vw, 186vw",
   },
   // 1024 시안: 1111×741 틀을 (-50, -62)에 둔다. 375 시안: 743×495 틀을 왼쪽 301px 잘라 둔다(남는 폭의 81.8%).
@@ -48,6 +45,7 @@ const BACKDROPS: Record<"first" | "third", Backdrop> = {
  * 사진 틀 안에서 사진을 옮기는 칸. 모바일은 틀 높이에 사진 비율(두 사진 모두 3:2)로 폭을 잡아 틀보다 넓게 두고,
  * 남는 폭(사진 폭 - 틀 폭, 100cqw는 틀 폭)에 --pan-x를 곱한 만큼 왼쪽으로 밀어 시안 위치에 둔다.
  * 스크롤 진행도(--pan, 기본 0.5)가 0에서 1로 가는 동안 그 위치에서 오른쪽 50px → 왼쪽 50px로 모두 100px 오간다.
+ * 진행도는 PanOnScroll이 모바일에서만 넣고, 데스크톱과 움직임 줄이기 설정은 시안 위치에 멈춘다.
  * 사진 끝이 틀 안으로 들어와 빈 곳이 보이지 않게 남는 폭 안으로 묶는다. 틀이 사진보다 넓은 화면(640 안팎)은
  * 칸이 틀 폭에 맞춰져 옮길 거리가 없다. 데스크톱은 칸이 틀을 그대로 채운다.
  */
@@ -55,23 +53,20 @@ const MOVER_CLASS =
   "absolute inset-y-0 left-0 aspect-[3/2] min-w-full [--pan:0.5] translate-x-[clamp(100cqw_-_100%,var(--pan-x)_*_(100cqw_-_100%)_-_(var(--pan)_-_0.5)_*_100px,0px)] lg:right-0 lg:aspect-auto lg:translate-x-0";
 
 function BackdropImage({ backdrop }: { backdrop: Backdrop }) {
-  const image = (
-    <Image
-      src={backdrop.image}
-      alt=""
-      fill
-      placeholder="blur"
-      quality={50}
-      sizes={backdrop.sizes}
-      className="object-cover"
-    />
-  );
-  const className = `${MOVER_CLASS} ${backdrop.mobilePositionClassName}`;
-
-  return backdrop.pan ? (
-    <PanOnScroll className={`${className} max-lg:will-change-transform`}>{image}</PanOnScroll>
-  ) : (
-    <div className={className}>{image}</div>
+  return (
+    <PanOnScroll
+      className={`${MOVER_CLASS} ${backdrop.mobilePositionClassName} max-lg:will-change-transform`}
+    >
+      <Image
+        src={backdrop.image}
+        alt=""
+        fill
+        placeholder="blur"
+        quality={50}
+        sizes={backdrop.sizes}
+        className="object-cover"
+      />
+    </PanOnScroll>
   );
 }
 
@@ -121,7 +116,7 @@ function WorkBlock({ label, lead, body, backdrop }: WorkBlockProps) {
 }
 
 // 세 면은 순서가 정해져 있다(사진 면, 회색 면, 사진 면). 글은 Studio에서 고치고 사진은 코드에 있다.
-// 첫째 면 사진은 모바일에서 스크롤하면 옆으로 흐른다.
+// 두 사진 면의 사진은 모바일에서 스크롤하면 옆으로 조금 흐른다.
 export async function WorkSection() {
   const { label, first, second, third } = await loadSection(DONATION_WORK);
 
