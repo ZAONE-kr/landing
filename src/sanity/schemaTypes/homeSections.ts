@@ -172,6 +172,7 @@ export const homeSectionTypes = [
     seoField("giveAndUse", "GIVE & USE 페이지"),
     seoField("impact", "IMPACT 페이지"),
     seoField("zaoneLab", "ZAONE LAB 페이지"),
+    seoField("donation", "후원하기 페이지"),
   ]),
   defineSectionType(COMMON_FOOTER, [
     textField({ name: "copyright", title: "저작권 글", max: 60 }),

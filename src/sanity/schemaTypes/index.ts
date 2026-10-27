@@ -3,6 +3,7 @@ import { SECTIONS } from "@/sanity/sections";
 import { aboutSectionTypes } from "./aboutSections";
 import { businessNewsType } from "./businessNews";
 import { businessReportType } from "./businessReport";
+import { donationSectionTypes } from "./donationSections";
 import { giveAndUseSectionTypes } from "./giveAndUseSections";
 import { homeSectionTypes } from "./homeSections";
 import { impactSectionTypes } from "./impactSections";
@@ -18,6 +19,7 @@ const sectionTypes = [
   ...giveAndUseSectionTypes,
   ...impactSectionTypes,
   ...labSectionTypes,
+  ...donationSectionTypes,
 ];
 
 // 문서 종류는 이 순서로 Studio "새 문서" 메뉴에 놓인다. 본문(postBody)·YouTube는 글 안에 쓰는 종류다.

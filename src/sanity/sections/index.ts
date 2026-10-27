@@ -1,5 +1,6 @@
 import { ABOUT_SECTIONS } from "./about";
 import { COMMON_SECTIONS } from "./common";
+import { DONATION_SECTIONS } from "./donation";
 import { GIVE_AND_USE_SECTIONS } from "./giveAndUse";
 import { HOME_SECTIONS } from "./home";
 import { IMPACT_SECTIONS } from "./impact";
@@ -16,5 +17,6 @@ export const SECTIONS: readonly SectionMeta[] = [
   ...GIVE_AND_USE_SECTIONS,
   ...IMPACT_SECTIONS,
   ...LAB_SECTIONS,
+  ...DONATION_SECTIONS,
   ...COMMON_SECTIONS,
 ];

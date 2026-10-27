@@ -8,6 +8,7 @@ export const SITE_PAGES = [
   { id: "give-and-use", title: "GIVE & USE" },
   { id: "impact", title: "IMPACT" },
   { id: "zaone-lab", title: "ZAONE LAB" },
+  { id: "donation", title: "후원하기" },
   { id: "common", title: "공통" },
 ] as const;
 

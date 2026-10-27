@@ -38,6 +38,7 @@ export const COMMON_PAGE_SEO: SectionMeta<{
   giveAndUse: PageSeo;
   impact: PageSeo;
   zaoneLab: PageSeo;
+  donation: PageSeo;
 }> = {
   id: "commonPageSeo",
   page: "common",
@@ -64,6 +65,11 @@ export const COMMON_PAGE_SEO: SectionMeta<{
       title: "ZAONE LAB - 자원(ZAONE)",
       description:
         "ZAONE LAB은 물질과 놀이에서 시작해 스스로 질문하고 방법을 찾는 경험을 만듭니다. 교육현장에서 조직, 지역의 장소까지 누구나 이곳의 학습자가 될 수 있습니다.",
+    },
+    donation: {
+      title: "후원하기 - 자원(ZAONE)",
+      description:
+        "자원(ZAONE)은 산업폐기물을 교육 재료로 전환하여, 물질을 폐기하는 방식과 어린이가 배우는 방식에 변화를 만듭니다. 후원으로 더 많은 것을 바꿀 수 있습니다.",
     },
   },
 };

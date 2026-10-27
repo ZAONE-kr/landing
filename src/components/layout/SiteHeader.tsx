@@ -40,9 +40,7 @@ export function SiteHeader() {
       <div className="flex flex-1 items-center justify-end gap-md lg:flex-none lg:gap-xl">
         <div className="hidden lg:block">
           <Button
-            href="https://secure.donus.org/zaone/pay/step1"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/donation"
             variant="outline"
             className="w-[150px] px-md py-sm text-body-s-m"
           >
