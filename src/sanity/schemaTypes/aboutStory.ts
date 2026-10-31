@@ -55,6 +55,22 @@ export const aboutStoryType = defineType({
       ],
     }),
     bodyField,
+    // 두 시안의 본문 간격이 달라 글마다 고른다(1% for the Planet은 보통, 레미다는 넓게. 사용자 결정, 2026-10-31).
+    defineField({
+      name: "bodySpacing",
+      title: "본문 간격",
+      type: "string",
+      description:
+        "소제목 아래와 덩어리(문단 묶음·사진) 사이를 얼마나 띄울지 골라요. 컴퓨터 화면에만 적용되고 휴대폰 화면은 같아요.",
+      options: {
+        list: [
+          { title: "보통 (소제목 아래 24px, 덩어리 사이 64px)", value: "normal" },
+          { title: "넓게 (소제목 아래 32px, 덩어리 사이 80px)", value: "wide" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "normal",
+    }),
   ],
   // 목록에는 제목과 사이트 주소를 보인다. 카드에 넣을 주소를 여기서 바로 볼 수 있게 한글도 인코딩하지 않고 둔다.
   preview: {

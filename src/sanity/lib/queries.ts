@@ -116,5 +116,6 @@ export const ABOUT_STORY_QUERY =
   title,
   "slug": slug.current,
   mainImage{${IMAGE_FIELDS}},
-  body[]{..., _type == "image" => {${IMAGE_FIELDS}}}
+  body[]{..., _type == "image" => {${IMAGE_FIELDS}}},
+  bodySpacing
 }`);
