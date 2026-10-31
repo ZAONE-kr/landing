@@ -182,7 +182,7 @@ type Connection = {
   photo: SanityImageSource | null;
 };
 
-// TODO: "자세히 보기"가 갈 곳을 아직 받지 못해 인사이트 목록으로 보낸다. 주소를 받으면 Studio에서 바꾼다.
+// "자세히 보기"는 카드마다 ABOUT 상세 글(/about/…, Studio의 ABOUT 폴더)을 새 탭으로 연다.
 export const ABOUT_GLOBAL_NETWORK: SectionMeta<{ title: string; cards: Connection[] }> = {
   id: "aboutGlobalNetwork",
   page: "about",
@@ -195,13 +195,13 @@ export const ABOUT_GLOBAL_NETWORK: SectionMeta<{ title: string; cards: Connectio
       {
         _key: "connection-italy",
         title: "30년을 이어온 이탈리아의\n창의적 재사용 센터",
-        href: "/insights",
+        href: "/about/remida",
         photo: null,
       },
       {
         _key: "connection-one-percent",
         title: "1% for the Planet이\n인증한 환경단체",
-        href: "/insights",
+        href: "/about/1-percent-for-the-planet",
         photo: null,
       },
     ],

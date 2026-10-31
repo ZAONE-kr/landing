@@ -7,7 +7,7 @@ import {
 } from "next-sanity";
 import type { ElementType, ReactNode } from "react";
 
-import { NEW_TAB_PROPS } from "@/lib/links";
+import { linkTargetProps, NEW_TAB_PROPS } from "@/lib/links";
 import { type SanityImageSource, toCroppedImage } from "@/sanity/lib/image";
 import { parseYouTubeId } from "@/sanity/youtubeUrl";
 
@@ -32,6 +32,9 @@ import { YouTubeEmbed } from "./YouTubeEmbed";
  * 원래 비율 그대로 보인다(사용자 결정, 2026-10-19 — 예전 사이트에서 옮긴 세로 포스터·인포그래픽이 16:10 틀에 잘렸다).
  * 사진이 이어지면 12px 간격이다.
  * 블록마다 위 간격만 두고, 앞 블록에 따라 달라지는 간격은 아래 BODY_CLASS가 형제 선택자로 정한다.
+ *
+ * spacing="wide"는 1024 이상에서 소제목 바로 아래 문단을 32px, 소제목·사진 위와 사진 아래를 80px 띄운다(ABOUT 상세
+ * 레미다 시안 1912:6767). 문단 사이 24px, 이어진 사진 12px는 같고, 시안이 없는 모바일은 보통과 같다.
  */
 
 type PostBodyImage = SanityImageSource & {
@@ -55,6 +58,16 @@ const BODY_CLASS = [
   // 인용이 이어지면 한 묶음처럼 좁게 붙는다.
   "[&>blockquote+blockquote]:mt-md lg:[&>blockquote+blockquote]:mt-sm",
 ].join(" ");
+
+// 블록이 제 클래스로 둔 위 간격보다 앞서도록 부모에서 고른다. 첫 블록(mt-0)과 이어진 사진(12px)은 선택자가 더 구체적이라
+// 그대로 남는다.
+const WIDE_SPACING_CLASS = [
+  "lg:[&>:is(h2,h3,h4,figure)]:mt-20",
+  "lg:[&>[data-media]+*]:mt-20",
+  "lg:[&>:is(h2,h3,h4)+:is(p,ul,ol,blockquote)]:mt-8",
+].join(" ");
+
+export type PostBodySpacing = "normal" | "wide";
 
 const HEADING_CLASS = `${POST_COLUMN} mt-12 text-text-primary lg:mt-16`;
 const LIST_CLASS = "mt-6 space-y-sm text-detail-s-m text-text-secondary lg:text-body-sm-m";
@@ -85,10 +98,10 @@ const LINK_CLASS = "text-text-link underline underline-offset-4";
 
 function BodyLink({ value, children }: { value?: { href?: string }; children: ReactNode }) {
   const href = typeof value?.href === "string" ? value.href.trim() : "";
-  // 사이트 안 주소는 화면 전환 없이 이동한다. //로 시작하면 다른 사이트라 막는다.
+  // 사이트 안 주소는 화면 전환 없이 이동한다. //로 시작하면 다른 사이트라 막는다. ABOUT 상세 글은 새 탭이다.
   if ((href.startsWith("/") && !href.startsWith("//")) || href.startsWith("#")) {
     return (
-      <Link href={href} className={LINK_CLASS}>
+      <Link href={href} className={LINK_CLASS} {...linkTargetProps(href)}>
         {children}
       </Link>
     );
@@ -199,9 +212,17 @@ const components: PortableTextComponents = {
   types: { image: BodyImage, youtube: BodyYouTube },
 };
 
-export function PostBody({ value, className = "" }: { value: PostBodyValue; className?: string }) {
+export function PostBody({
+  value,
+  spacing = "normal",
+  className = "",
+}: {
+  value: PostBodyValue;
+  spacing?: PostBodySpacing;
+  className?: string;
+}) {
   return (
-    <div className={`${BODY_CLASS} ${className}`}>
+    <div className={`${BODY_CLASS} ${spacing === "wide" ? WIDE_SPACING_CLASS : ""} ${className}`}>
       <PortableText value={value} components={components} />
     </div>
   );

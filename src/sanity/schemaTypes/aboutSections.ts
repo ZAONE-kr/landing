@@ -117,7 +117,8 @@ export const aboutSectionTypes = [
           hrefField({
             name: "href",
             title: "자세히 보기 주소",
-            description: "누르면 이동할 주소예요. 지금은 인사이트 목록으로 임시 연결돼 있어요.",
+            description:
+              "누르면 열릴 주소예요. ABOUT 상세 글(/about/…)과 다른 사이트(https://…)는 새 창으로 열려요. ABOUT 상세 글의 주소는 ABOUT 폴더 아래 'ABOUT 상세 글' 목록에서 볼 수 있어요.",
           }),
           photoField({
             required: isCustomCard(ABOUT_GLOBAL_NETWORK.defaults.cards),

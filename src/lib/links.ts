@@ -1,3 +1,5 @@
+import { ABOUT_STORY_PATH } from "@/sanity/aboutStory";
+
 /*
  * 여러 페이지가 함께 쓰는 링크 주소. 갈 곳은 IA(Figma 572:2, 2026-10-12 공유)를 따른다.
  */
@@ -27,10 +29,22 @@ export const NOTICE_LIST_HREF = {
   businessReport: "/contact?notice=report#notices",
 } as const;
 
-// 새 탭으로 여는 외부 링크에 함께 넣는다.
+// 새 탭으로 여는 링크에 함께 넣는다.
 export const NEW_TAB_PROPS = { target: "_blank", rel: "noopener noreferrer" } as const;
 
-// 주소가 외부(https://…)면 새 탭으로 연다. 운영자가 Studio에서 주소를 바꿔도 알맞게 열리도록 주소를 보고 정한다.
+const EXTERNAL_HREF = /^https?:\/\//i;
+// ABOUT 상세 글(/about/주소). ABOUT 페이지(/about) 자체는 아니다.
+const ABOUT_STORY_HREF = new RegExp(`^${ABOUT_STORY_PATH}/[^/?#]+`);
+
+/*
+ * 새 탭으로 열 주소인지. 외부 사이트(https://…)와 ABOUT 상세 글(/about/…)이다. ABOUT 상세 글은 ABOUT 페이지 카드에서
+ * 읽고 돌아오는 글이라 보던 ABOUT 페이지를 남겨 둔다(2026-10-31 결정).
+ * 운영자가 Studio에서 주소를 바꿔도 알맞게 열리도록 링크마다 따로 정하지 않고 갈 곳의 주소를 보고 정한다.
+ */
+export function opensInNewTab(href: string): boolean {
+  return EXTERNAL_HREF.test(href) || ABOUT_STORY_HREF.test(href);
+}
+
 export function linkTargetProps(href: string) {
-  return /^https?:\/\//i.test(href) ? NEW_TAB_PROPS : {};
+  return opensInNewTab(href) ? NEW_TAB_PROPS : {};
 }

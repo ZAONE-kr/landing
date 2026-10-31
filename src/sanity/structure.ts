@@ -1,13 +1,15 @@
-import type { StructureResolver } from "sanity/structure";
+import type { ListItemBuilder, StructureResolver } from "sanity/structure";
 
+import { ABOUT_STORY } from "@/sanity/aboutStory";
 import { POST_CATEGORIES } from "@/sanity/postCategories";
 import { NEWEST_FIRST } from "@/sanity/schemaTypes/postFields";
 import { SECTIONS } from "@/sanity/sections";
-import { SITE_PAGES } from "@/sanity/sections/pages";
+import { SITE_PAGES, type SitePageId } from "@/sanity/sections/pages";
 
 /*
  * Studio 왼쪽 목록. 블로그 카테고리 셋을 위에 두고, 줄을 그은 뒤 페이지별 폴더를 둔다. 폴더를 열면 그 페이지에서
- * 고칠 수 있는 섹션이 하나씩 나오고, 섹션 하나가 문서 하나다(src/sanity/sections).
+ * 고칠 수 있는 섹션이 하나씩 나오고, 섹션 하나가 문서 하나다(src/sanity/sections). ABOUT 폴더는 섹션 아래에
+ * 카드가 여는 상세 글 목록이 더 있다.
  * 카테고리는 문서 종류별 기본 목록이라 오른쪽 위에 새 글 버튼이 붙는다. 처음에는 게시일 최신순으로 늘어선다.
  * id를 직접 준다. 한글 제목에서는 id를 만들지 못해 "`id` is required" 에러가 난다.
  */
@@ -16,10 +18,21 @@ export const structure: StructureResolver = (S) => {
   const singleton = (id: string, title: string) =>
     S.listItem().id(id).title(title).child(S.document().schemaType(id).documentId(id).title(title));
 
+  // 여러 개를 쓰는 문서 종류의 목록. 오른쪽 위에 새 글 버튼이 붙는다.
+  const documentList = (type: string, title: string) =>
+    S.listItem().id(type).title(title).schemaType(type).child(S.documentTypeList(type));
+
+  // 페이지 폴더의 섹션 아래에 줄을 긋고 덧붙이는 글 목록. ABOUT 상세 글은 ABOUT 페이지 카드가 여는 글이라 그 폴더에 둔다.
+  const pageDocumentLists: Partial<Record<SitePageId, ListItemBuilder[]>> = {
+    about: [documentList(ABOUT_STORY.type, ABOUT_STORY.title)],
+  };
+
   const pageFolders = SITE_PAGES.flatMap((page) => {
-    const items = SECTIONS.filter((section) => section.page === page.id).map((section) =>
+    const sections = SECTIONS.filter((section) => section.page === page.id).map((section) =>
       singleton(section.id, section.title),
     );
+    const lists = pageDocumentLists[page.id] ?? [];
+    const items = lists.length > 0 ? [...sections, S.divider(), ...lists] : sections;
     if (items.length === 0) return [];
     return [
       S.listItem()

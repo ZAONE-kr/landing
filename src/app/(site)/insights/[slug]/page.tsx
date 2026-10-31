@@ -7,13 +7,13 @@ import { POST_COLUMN } from "@/components/post/layout";
 import { PostBody } from "@/components/post/PostBody";
 import { PostHeader } from "@/components/post/PostHeader";
 import { PostPoster } from "@/components/post/PostPoster";
-import { toCroppedImage } from "@/sanity/lib/image";
+import { toCroppedImage, toOpenGraphImage } from "@/sanity/lib/image";
 import { insightHref } from "@/sanity/lib/insights";
 import { decodeSlugParam } from "@/sanity/slug";
 
 import { InsightMeta } from "../_components/InsightMeta";
 import { NextInsightsSection } from "../_components/NextInsightsSection";
-import { getInsight, type Insight, insightOpenGraphImage, pickNextInsights } from "../_lib/insight";
+import { getInsight, type Insight, pickNextInsights } from "../_lib/insight";
 
 /*
  * 인사이트 상세(Figma "[1012] INSIGHT 상세페이지 전달", 1024 1465:3244·1482:9073·1482:9586, 375 1482:10478).
@@ -42,7 +42,7 @@ export async function generateMetadata({
   const url = insightHref(insight.slug);
   const title = `${insight.title ?? "인사이트"} - 자원(ZAONE)`;
   const description = describePostBody(insight.body) || "자원(ZAONE)의 인사이트";
-  const ogImage = insightOpenGraphImage(insight.mainImage);
+  const ogImage = toOpenGraphImage(insight.mainImage);
 
   return {
     title,
