@@ -1,7 +1,7 @@
 import { cache } from "react";
 
 import type { PostBodyValue } from "@/components/post/PostBody";
-import { type SanityImageSource, toCroppedImage } from "@/sanity/lib/image";
+import type { SanityImageSource } from "@/sanity/lib/image";
 import { type InsightCard, type InsightRow, toInsightCard } from "@/sanity/lib/insights";
 import { sanityFetch } from "@/sanity/lib/live";
 import { INSIGHT_QUERY } from "@/sanity/lib/queries";
@@ -47,23 +47,4 @@ export function pickNextInsights(insight: Insight): InsightCard[] {
     picked.set(row._id, row);
   }
   return [...picked.values()].map(toInsightCard);
-}
-
-/*
- * 링크 공유 그림(1200×630). 카카오톡·페이스북 등은 사진을 제 비율로 다시 잘라 보여서, 운영자가 정한 중심점을 기준으로
- * 미리 잘라 둔다(Sanity 이미지 CDN의 focalpoint 자르기). 공유 미리보기가 WebP·AVIF를 못 읽는 곳이 있어 JPG로 받는다.
- */
-export function insightOpenGraphImage(source: SanityImageSource | null) {
-  const image = toCroppedImage(source);
-  if (!image) return null;
-  const [x, y] = image.objectPosition.split(" ").map((value) => parseFloat(value) / 100);
-  const url = new URL(image.src);
-  url.searchParams.set("w", "1200");
-  url.searchParams.set("h", "630");
-  url.searchParams.set("fit", "crop");
-  url.searchParams.set("crop", "focalpoint");
-  url.searchParams.set("fp-x", x.toFixed(4));
-  url.searchParams.set("fp-y", y.toFixed(4));
-  url.searchParams.set("fm", "jpg");
-  return { url: url.href, width: 1200, height: 630 };
 }

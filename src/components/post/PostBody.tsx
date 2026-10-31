@@ -7,7 +7,7 @@ import {
 } from "next-sanity";
 import type { ElementType, ReactNode } from "react";
 
-import { NEW_TAB_PROPS } from "@/lib/links";
+import { linkTargetProps, NEW_TAB_PROPS } from "@/lib/links";
 import { type SanityImageSource, toCroppedImage } from "@/sanity/lib/image";
 import { parseYouTubeId } from "@/sanity/youtubeUrl";
 
@@ -85,10 +85,10 @@ const LINK_CLASS = "text-text-link underline underline-offset-4";
 
 function BodyLink({ value, children }: { value?: { href?: string }; children: ReactNode }) {
   const href = typeof value?.href === "string" ? value.href.trim() : "";
-  // 사이트 안 주소는 화면 전환 없이 이동한다. //로 시작하면 다른 사이트라 막는다.
+  // 사이트 안 주소는 화면 전환 없이 이동한다. //로 시작하면 다른 사이트라 막는다. ABOUT 상세 글은 새 탭이다.
   if ((href.startsWith("/") && !href.startsWith("//")) || href.startsWith("#")) {
     return (
-      <Link href={href} className={LINK_CLASS}>
+      <Link href={href} className={LINK_CLASS} {...linkTargetProps(href)}>
         {children}
       </Link>
     );

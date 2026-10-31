@@ -1,5 +1,6 @@
 import { defineQuery } from "next-sanity";
 
+import { ABOUT_STORY } from "@/sanity/aboutStory";
 import { INSIGHT } from "@/sanity/postCategories";
 import { ZAONE_LAB_FIELDS } from "@/sanity/zaoneLabFields";
 
@@ -107,3 +108,13 @@ export const NOTICE_QUERY = defineQuery(`*[_type == $type && slug.current == $sl
 export const NOTICE_LIST_QUERY = defineQuery(
   `*[${LISTED_NOTICE}] | ${NEWEST_FIRST}{${NOTICE_ROW_FIELDS}}`,
 );
+
+// ABOUT 상세 글 하나. 주소(slug)로 찾고, 없으면 null이다.
+export const ABOUT_STORY_QUERY =
+  defineQuery(`*[_type == "${ABOUT_STORY.type}" && slug.current == $slug][0]{
+  _id,
+  title,
+  "slug": slug.current,
+  mainImage{${IMAGE_FIELDS}},
+  body[]{..., _type == "image" => {${IMAGE_FIELDS}}}
+}`);
