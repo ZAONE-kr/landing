@@ -4,13 +4,13 @@ import type { SectionMeta } from "./pages";
 
 // ABOUT 페이지(/about)의 섹션. 이사회와 글로벌 네트워크 카드는 카드 섹션으로 따로 옮긴다.
 
-export const ABOUT_HERO: SectionMeta<{ title: string }> = {
+export const ABOUT_HERO: SectionMeta<{ title: string; photo: SanityImageSource | null }> = {
   id: "aboutHero",
   page: "about",
   title: "맨 위 (돌 사진과 한 줄)",
   where:
     "ABOUT 페이지 맨 위, 큰 사진 가운데에 흰 글씨 한 문장이 나오는 부분이에요. 글은 화면 너비에 맞춰 줄이 자동으로 나뉘어요.",
-  defaults: { title: "세상은 불완전한 것들로 이루어져 있습니다" },
+  defaults: { title: "세상은 불완전한 것들로 이루어져 있습니다", photo: null },
 };
 
 export const ABOUT_IMPERFECTION: SectionMeta<{ title: string; first: string; second: string }> = {
@@ -28,7 +28,11 @@ export const ABOUT_IMPERFECTION: SectionMeta<{ title: string; first: string; sec
   },
 };
 
-export const ABOUT_CREATIVITY_QUESTION: SectionMeta<{ title: string; sub: string }> = {
+export const ABOUT_CREATIVITY_QUESTION: SectionMeta<{
+  title: string;
+  sub: string;
+  photo: SanityImageSource | null;
+}> = {
   id: "aboutCreativityQuestion",
   page: "about",
   title: "창의성 질문 (사진 배너)",
@@ -37,6 +41,7 @@ export const ABOUT_CREATIVITY_QUESTION: SectionMeta<{ title: string; sub: string
   defaults: {
     title: "창의성은 어떠한 환경에서 더 잘 드러날까",
     sub: "이 질문에서 ZAONE의 질문이 시작되었습니다",
+    photo: null,
   },
 };
 
@@ -47,12 +52,13 @@ export const ABOUT_MANUFACTURING: SectionMeta<{
   secondTitle: string;
   secondBody: string;
   imageAlt: string;
+  photo: SanityImageSource | null;
 }> = {
   id: "aboutManufacturing",
   page: "about",
   title: "제조 현장 (글 두 덩어리와 공장 사진)",
   where:
-    "'우리가 교육 안에서 찾고 있던 답은…'으로 시작하는 부분이에요. 큰 제목 아래에 소제목과 본문 두 덩어리가 위아래로 나오고, 맨 아래에 공장 사진이 있어요. 사진은 지금은 바꿀 수 없고, 사진 설명 글만 고칠 수 있어요. 글은 화면 너비에 맞춰 줄이 자동으로 나뉘어요.",
+    "'우리가 교육 안에서 찾고 있던 답은…'으로 시작하는 부분이에요. 큰 제목 아래에 소제목과 본문 두 덩어리가 위아래로 나오고, 맨 아래에 공장 사진이 있어요. 글은 화면 너비에 맞춰 줄이 자동으로 나뉘어요.",
   // TODO: 시안에 아래 덩어리의 소제목이 비어 있다. 위 소제목을 복사해 둔 값이라 실제 문구를 받으면 바꾼다.
   defaults: {
     title: "우리가 교육 안에서 찾고 있던 답은, 뜻밖에도 제조 현장에 있었습니다.",
@@ -63,6 +69,7 @@ export const ABOUT_MANUFACTURING: SectionMeta<{
     secondBody:
       "자원은 버려지고 있는 것을 다시 바라보는 관점이 미래세대가 물질을 감각적으로 경험하고, 생태적 사고를 훈련하며, 환경과 사회를 입체적으로 이해하는 교육으로 이어질 수 있다고 믿습니다. 휴면자원의 창의적 재사용은 물질을 다시 보고, 세상을 해석하고 관계 맺는 방식을 배우는 과정입니다. 자원은 휴면자원을 교육적 재료로 연결해 미래세대가 환경과 사회를 사고하는 경험을 만들어갑니다.",
     imageAlt: "주황색 시트 부품이 줄지어 놓인 공장의 생산 라인",
+    photo: null,
   },
 };
 

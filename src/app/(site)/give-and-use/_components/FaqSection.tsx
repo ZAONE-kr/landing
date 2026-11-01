@@ -1,7 +1,9 @@
 import Image, { type StaticImageData } from "next/image";
 import Link from "next/link";
+import { SanityImage } from "@/components/post/SanityImage";
 import { Button } from "@/components/ui/Button";
 import { linkTargetProps } from "@/lib/links";
+import { type SanityImageSource, toCroppedImage } from "@/sanity/lib/image";
 import type { FaqContent, FaqStepContent } from "@/sanity/sections/giveAndUse";
 
 import { FaqDisclosure } from "./FaqDisclosure";
@@ -9,8 +11,10 @@ import { FaqDisclosure } from "./FaqDisclosure";
 export type FaqCta = {
   title: string;
   button: { label: string; href: string };
+  // 운영자가 Studio에서 올린 사진. 있으면 배너를 채우고, 없으면 코드의 사진(image)을 시안의 틀에 둔다.
+  photo: SanityImageSource | null;
   image: StaticImageData;
-  // 사진 틀. 모바일은 배너를 덮고, 데스크톱은 시안의 틀 크기·위치를 따른다.
+  // 코드 사진의 틀. 모바일은 배너를 덮고, 데스크톱은 시안의 틀 크기·위치를 따른다.
   imageBoxClassName: string;
   imageClassName?: string;
   sizes: string;
@@ -67,19 +71,27 @@ function FaqItem({ faq }: { faq: FaqContent }) {
 // 사진 위에 검정 50%를 덮는다(Figma에서 변수 없이 쓴 값). 1440보다 넓으면 1440 시안 폭(1360px)에 묶는다.
 // 375에서 긴 제목(290px)이 한 줄에 들어가도록 좌우 여백은 16px만 둔다.
 function FaqCtaBanner({ cta }: { cta: FaqCta }) {
+  const uploaded = toCroppedImage(cta.photo);
+
   return (
     <div className="px-xl pb-xl lg:px-3xl lg:pb-3xl">
       <div className="relative isolate mx-auto flex h-[200px] max-w-[85rem] flex-col items-center justify-center gap-sm overflow-hidden rounded-sm px-md text-center lg:h-[440px] lg:gap-2xl lg:rounded-lg">
-        <div className={`absolute -z-10 ${cta.imageBoxClassName}`}>
-          <Image
-            src={cta.image}
-            alt=""
-            fill
-            placeholder="blur"
-            sizes={cta.sizes}
-            className={`object-cover ${cta.imageClassName ?? ""}`}
-          />
-        </div>
+        {uploaded ? (
+          <div className="absolute inset-0 -z-10">
+            <SanityImage image={uploaded} alt="" sizes="(min-width: 1440px) 1360px, 100vw" />
+          </div>
+        ) : (
+          <div className={`absolute -z-10 ${cta.imageBoxClassName}`}>
+            <Image
+              src={cta.image}
+              alt=""
+              fill
+              placeholder="blur"
+              sizes={cta.sizes}
+              className={`object-cover ${cta.imageClassName ?? ""}`}
+            />
+          </div>
+        )}
         <div aria-hidden className="absolute inset-0 -z-10 bg-[rgb(0_0_0/0.5)]" />
         <p className="text-title-s-b text-text-inverse lg:text-heading-s-b">{cta.title}</p>
         <Button

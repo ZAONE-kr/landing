@@ -1,6 +1,8 @@
 import Image from "next/image";
 
 import heroImage from "@/assets/zaone-lab/hero-child-looking-up.jpg";
+import { SanityImage } from "@/components/post/SanityImage";
+import { toCroppedImage } from "@/sanity/lib/image";
 import { loadSection } from "@/sanity/lib/sections";
 import { LAB_HERO } from "@/sanity/sections/lab";
 
@@ -12,24 +14,42 @@ import { LAB_HERO } from "@/sanity/sections/lab";
  * - 데스크톱: 섹션 680px에 제목을 세로 가운데 둔다. 틀은 폭 1227px 이상으로 왼쪽에 붙이고, 가운데가 섹션
  *   가운데보다 6px 아래에 온다(1024·1440 시안). 1024에서는 오른쪽이 잘리고, 더 넓으면 화면 폭을 따라 커진다.
  * 데스크톱 제목은 Heading-MM-EB 크기에 줄 간격만 1.3이다(Figma에 텍스트 스타일 없이 쓴 값).
+ * 운영자가 Studio에서 사진을 올리면 그 사진이 섹션을 채우고, 그라데이션도 섹션 기준이 된다.
  * 제목은 Studio에서 고친다. 시안은 세 줄로 끊었으므로 폭을 묶고 고르게 나눈다(text-balance).
  */
 export async function LabHeroSection() {
-  const { title } = await loadSection(LAB_HERO);
+  const { title, photo } = await loadSection(LAB_HERO);
+  const uploaded = toCroppedImage(photo);
 
   return (
     <section className="relative isolate min-h-[26.125rem] overflow-hidden px-xl py-5xl lg:flex lg:min-h-[42.5rem] lg:items-center lg:px-6xl lg:py-7xl">
-      <div className="absolute top-0 left-[calc(50%+30px)] -z-10 aspect-[1440/958] min-h-full w-[max(44.0625rem,calc(100%+60px))] -translate-x-1/2 lg:top-[calc(50%+6px)] lg:left-0 lg:min-h-0 lg:w-[max(76.6875rem,100%)] lg:translate-x-0 lg:-translate-y-1/2">
-        <Image
-          src={heroImage}
-          alt=""
-          fill
-          loading="eager"
-          fetchPriority="high"
-          placeholder="blur"
-          sizes="(min-width: 1227px) 100vw, (min-width: 1024px) 1227px, (min-width: 645px) calc(100vw + 60px), 705px"
-          className="object-cover"
-        />
+      <div
+        className={
+          uploaded
+            ? "absolute inset-0 -z-10"
+            : "absolute top-0 left-[calc(50%+30px)] -z-10 aspect-[1440/958] min-h-full w-[max(44.0625rem,calc(100%+60px))] -translate-x-1/2 lg:top-[calc(50%+6px)] lg:left-0 lg:min-h-0 lg:w-[max(76.6875rem,100%)] lg:translate-x-0 lg:-translate-y-1/2"
+        }
+      >
+        {uploaded ? (
+          <SanityImage
+            image={uploaded}
+            alt=""
+            sizes="(min-width: 1227px) 100vw, (min-width: 1024px) 1227px, (min-width: 645px) calc(100vw + 60px), 705px"
+            loading="eager"
+            fetchPriority="high"
+          />
+        ) : (
+          <Image
+            src={heroImage}
+            alt=""
+            fill
+            loading="eager"
+            fetchPriority="high"
+            placeholder="blur"
+            sizes="(min-width: 1227px) 100vw, (min-width: 1024px) 1227px, (min-width: 645px) calc(100vw + 60px), 705px"
+            className="object-cover"
+          />
+        )}
         <div
           aria-hidden
           className="absolute inset-0 bg-[linear-gradient(126.1deg,rgb(0_0_0/0.5)_25.28%,rgb(0_0_0/0)_82.148%)]"

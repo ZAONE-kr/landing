@@ -12,17 +12,19 @@ export const DONATION_HERO: SectionMeta<{
   body: string;
   button: Button;
   imageAlt: string;
+  photo: SanityImageSource | null;
 }> = {
   id: "donationHero",
   page: "donation",
   title: "맨 위 (사진과 소개)",
   where:
-    "후원하기 페이지 맨 위, 왼쪽(모바일은 위)에 장갑을 낀 아이 사진, 오른쪽(모바일은 아래) 노란 배경에 제목·소개 글·버튼이 있는 부분이에요. 사진은 지금은 바꿀 수 없고, 사진 설명 글만 고칠 수 있어요. 소개 글은 화면 너비에 맞춰 줄이 자동으로 나뉘어요.",
+    "후원하기 페이지 맨 위, 왼쪽(모바일은 위)에 장갑을 낀 아이 사진, 오른쪽(모바일은 아래) 노란 배경에 제목·소개 글·버튼이 있는 부분이에요. 소개 글은 화면 너비에 맞춰 줄이 자동으로 나뉘어요.",
   defaults: {
     title: "버리는 것이\n더 쉬운 세상을\n바꿉니다.",
     body: "당장의 효율보다 오래 남는 가치를 선택할 수 있도록, 그 선택이 계속 이어질 수 있게 돕습니다.",
     button: { label: "후원하기", href: DONUS_DONATE_URL },
     imageAlt: "주황색 장갑을 끼고 전동 드릴로 나무판에 구멍을 내는 아이",
+    photo: null,
   },
 };
 
@@ -44,12 +46,15 @@ export const DONATION_WORK: SectionMeta<{
   first: WorkBlock;
   second: WorkBlock;
   third: WorkBlock;
+  // 첫째·셋째 면의 사진. 올린 사진은 흑백으로 바꾸지 않고 그대로 보인다.
+  firstPhoto: SanityImageSource | null;
+  thirdPhoto: SanityImageSource | null;
 }> = {
   id: "donationWork",
   page: "donation",
   title: "우리가 하는 일 (세 면)",
   where:
-    "미션 아래, '우리가 하는 일'이 세 면으로 이어지는 부분이에요. 첫째·셋째 면은 어두운 흑백 사진 위에 흰 글씨, 둘째 면은 회색 배경이에요. 사진은 지금은 바꿀 수 없어요. 본문은 Enter를 누른 곳에서 문단이 나뉘고, 문단 안의 줄은 화면 너비에 맞춰 자동으로 나뉘어요.",
+    "미션 아래, '우리가 하는 일'이 세 면으로 이어지는 부분이에요. 첫째·셋째 면은 어두운 흑백 사진 위에 흰 글씨, 둘째 면은 회색 배경이에요. 본문은 Enter를 누른 곳에서 문단이 나뉘고, 문단 안의 줄은 화면 너비에 맞춰 자동으로 나뉘어요.",
   defaults: {
     label: "우리가 하는 일",
     first: {
@@ -64,6 +69,8 @@ export const DONATION_WORK: SectionMeta<{
       lead: "버려지는 물질에 대한 사회의 인식을 바꿉니다.",
       body: "물질의 가치를 생산성과 경제적 효율로만 판단하는 한, 우리는 그 안에 남아 있는 새로운 쓰임과 가능성을 발견하기 어렵습니다. 우리는 산업폐기물이 어떻게 인간의 호기심과 창의적인 질문을 불러오는 교육 재료가 될 수 있는지 연구하고, 그 발견을 캠페인과 교육, 커뮤니티를 통해 확산합니다.",
     },
+    firstPhoto: null,
+    thirdPhoto: null,
   },
 };
 

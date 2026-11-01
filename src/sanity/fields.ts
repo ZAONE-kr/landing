@@ -187,6 +187,19 @@ export function photoField({
   });
 }
 
+// 섹션의 큰 사진(히어로·배너 등). 비워 두면 코드의 사진이 시안의 자리 그대로 나온다.
+export function sectionPhotoField({
+  name = "photo",
+  title = "사진",
+}: { name?: string; title?: string } = {}) {
+  return photoField({
+    name,
+    title,
+    description:
+      "사진을 바꾸려면 여기에 올리세요. 비워 두면 지금 사진이 그대로 나와요. 올린 뒤 점을 끌어 꼭 보여야 할 곳에 놓으면, 화면 크기에 맞춰 잘려도 그곳은 남아요.",
+  });
+}
+
 // 글 목록(태그처럼 짧은 글을 여러 개). 같은 글은 두 번 넣을 수 없다.
 export function textListField({
   name,
@@ -311,7 +324,8 @@ export function defineSectionType<T extends object>(
     fields: fields.map((field) => ({
       ...field,
       fieldset: "content",
-      initialValue: field.initialValue ?? defaults[field.name],
+      // 기본값이 null인 칸(사진)은 처음에 비워 둔다.
+      initialValue: field.initialValue ?? defaults[field.name] ?? undefined,
     })),
     // 제목으로 쓸 글자 필드가 없어 이름을 직접 준다. 없으면 문서 머리글이 "Untitled"가 된다.
     preview: { prepare: () => ({ title: section.title }) },

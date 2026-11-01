@@ -6,13 +6,13 @@ import type { SectionMeta } from "./pages";
 
 // ZAONE LAB 페이지(/zaone-lab)의 섹션. 적용 현장 카드는 카드 섹션으로 따로 옮긴다.
 
-export const LAB_HERO: SectionMeta<{ title: string }> = {
+export const LAB_HERO: SectionMeta<{ title: string; photo: SanityImageSource | null }> = {
   id: "labHero",
   page: "zaone-lab",
   title: "맨 위 (큰 사진과 질문)",
   where:
     "ZAONE LAB 페이지 맨 위, 큰 사진 위에 흰 글씨 질문이 나오는 부분이에요. 글은 화면 너비에 맞춰 줄이 자동으로 나뉘어요.",
-  defaults: { title: "답을 얻는 일이 쉬워질수록, 우리는 무엇을 배워야 할까요?" },
+  defaults: { title: "답을 얻는 일이 쉬워질수록, 우리는 무엇을 배워야 할까요?", photo: null },
 };
 
 export const LAB_QUESTION: SectionMeta<{ intro: string; lead: string; body: string }> = {
@@ -34,12 +34,13 @@ export const LAB_MATERIAL_PLAY: SectionMeta<{
   first: string;
   second: string;
   imageAlt: string;
+  photo: SanityImageSource | null;
 }> = {
   id: "labMaterialPlay",
   page: "zaone-lab",
   title: "물질과 놀이 (남색 배경과 사진)",
   where:
-    "남색 배경에 글은 왼쪽, 아이들이 돌을 만지는 사진은 오른쪽에 나오는 부분이에요. 사진은 지금은 바꿀 수 없고, 사진 설명 글만 고칠 수 있어요. 글은 화면 너비에 맞춰 줄이 자동으로 나뉘어요.",
+    "남색 배경에 글은 왼쪽, 아이들이 돌을 만지는 사진은 오른쪽에 나오는 부분이에요. 글은 화면 너비에 맞춰 줄이 자동으로 나뉘어요.",
   defaults: {
     title: "ZAONE LAB은 그 훈련을 물질과 놀이에서 시작합니다.",
     first:
@@ -47,6 +48,7 @@ export const LAB_MATERIAL_PLAY: SectionMeta<{
     second:
       "예상과 다르면 다시 시도하고, 다른 사람이 같은 재료를 전혀 다른 방식으로 사용하는 것을 보며 자신의 생각을 바꾸기도 합니다. 우리는 결과보다 과정, 혼자 해결하는 능력보다 협력과 상호의존, 정답을 따르는 일보다 스스로 방법을 찾는 경험을 중요하게 봅니다.",
     imageAlt: "아이들이 탁자에 둘러앉아 여러 모양의 돌을 만지며 살펴보는 모습",
+    photo: null,
   },
 };
 
@@ -62,17 +64,23 @@ export const LAB_LEARNERS: SectionMeta<{ lead: string; body: string }> = {
   },
 };
 
-export const LAB_RESPONSIBILITY: SectionMeta<{ title: string; body: string; imageAlt: string }> = {
+export const LAB_RESPONSIBILITY: SectionMeta<{
+  title: string;
+  body: string;
+  imageAlt: string;
+  photo: SanityImageSource | null;
+}> = {
   id: "labResponsibility",
   page: "zaone-lab",
   title: "책임 (연한 배경과 사진)",
   where:
-    "연한 배경에 사진은 왼쪽, 글은 오른쪽에 나오는 부분이에요. 사진은 지금은 바꿀 수 없고, 사진 설명 글만 고칠 수 있어요. 글은 화면 너비에 맞춰 줄이 자동으로 나뉘어요.",
+    "연한 배경에 사진은 왼쪽, 글은 오른쪽에 나오는 부분이에요. 글은 화면 너비에 맞춰 줄이 자동으로 나뉘어요.",
   defaults: {
     title:
       "우리는 무엇을 만들고 소비하는지, 무엇을 배우고 가르치는지, 그리고 그 과정에서 사람과 환경에 어떤 책임을 갖는지 묻습니다.",
     body: "ZAONE LAB은 UN 2030 Agenda가 다루는 지속가능한 생산과 소비, 교육, 지역사회와 환경의 문제를 우리의 일상과 연결해 살펴봅니다.",
     imageAlt: "공방에서 재봉틀로 가죽 조각을 박는 사람",
+    photo: null,
   },
 };
 

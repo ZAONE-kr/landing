@@ -2,6 +2,8 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 
 import factoryImage from "@/assets/about/factory-production-line.jpg";
+import { SanityImage } from "@/components/post/SanityImage";
+import { toCroppedImage } from "@/sanity/lib/image";
 import { loadSection } from "@/sanity/lib/sections";
 import { ABOUT_MANUFACTURING } from "@/sanity/sections/about";
 
@@ -36,6 +38,7 @@ function Point({
  */
 export async function ManufacturingSection() {
   const content = await loadSection(ABOUT_MANUFACTURING);
+  const uploaded = toCroppedImage(content.photo);
 
   return (
     <section>
@@ -59,18 +62,23 @@ export async function ManufacturingSection() {
       {/*
        * 모바일 시안은 9:4로 가운데를 자른다. 데스크톱은 1024·1440 시안 모두 높이 640px에 사진을 폭 1446px로
        * 두고 왼쪽에 붙였다. 그래서 1024에서는 사진 오른쪽이 잘리고, 사진보다 넓은 화면에서는 화면 폭을 따라 커진다.
+       * 운영자가 Studio에서 사진을 올리면 그 사진이 사진 칸(모바일 9:4, 데스크톱 높이 640px)을 채운다.
        */}
       <div className="relative aspect-[9/4] overflow-hidden lg:aspect-auto lg:h-[640px]">
-        <div className="absolute inset-0 lg:inset-auto lg:top-1/2 lg:left-0 lg:aspect-[3/2] lg:w-[max(90.375rem,100%)] lg:-translate-y-1/2">
-          <Image
-            src={factoryImage}
-            alt={content.imageAlt}
-            fill
-            placeholder="blur"
-            sizes="(min-width: 1446px) 100vw, (min-width: 1024px) 1446px, 100vw"
-            className="object-cover"
-          />
-        </div>
+        {uploaded ? (
+          <SanityImage image={uploaded} alt={content.imageAlt} sizes="100vw" />
+        ) : (
+          <div className="absolute inset-0 lg:inset-auto lg:top-1/2 lg:left-0 lg:aspect-[3/2] lg:w-[max(90.375rem,100%)] lg:-translate-y-1/2">
+            <Image
+              src={factoryImage}
+              alt={content.imageAlt}
+              fill
+              placeholder="blur"
+              sizes="(min-width: 1446px) 100vw, (min-width: 1024px) 1446px, 100vw"
+              className="object-cover"
+            />
+          </div>
+        )}
       </div>
     </section>
   );

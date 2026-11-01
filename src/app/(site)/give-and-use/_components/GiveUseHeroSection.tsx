@@ -1,6 +1,8 @@
 import Image from "next/image";
 
 import heroImage from "@/assets/give-and-use/hero-fabric-texture.jpg";
+import { SanityImage } from "@/components/post/SanityImage";
+import { toCroppedImage } from "@/sanity/lib/image";
 import { loadSection } from "@/sanity/lib/sections";
 import { GIVE_USE_HERO } from "@/sanity/sections/giveAndUse";
 
@@ -9,23 +11,36 @@ import { GIVE_USE_HERO } from "@/sanity/sections/giveAndUse";
  * object-cover로 가운데를 자른다(375: 979px, 1024 이상 680px 높이: 1594px 폭).
  * 모바일 높이는 글 길이로 정해지고(375 시안 418px), 데스크톱은 680px에 글을 가운데 둔다
  * (시안은 640px이었으나 요청으로 높임).
+ * 운영자가 Studio에서 사진을 올리면 그 사진이 섹션을 채운다.
  * 글은 Studio에서 고친다. 시안의 줄바꿈은 두지 않고 제목은 낱말 단위로 끊고(break-keep) 폭을 묶어 시안의 줄에 가깝게 나누고, 본문은 이어서 나눈다.
  */
 export async function GiveUseHeroSection() {
-  const { title, first, second } = await loadSection(GIVE_USE_HERO);
+  const { title, first, second, photo } = await loadSection(GIVE_USE_HERO);
+  const uploaded = toCroppedImage(photo);
 
   return (
     <section className="relative isolate flex flex-col items-center justify-center gap-xl overflow-hidden px-xl py-5xl text-center lg:h-[680px] lg:gap-2xl lg:px-6xl lg:py-0">
-      <Image
-        src={heroImage}
-        alt=""
-        fill
-        loading="eager"
-        fetchPriority="high"
-        placeholder="blur"
-        sizes="(min-width: 1594px) 100vw, (min-width: 1024px) 1594px, 980px"
-        className="-z-10 object-cover"
-      />
+      {uploaded ? (
+        <SanityImage
+          image={uploaded}
+          alt=""
+          sizes="(min-width: 1594px) 100vw, (min-width: 1024px) 1594px, 980px"
+          loading="eager"
+          fetchPriority="high"
+          className="-z-10"
+        />
+      ) : (
+        <Image
+          src={heroImage}
+          alt=""
+          fill
+          loading="eager"
+          fetchPriority="high"
+          placeholder="blur"
+          sizes="(min-width: 1594px) 100vw, (min-width: 1024px) 1594px, 980px"
+          className="-z-10 object-cover"
+        />
+      )}
       <h1 className="max-w-[20rem] text-body-l-eb break-keep text-text-inverse lg:max-w-[45rem] lg:text-heading-mm-eb">
         {title}
       </h1>

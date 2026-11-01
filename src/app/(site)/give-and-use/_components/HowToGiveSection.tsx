@@ -13,7 +13,7 @@ const CTA_IMAGE: Pick<FaqCta, "image" | "imageBoxClassName" | "sizes"> = {
 };
 
 export async function HowToGiveSection() {
-  const { eyebrow, heading, cards, ctaTitle, ctaButton } = await loadSection(GIVE_FAQ);
+  const { eyebrow, heading, cards, ctaTitle, ctaButton, photo } = await loadSection(GIVE_FAQ);
 
   return (
     <FaqSection
@@ -21,7 +21,7 @@ export async function HowToGiveSection() {
       eyebrow={eyebrow}
       heading={heading}
       faqs={cards}
-      cta={{ title: ctaTitle, button: ctaButton, ...CTA_IMAGE }}
+      cta={{ title: ctaTitle, button: ctaButton, photo, ...CTA_IMAGE }}
       className="bg-bg-default"
     />
   );
