@@ -18,7 +18,7 @@ const CTA_IMAGE: Pick<FaqCta, "image" | "imageBoxClassName" | "imageClassName" |
 };
 
 export async function HowToUseSection() {
-  const { eyebrow, heading, cards, ctaTitle, ctaButton } = await loadSection(USE_FAQ);
+  const { eyebrow, heading, cards, ctaTitle, ctaButton, photo } = await loadSection(USE_FAQ);
 
   return (
     <FaqSection
@@ -26,7 +26,7 @@ export async function HowToUseSection() {
       eyebrow={eyebrow}
       heading={heading}
       faqs={cards}
-      cta={{ title: ctaTitle, button: ctaButton, ...CTA_IMAGE }}
+      cta={{ title: ctaTitle, button: ctaButton, photo, ...CTA_IMAGE }}
       className="bg-bg-surface"
     />
   );

@@ -7,6 +7,7 @@ import {
   hrefField,
   isCustomCard,
   photoField,
+  sectionPhotoField,
   textField,
 } from "@/sanity/fields";
 import {
@@ -34,7 +35,10 @@ function circleField(name: string, title: string) {
 }
 
 export const aboutSectionTypes = [
-  defineSectionType(ABOUT_HERO, [textField({ name: "title", title: "한 문장", max: 50 })]),
+  defineSectionType(ABOUT_HERO, [
+    textField({ name: "title", title: "한 문장", max: 50 }),
+    sectionPhotoField({ title: "배경 사진" }),
+  ]),
   defineSectionType(ABOUT_IMPERFECTION, [
     textField({ name: "title", title: "제목", max: 80, lineBreaks: true }),
     textField({ name: "first", title: "첫 문단", max: 260, rows: 5 }),
@@ -43,6 +47,7 @@ export const aboutSectionTypes = [
   defineSectionType(ABOUT_CREATIVITY_QUESTION, [
     textField({ name: "title", title: "질문", max: 50 }),
     textField({ name: "sub", title: "한 줄 설명", max: 50 }),
+    sectionPhotoField({ title: "배경 사진" }),
   ]),
   defineSectionType(ABOUT_MANUFACTURING, [
     textField({ name: "title", title: "큰 제목", max: 80, rows: 2 }),
@@ -56,6 +61,7 @@ export const aboutSectionTypes = [
       rows: 2,
     }),
     textField({ name: "secondBody", title: "아래 덩어리 본문", max: 560, rows: 8 }),
+    sectionPhotoField(),
     textField({
       name: "imageAlt",
       title: "사진 설명",

@@ -3,6 +3,8 @@ import type { ReactNode } from "react";
 
 import stonesImage from "@/assets/zaone-lab/children-exploring-stones.jpg";
 import sewingImage from "@/assets/zaone-lab/sewing-workshop.jpg";
+import { SanityImage } from "@/components/post/SanityImage";
+import { type SanityImageSource, toCroppedImage } from "@/sanity/lib/image";
 import { loadSection } from "@/sanity/lib/sections";
 import { LAB_MATERIAL_PLAY, LAB_RESPONSIBILITY } from "@/sanity/sections/lab";
 
@@ -17,10 +19,12 @@ type SplitSectionProps = {
   title: string;
   children: ReactNode;
   image: StaticImageData;
+  // 운영자가 Studio에서 올린 사진. 있으면 코드의 사진 대신 쓴다.
+  photo: SanityImageSource | null;
   imageAlt: string;
   // 데스크톱에서 사진이 놓이는 쪽. 사진이 오른쪽이면 사진 칸이, 왼쪽이면 글 칸이 좁은 칸이다.
   imageSide: "left" | "right";
-  // 데스크톱에서 사진을 자르는 위치(시안마다 다르다).
+  // 데스크톱에서 코드의 사진을 자르는 위치(시안마다 다르다).
   imageClassName: string;
   sizes: string;
   className: {
@@ -41,6 +45,7 @@ function SplitSection({
   title,
   children,
   image,
+  photo,
   imageAlt,
   imageSide,
   imageClassName,
@@ -48,6 +53,7 @@ function SplitSection({
   className,
 }: SplitSectionProps) {
   const imageOnRight = imageSide === "right";
+  const uploaded = toCroppedImage(photo);
 
   return (
     <section
@@ -66,14 +72,18 @@ function SplitSection({
       <div
         className={`relative mt-3xl aspect-[3/2] lg:mt-0 lg:aspect-auto ${imageOnRight ? NARROW_COLUMN_CLASS : WIDE_COLUMN_CLASS}`}
       >
-        <Image
-          src={image}
-          alt={imageAlt}
-          fill
-          placeholder="blur"
-          sizes={sizes}
-          className={`object-cover ${imageClassName}`}
-        />
+        {uploaded ? (
+          <SanityImage image={uploaded} alt={imageAlt} sizes={sizes} />
+        ) : (
+          <Image
+            src={image}
+            alt={imageAlt}
+            fill
+            placeholder="blur"
+            sizes={sizes}
+            className={`object-cover ${imageClassName}`}
+          />
+        )}
       </div>
     </section>
   );
@@ -85,12 +95,13 @@ function SplitSection({
  * 1024 시안은 둘째 문단만 폭이 384px인데, 1440 시안처럼 두 문단 모두 글 폭을 채운다.
  */
 export async function MaterialPlaySection() {
-  const { title, first, second, imageAlt } = await loadSection(LAB_MATERIAL_PLAY);
+  const { title, first, second, imageAlt, photo } = await loadSection(LAB_MATERIAL_PLAY);
 
   return (
     <SplitSection
       title={title}
       image={stonesImage}
+      photo={photo}
       imageAlt={imageAlt}
       imageSide="right"
       imageClassName="lg:object-[91.3%_50%] 2xl:object-right"
@@ -115,12 +126,13 @@ export async function MaterialPlaySection() {
  * 원본이 1920px 폭뿐이라(Figma 사진과 같은 파일) 데스크톱 레티나에서는 조금 흐리다.
  */
 export async function ResponsibilitySection() {
-  const { title, body, imageAlt } = await loadSection(LAB_RESPONSIBILITY);
+  const { title, body, imageAlt, photo } = await loadSection(LAB_RESPONSIBILITY);
 
   return (
     <SplitSection
       title={title}
       image={sewingImage}
+      photo={photo}
       imageAlt={imageAlt}
       imageSide="left"
       imageClassName="lg:object-[max(-266px,100%)_50%]"

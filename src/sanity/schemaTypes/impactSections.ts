@@ -1,4 +1,11 @@
-import { buttonField, cardsField, defineSectionType, photoField, textField } from "@/sanity/fields";
+import {
+  buttonField,
+  cardsField,
+  defineSectionType,
+  photoField,
+  sectionPhotoField,
+  textField,
+} from "@/sanity/fields";
 import {
   IMPACT_CHANGE_RECORD,
   IMPACT_HERO,
@@ -7,7 +14,10 @@ import {
 } from "@/sanity/sections/impact";
 
 export const impactSectionTypes = [
-  defineSectionType(IMPACT_HERO, [textField({ name: "title", title: "질문", max: 70 })]),
+  defineSectionType(IMPACT_HERO, [
+    textField({ name: "title", title: "질문", max: 70 }),
+    sectionPhotoField({ title: "배경 사진" }),
+  ]),
   defineSectionType(IMPACT_MEASURE_CHANGE, [
     textField({ name: "title", title: "제목", max: 120, rows: 3 }),
     textField({ name: "sub", title: "제목 아래 한 줄", max: 100, rows: 2 }),
@@ -47,5 +57,6 @@ export const impactSectionTypes = [
     textField({ name: "title", title: "제목", max: 50 }),
     textField({ name: "body", title: "소개 글", max: 170, rows: 3 }),
     buttonField({ name: "button", title: "버튼" }),
+    sectionPhotoField({ title: "배경 사진" }),
   ]),
 ];

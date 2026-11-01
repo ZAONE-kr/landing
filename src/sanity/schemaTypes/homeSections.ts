@@ -7,6 +7,7 @@ import {
   hrefField,
   isCustomCard,
   photoField,
+  sectionPhotoField,
   textField,
 } from "@/sanity/fields";
 import { COMMON_FOOTER, COMMON_PAGE_SEO } from "@/sanity/sections/common";
@@ -42,6 +43,7 @@ const featureFields = [
   textField({ name: "title", title: "제목", max: 80, lineBreaks: true }),
   textField({ name: "first", title: "첫 문단", max: 360, rows: 6 }),
   textField({ name: "second", title: "둘째 문단", max: 360, rows: 6 }),
+  sectionPhotoField(),
   textField({ name: "imageAlt", title: "사진 설명", description: IMAGE_ALT_HELP, max: 100 }),
 ];
 
@@ -51,6 +53,7 @@ export const homeSectionTypes = [
     textField({ name: "first", title: "소개 글 첫 문단", max: 160, rows: 4 }),
     textField({ name: "second", title: "소개 글 둘째 문단", max: 100, rows: 3 }),
     buttonField({ name: "button", title: "버튼" }),
+    sectionPhotoField(),
     textField({ name: "imageAlt", title: "사진 설명", description: IMAGE_ALT_HELP, max: 100 }),
   ]),
   defineSectionType(HOME_CLIMATE_STORY, [

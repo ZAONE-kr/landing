@@ -6,6 +6,7 @@ import {
   defineSectionType,
   isCustomCard,
   photoField,
+  sectionPhotoField,
   textField,
 } from "@/sanity/fields";
 import {
@@ -49,6 +50,7 @@ export const donationSectionTypes = [
     textField({ name: "title", title: "제목", max: 40, lineBreaks: true }),
     textField({ name: "body", title: "소개 글", max: 120, rows: 3 }),
     buttonField({ name: "button", title: "버튼", description: DONATE_BUTTON_HELP }),
+    sectionPhotoField(),
     textField({ name: "imageAlt", title: IMAGE_ALT, description: IMAGE_ALT_HELP, max: 100 }),
   ]),
   defineSectionType(DONATION_MISSION, [
@@ -63,8 +65,10 @@ export const donationSectionTypes = [
   defineSectionType(DONATION_WORK, [
     textField({ name: "label", title: "작은 제목 (세 면 공통)", max: 20 }),
     workBlockField("first", "첫째 면 (흑백 사진)"),
+    sectionPhotoField({ name: "firstPhoto", title: "첫째 면 사진" }),
     workBlockField("second", "둘째 면 (회색 배경)"),
     workBlockField("third", "셋째 면 (흑백 사진)"),
+    sectionPhotoField({ name: "thirdPhoto", title: "셋째 면 사진" }),
   ]),
   defineSectionType(DONATION_USES, [
     textField({ name: "title", title: "섹션 제목", max: 40 }),

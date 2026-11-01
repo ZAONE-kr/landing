@@ -4,13 +4,13 @@ import type { SectionMeta } from "./pages";
 
 // IMPACT 페이지(/impact)의 섹션. 수치 카드는 카드 섹션으로 따로 옮긴다.
 
-export const IMPACT_HERO: SectionMeta<{ title: string }> = {
+export const IMPACT_HERO: SectionMeta<{ title: string; photo: SanityImageSource | null }> = {
   id: "impactHero",
   page: "impact",
   title: "맨 위 (큰 사진과 질문)",
   where:
     "IMPACT 페이지 맨 위, 큰 사진 가운데에 흰 글씨 질문이 나오는 부분이에요. 글은 화면 너비에 맞춰 줄이 자동으로 나뉘어요.",
-  defaults: { title: "자원이 버려지지 않는 것만으로 충분한 변화일까요?" },
+  defaults: { title: "자원이 버려지지 않는 것만으로 충분한 변화일까요?", photo: null },
 };
 
 export const IMPACT_MEASURE_CHANGE: SectionMeta<{
@@ -38,6 +38,7 @@ export const IMPACT_CHANGE_RECORD: SectionMeta<{
   title: string;
   body: string;
   button: { label: string; href: string };
+  photo: SanityImageSource | null;
 }> = {
   id: "impactChangeRecord",
   page: "impact",
@@ -48,6 +49,7 @@ export const IMPACT_CHANGE_RECORD: SectionMeta<{
     title: "변화는 한 번의 결과로 끝나지 않습니다.",
     body: "ZAONE은 현장에서 확인한 변화와 데이터를 계속 축적하고, 그 과정에서 발견한 질문과 인사이트를 기록합니다.",
     button: { label: "데이터와 변화의 기록 보기", href: "/insights" },
+    photo: null,
   },
 };
 

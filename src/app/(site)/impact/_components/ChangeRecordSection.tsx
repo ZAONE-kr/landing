@@ -1,8 +1,10 @@
 import Image from "next/image";
 
 import closingImage from "@/assets/impact/closing-mattress-factory.jpg";
+import { SanityImage } from "@/components/post/SanityImage";
 import { Button } from "@/components/ui/Button";
 import { linkTargetProps } from "@/lib/links";
+import { toCroppedImage } from "@/sanity/lib/image";
 import { loadSection } from "@/sanity/lib/sections";
 import { IMPACT_CHANGE_RECORD } from "@/sanity/sections/impact";
 
@@ -23,23 +25,30 @@ import { ExpandOnScroll } from "./ExpandOnScroll";
  * 창은 overflow-clip으로 자른다. hidden이면 아래로 밀려 있는 버튼에 키보드로 들어갈 때 브라우저가 창 안을
  * 스크롤해 버려 검정 막과 문구가 사진에서 어긋난 채 남는다.
  * 검정 50%는 두 상태 모두 같고, Figma에서 변수 없이 쓴 값이다.
+ * 운영자가 Studio에서 사진을 올리면 코드의 사진 대신 같은 틀을 채운다.
  * 글과 버튼은 Studio에서 고친다. 시안의 줄바꿈은 두지 않고 폭을 묶어 고르게 나눈다(text-balance).
  */
 export async function ChangeRecordSection() {
-  const { title, body, button } = await loadSection(IMPACT_CHANGE_RECORD);
+  const { title, body, button, photo } = await loadSection(IMPACT_CHANGE_RECORD);
+  const uploaded = toCroppedImage(photo);
+  const sizes = "(max-aspect-ratio: 3/2) 150vh, 100vw";
 
   return (
     <ExpandOnScroll className="h-screen">
       <div className="absolute inset-x-0 top-0 -bottom-px overflow-clip [--ib:var(--spacing-xl)] [--ix:var(--spacing-xl)] [--r:var(--radius-sm)] [clip-path:inset(0_calc(var(--ix)*(1-var(--e)))_calc((var(--ib)+1px)*(1-var(--e)))_round_calc(var(--r)*(1-var(--e))))] lg:[--ib:var(--spacing-3xl)] lg:[--ix:var(--spacing-3xl)] lg:[--r:var(--radius-lg)]">
         <div className="absolute inset-y-0 left-1/2 w-[calc(100%-2*var(--ix)*(1-var(--e)))] -translate-x-1/2">
-          <Image
-            src={closingImage}
-            alt=""
-            fill
-            placeholder="blur"
-            sizes="(max-aspect-ratio: 3/2) 150vh, 100vw"
-            className="object-cover"
-          />
+          {uploaded ? (
+            <SanityImage image={uploaded} alt="" sizes={sizes} />
+          ) : (
+            <Image
+              src={closingImage}
+              alt=""
+              fill
+              placeholder="blur"
+              sizes={sizes}
+              className="object-cover"
+            />
+          )}
         </div>
         <div aria-hidden className="absolute inset-0 bg-[rgb(0_0_0/0.5)]" />
 

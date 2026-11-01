@@ -133,7 +133,7 @@ function FieldCard({ field, id }: { field: Field; id: string }) {
  * 토큰을 쓴다.
  */
 export async function ApplicationsSection() {
-  const [doc, legacyTags] = await Promise.all([getSection(LAB_APPLICATIONS.id), getFieldTagsDoc()]);
+  const [doc, legacyTags] = await Promise.all([getSection(LAB_APPLICATIONS), getFieldTagsDoc()]);
   const content = withDefaults(LAB_APPLICATIONS.defaults, doc);
   // 새 카드 문서를 아직 게시하지 않았으면 기본 카드를 보여 주되, 예전 "카드 태그" 문서에 게시한 태그가 있으면 그것을 쓴다.
   const cardsPublished =

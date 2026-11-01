@@ -6,6 +6,7 @@ import {
   defineSectionType,
   optionalLinkField,
   photoField,
+  sectionPhotoField,
   textField,
 } from "@/sanity/fields";
 import {
@@ -79,6 +80,7 @@ function faqFields(defaults: typeof GIVE_FAQ.defaults) {
     }),
     textField({ name: "ctaTitle", title: "사진 배너 제목", max: 40 }),
     buttonField({ name: "ctaButton", title: "사진 배너 버튼" }),
+    sectionPhotoField({ title: "사진 배너 사진" }),
   ];
 }
 
@@ -87,6 +89,7 @@ export const giveAndUseSectionTypes = [
     textField({ name: "title", title: "제목", max: 70, rows: 2 }),
     textField({ name: "first", title: "소개 글 첫 문단", max: 220, rows: 4 }),
     textField({ name: "second", title: "소개 글 둘째 문단", max: 80, rows: 2 }),
+    sectionPhotoField({ title: "배경 사진" }),
   ]),
   defineSectionType(GIVE_PANEL, [
     ...panelTextFields,

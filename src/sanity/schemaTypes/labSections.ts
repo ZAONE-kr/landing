@@ -3,6 +3,7 @@ import {
   cardsField,
   defineSectionType,
   photoField,
+  sectionPhotoField,
   textField,
   textListField,
 } from "@/sanity/fields";
@@ -28,7 +29,10 @@ const DEFAULT_CARD_KEYS: readonly string[] = LAB_APPLICATIONS.defaults.cards.map
 );
 
 export const labSectionTypes = [
-  defineSectionType(LAB_HERO, [textField({ name: "title", title: "질문", max: 80 })]),
+  defineSectionType(LAB_HERO, [
+    textField({ name: "title", title: "질문", max: 80 }),
+    sectionPhotoField({ title: "배경 사진" }),
+  ]),
   defineSectionType(LAB_QUESTION, [
     textField({ name: "intro", title: "첫 문단", max: 260, rows: 4 }),
     textField({ name: "lead", title: "굵은 문장", max: 180, rows: 3 }),
@@ -38,6 +42,7 @@ export const labSectionTypes = [
     textField({ name: "title", title: "제목", max: 80 }),
     textField({ name: "first", title: "첫 문단", max: 220, rows: 4 }),
     textField({ name: "second", title: "둘째 문단", max: 420, rows: 6 }),
+    sectionPhotoField(),
     textField({ name: "imageAlt", title: IMAGE_ALT, description: IMAGE_ALT_HELP, max: 100 }),
   ]),
   defineSectionType(LAB_LEARNERS, [
@@ -47,6 +52,7 @@ export const labSectionTypes = [
   defineSectionType(LAB_RESPONSIBILITY, [
     textField({ name: "title", title: "제목", max: 200, rows: 3 }),
     textField({ name: "body", title: "본문", max: 200, rows: 4 }),
+    sectionPhotoField(),
     textField({ name: "imageAlt", title: IMAGE_ALT, description: IMAGE_ALT_HELP, max: 100 }),
   ]),
   defineSectionType(

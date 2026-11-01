@@ -10,12 +10,13 @@ export const HOME_HERO: SectionMeta<{
   second: string;
   button: { label: string; href: string };
   imageAlt: string;
+  photo: SanityImageSource | null;
 }> = {
   id: "homeHero",
   page: "home",
   title: "맨 위 (사진과 소개)",
   where:
-    "홈 맨 위, 왼쪽(모바일은 위)에 빙하 사진, 오른쪽(모바일은 아래)에 제목·소개 글·버튼이 있는 부분이에요. 사진은 지금은 바꿀 수 없고, 사진 설명 글만 고칠 수 있어요. 글은 화면 너비에 맞춰 줄이 자동으로 나뉘어요.",
+    "홈 맨 위, 왼쪽(모바일은 위)에 빙하 사진, 오른쪽(모바일은 아래)에 제목·소개 글·버튼이 있는 부분이에요. 글은 화면 너비에 맞춰 줄이 자동으로 나뉘어요.",
   defaults: {
     title: "지금의 선택이\n다음 세대가 살아갈\n환경을 만듭니다",
     first:
@@ -23,6 +24,7 @@ export const HOME_HERO: SectionMeta<{
     second: "ZAONE은 이 문제를 다른 시각에서 바라보고, 새로운 변화를 만들어가고 있습니다.",
     button: { label: "ZAONE이 만드는 변화 보기", href: "/impact" },
     imageAlt: "빙하 앞 바위에 서 있는 아이의 뒷모습",
+    photo: null,
   },
 };
 
@@ -48,14 +50,20 @@ export const HOME_CLIMATE_STORY: SectionMeta<{
   },
 };
 
-type Feature = { title: string; first: string; second: string; imageAlt: string };
+type Feature = {
+  title: string;
+  first: string;
+  second: string;
+  imageAlt: string;
+  photo: SanityImageSource | null;
+};
 
 export const HOME_ENVIRONMENT: SectionMeta<Feature> = {
   id: "homeEnvironment",
   page: "home",
   title: "환경 소개 (글과 사진)",
   where:
-    "홈 중간, 글은 왼쪽 사진은 오른쪽에 있는 첫째 소개 부분이에요. 사진은 지금은 바꿀 수 없고, 사진 설명 글만 고칠 수 있어요. 글은 화면 너비에 맞춰 줄이 자동으로 나뉘어요.",
+    "홈 중간, 글은 왼쪽 사진은 오른쪽에 있는 첫째 소개 부분이에요. 글은 화면 너비에 맞춰 줄이 자동으로 나뉘어요.",
   defaults: {
     title: "우리가 가장 먼저 바꾸려는 것은,\n어린 시절을 둘러싼 환경입니다.",
     first:
@@ -63,6 +71,7 @@ export const HOME_ENVIRONMENT: SectionMeta<Feature> = {
     second:
       "기후위기는 자연재해만의 문제가 아닙니다. 사람들이 살아가는 장소와 방식, 가족과 지역사회의 조건, 어린이가 경험할 수 있는 일상의 범위까지 바꿉니다. 우리는 환경을 지키는 일과 어린 시절을 지키는 일을 서로 다른 이야기로 보지 않습니다.",
     imageAlt: "구멍이 뚫린 흰색 조각들이 겹쳐 쌓인 모습",
+    photo: null,
   },
 };
 
@@ -71,7 +80,7 @@ export const HOME_DORMANT_RESOURCE: SectionMeta<Feature> = {
   page: "home",
   title: "휴면자원 소개 (사진과 글)",
   where:
-    "홈 중간, 사진은 왼쪽 글은 오른쪽에 있는 둘째 소개 부분이에요. 사진은 지금은 바꿀 수 없고, 사진 설명 글만 고칠 수 있어요. 글은 화면 너비에 맞춰 줄이 자동으로 나뉘어요.",
+    "홈 중간, 사진은 왼쪽 글은 오른쪽에 있는 둘째 소개 부분이에요. 글은 화면 너비에 맞춰 줄이 자동으로 나뉘어요.",
   defaults: {
     title: "휴면자원을 발굴하고,\n교육과 사회의 현장에 제공합니다.",
     first:
@@ -79,6 +88,7 @@ export const HOME_DORMANT_RESOURCE: SectionMeta<Feature> = {
     second:
       "기업·재단·공공기관과는 휴면자원을 매개로 미래세대, 환경, 지역사회를 다루는 사회공헌 프로젝트를 기획하고 운영합니다.",
     imageAlt: "공장 안 거치대에 겹겹이 걸린 가죽 원단",
+    photo: null,
   },
 };
 

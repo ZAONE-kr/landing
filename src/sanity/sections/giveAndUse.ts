@@ -5,7 +5,12 @@ import type { SectionMeta } from "./pages";
 
 // GIVE & USE 페이지(/give-and-use)의 섹션. 자주 묻는 질문과 프로젝트 카드는 카드 섹션으로 따로 옮긴다.
 
-export const GIVE_USE_HERO: SectionMeta<{ title: string; first: string; second: string }> = {
+export const GIVE_USE_HERO: SectionMeta<{
+  title: string;
+  first: string;
+  second: string;
+  photo: SanityImageSource | null;
+}> = {
   id: "giveUseHero",
   page: "give-and-use",
   title: "맨 위 (천 사진과 소개)",
@@ -16,6 +21,7 @@ export const GIVE_USE_HERO: SectionMeta<{ title: string; first: string; second: 
     first:
       "ZAONE은 기업이 보유한 휴면자원 가운데 교육적으로 활용할 수 있는 재료를 검토하고 분류해, 학교와 교육·돌봄기관, 복지기관, 도서관·문화공간 등이 사용할 수 있도록 제공합니다.",
     second: "휴면자원의 공급과 사용, 교육과 훈련을 하나의 체계로 운영합니다.",
+    photo: null,
   },
 };
 
@@ -91,6 +97,8 @@ type FaqSectionContent = {
   cards: FaqContent[];
   ctaTitle: string;
   ctaButton: { label: string; href: string };
+  // 맨 아래 사진 배너의 사진.
+  photo: SanityImageSource | null;
 };
 
 const NO_LINK = { label: "", href: "" };
@@ -100,7 +108,7 @@ export const GIVE_FAQ: SectionMeta<FaqSectionContent> = {
   page: "give-and-use",
   title: "공급 자주 묻는 질문",
   where:
-    "GIVE & USE 페이지 가운데, '휴면자원을 가지고 있다면' 면 아래 'HOW TO GIVE' 질문 목록과 맨 아래 사진 배너예요. 질문은 끌어서 순서를 바꾸고, 목록 아래 Add item으로 더하고, ⋯ 메뉴의 Remove로 지울 수 있어요. 사진은 지금은 바꿀 수 없어요. 고친 내용은 오른쪽 아래 Publish를 눌러야 사이트에 나가요.",
+    "GIVE & USE 페이지 가운데, '휴면자원을 가지고 있다면' 면 아래 'HOW TO GIVE' 질문 목록과 맨 아래 사진 배너예요. 질문은 끌어서 순서를 바꾸고, 목록 아래 Add item으로 더하고, ⋯ 메뉴의 Remove로 지울 수 있어요. 고친 내용은 오른쪽 아래 Publish를 눌러야 사이트에 나가요.",
   defaults: {
     eyebrow: "HOW TO GIVE",
     heading: "자주 묻는 질문",
@@ -170,6 +178,7 @@ export const GIVE_FAQ: SectionMeta<FaqSectionContent> = {
     ],
     ctaTitle: "휴면자원을 공급하시겠어요?",
     ctaButton: { label: "휴면자원 공급 문의하기", href: CONTACT_FORM_HREF.supply },
+    photo: null,
   },
 };
 
@@ -178,7 +187,7 @@ export const USE_FAQ: SectionMeta<FaqSectionContent> = {
   page: "give-and-use",
   title: "사용 자주 묻는 질문",
   where:
-    "GIVE & USE 페이지 가운데, '휴면자원을 사용하고 싶다면' 면 아래 'HOW TO USE' 질문 목록과 사진 배너예요. 질문은 끌어서 순서를 바꾸고, 목록 아래 Add item으로 더하고, ⋯ 메뉴의 Remove로 지울 수 있어요. 사진은 지금은 바꿀 수 없어요. 고친 내용은 오른쪽 아래 Publish를 눌러야 사이트에 나가요.",
+    "GIVE & USE 페이지 가운데, '휴면자원을 사용하고 싶다면' 면 아래 'HOW TO USE' 질문 목록과 사진 배너예요. 질문은 끌어서 순서를 바꾸고, 목록 아래 Add item으로 더하고, ⋯ 메뉴의 Remove로 지울 수 있어요. 고친 내용은 오른쪽 아래 Publish를 눌러야 사이트에 나가요.",
   defaults: {
     eyebrow: "HOW TO USE",
     heading: "자주 묻는 질문",
@@ -226,6 +235,7 @@ export const USE_FAQ: SectionMeta<FaqSectionContent> = {
     ],
     ctaTitle: "기관에서 휴면자원을 사용하시겠어요?",
     ctaButton: { label: "기관 멤버십 신청하기", href: CONTACT_FORM_HREF.use },
+    photo: null,
   },
 };
 
