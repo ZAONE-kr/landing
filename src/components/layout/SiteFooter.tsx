@@ -5,17 +5,19 @@ import { Fragment, type ReactNode } from "react";
 import acrcLogo from "@/assets/footer/acrc-logo.svg";
 import ntsLogo from "@/assets/footer/nts-logo.png";
 import { Logo } from "@/components/ui/Logo";
+import { NOTICE_LIST_HREF } from "@/lib/links";
 import { loadSection } from "@/sanity/lib/sections";
 import { COMMON_FOOTER } from "@/sanity/sections/common";
 
 // TODO: 시안이 없어 갈 곳을 임시로 정했다. 휴면자원·교육 협력은 메인의 같은 역할 카드와
-// 맞췄고, 문의 두 개는 폼이나 메일로 바뀔 수 있다. 시안이 나오면 다시 확인한다.
+// 맞췄고, 일반문의는 폼이나 메일로 바뀔 수 있다. 시안이 나오면 다시 확인한다.
+// 공지사항은 CONTACT 페이지의 공지사항 목록(사업소식 탭)으로 간다.
 const SERVICE_LINKS = [
   { label: "휴면자원 연결하기", href: "/give-and-use" },
   { label: "교육·공간 협력하기", href: "/zaone-lab" },
   { label: "후원하기", href: "/donation" },
   { label: "일반문의", href: "/contact" },
-  { label: "채용문의", href: "/contact" },
+  { label: "공지사항", href: NOTICE_LIST_HREF.businessNews },
 ];
 
 // 공익법인은 공익위반사항을 관리·감독하는 두 기관을 푸터에 알려야 한다.
