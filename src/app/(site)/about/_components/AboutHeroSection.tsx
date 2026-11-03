@@ -45,7 +45,7 @@ export async function AboutHeroSection() {
           className="absolute inset-0 bg-linear-to-b from-[rgb(0_0_0/0.5)] from-[8.655%] to-[rgb(0_0_0/0.15)] to-[61.522%]"
         />
       </div>
-      <h1 className="max-w-[18rem] text-center text-body-l-eb break-keep text-text-inverse lg:max-w-[40rem] lg:text-heading-lm-eb">
+      <h1 className="max-w-[18rem] text-center text-body-l-eb break-keep text-text-inverse lg:max-w-[40rem] lg:text-heading-mm-eb">
         {title}
       </h1>
     </section>

@@ -22,7 +22,7 @@ export function SiteHeader() {
     <AutoHideHeader className="flex items-center gap-sm bg-bg-default p-xl lg:gap-3xl">
       <Link href="/" className="shrink-0">
         {/* 로고 색은 Figma 시안이 bg/strong으로 잡아 두었다. */}
-        <Logo className="h-auto w-25 text-bg-strong lg:w-30" />
+        <Logo className="h-auto w-28.5 text-bg-strong lg:w-33" />
       </Link>
 
       <nav aria-label="주요 메뉴" className="hidden flex-1 lg:block">
