@@ -34,7 +34,7 @@ export function InsightsHeroSection() {
         />
       </div>
       <div className="mx-auto flex w-full max-w-[37.5rem] flex-col gap-xl text-text-inverse lg:max-w-[80rem]">
-        <h1 className="text-body-l-eb lg:text-heading-m-eb">
+        <h1 className="text-body-l-eb lg:text-heading-mm-eb">
           프로젝트에서 발견한
           <br />
           변화와 질문을 기록합니다.
