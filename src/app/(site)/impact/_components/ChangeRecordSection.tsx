@@ -53,7 +53,7 @@ export async function ChangeRecordSection() {
         <div aria-hidden className="absolute inset-0 bg-[rgb(0_0_0/0.5)]" />
 
         <div className="absolute inset-0 flex translate-y-[calc((1-var(--q))*50%)] flex-col items-center justify-center gap-xl px-lg py-4xl text-center opacity-[calc(1-(1-var(--q))*(1-var(--q)))] group-data-[revealed=false]/expand:pointer-events-none lg:gap-5xl lg:p-7xl">
-          <div className="flex max-w-[51.25rem] flex-col gap-s text-text-inverse lg:gap-xl">
+          <div className="flex max-w-[51.25rem] flex-col items-center gap-s text-text-inverse lg:gap-xl">
             <h2 className="max-w-[16rem] text-title-m-b text-balance lg:max-w-full lg:text-heading-s-b">
               {title}
             </h2>
