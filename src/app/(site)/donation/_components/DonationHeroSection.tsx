@@ -45,7 +45,7 @@ export async function DonationHeroSection() {
         )}
       </div>
 
-      <div className="bg-bg-highlight px-xl py-2xl lg:w-[27.75rem] lg:shrink-0 lg:px-5xl lg:py-6xl">
+      <div className="bg-bg-highlight px-xl pt-2xl pb-3xl lg:w-[27.75rem] lg:shrink-0 lg:px-5xl lg:py-6xl">
         <div className="mx-auto flex max-w-[37.5rem] flex-col items-center gap-4xl lg:mx-0 lg:items-start">
           <div className="flex w-full flex-col gap-lg lg:gap-2xl">
             <h1 className="text-body-l-eb whitespace-pre-line text-text-primary lg:text-heading-m-eb">
