@@ -46,7 +46,7 @@ export async function HeroSection() {
        * 데스크톱 글은 1440 시안 그대로 둔다. 글 칸이 41.32%로 좁아지면 시안의 줄(가장 긴 줄 391px)이
        * 들어가지 않으므로, 1280 아래에서는 글 칸 너비를 528px로 지키고 사진을 줄인다.
        */}
-      <div className="bg-bg-brand-soft px-lg py-2xl lg:w-[41.32%] lg:min-w-[33rem] lg:overflow-hidden lg:px-5xl lg:py-6xl">
+      <div className="bg-bg-brand-soft px-lg pt-2xl pb-3xl lg:w-[41.32%] lg:min-w-[33rem] lg:overflow-hidden lg:px-5xl lg:py-6xl">
         <div className="mx-auto flex max-w-[37.5rem] flex-col items-center gap-4xl lg:mx-0 lg:max-w-full lg:items-start">
           <div className="flex w-full flex-col gap-lg lg:gap-2xl">
             <h1 className="text-body-l-eb break-keep whitespace-pre-line text-text-primary lg:text-heading-m-eb">
