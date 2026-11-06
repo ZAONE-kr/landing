@@ -1,7 +1,8 @@
 import { POST_COLUMN } from "@/components/post/layout";
 import { PostBody } from "@/components/post/PostBody";
 import { PostPoster } from "@/components/post/PostPoster";
-import type { NoticeCategory } from "@/sanity/lib/notices";
+import { ArticleJsonLd } from "@/components/seo/JsonLd";
+import { type NoticeCategory, noticeHref } from "@/sanity/lib/notices";
 
 import { type Notice, toAttachments } from "./notice";
 import { NoticeAttachments } from "./NoticeAttachments";
@@ -15,14 +16,18 @@ import { OtherNoticesSection } from "./OtherNoticesSection";
  * 1024 시안 간격: 게시일 → 80 → 구분선 → 40 → 첨부파일 → 64 → 본문 → 64 → 포스터 → 120 → 다른 소식.
  */
 export function NoticeDetail({ category, notice }: { category: NoticeCategory; notice: Notice }) {
+  const title = notice.title?.trim() || "제목 없음";
+
   return (
     <main>
+      <ArticleJsonLd
+        path={noticeHref(category.type, notice.slug)}
+        title={title}
+        publishedAt={notice.publishedAt}
+        updatedAt={notice._updatedAt}
+      />
       <article className="pb-3xl lg:pb-7xl">
-        <NoticeHeader
-          category={category.title}
-          title={notice.title?.trim() || "제목 없음"}
-          publishedAt={notice.publishedAt}
-        />
+        <NoticeHeader category={category.title} title={title} publishedAt={notice.publishedAt} />
         {/* 시안의 구분선은 두께 없는 선이라 위아래 간격을 선 자리에서 잰다. 선 두께(1px)만큼 아래 간격을 줄인다. */}
         <hr className={`${POST_COLUMN} mt-4xl -mb-px border-border-strong lg:mt-6xl`} />
         <NoticeAttachments

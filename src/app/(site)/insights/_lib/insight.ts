@@ -11,8 +11,10 @@ import { INSIGHT_QUERY } from "@/sanity/lib/queries";
  */
 export type Insight = {
   _id: string;
+  _updatedAt: string;
   title: string | null;
   slug: string;
+  publishedAt: string | null;
   projectName: string | null;
   partner: string | null;
   mainImage: SanityImageSource | null;

@@ -49,8 +49,10 @@ export const INSIGHT_LIST_QUERY = defineQuery(`
  */
 export const INSIGHT_QUERY = defineQuery(`*[_type == "${INSIGHT.type}" && slug.current == $slug][0]{
   _id,
+  _updatedAt,
   title,
   "slug": slug.current,
+  publishedAt,
   projectName,
   partner,
   mainImage{${IMAGE_FIELDS}},
@@ -79,6 +81,7 @@ const NOTICE_ROW_FIELDS = `_id, title, "slug": slug.current, publishedAt`;
  */
 export const NOTICE_QUERY = defineQuery(`*[_type == $type && slug.current == $slug][0]{
   _id,
+  _updatedAt,
   title,
   "slug": slug.current,
   publishedAt,
@@ -113,6 +116,7 @@ export const NOTICE_LIST_QUERY = defineQuery(
 export const ABOUT_STORY_QUERY =
   defineQuery(`*[_type == "${ABOUT_STORY.type}" && slug.current == $slug][0]{
   _id,
+  _updatedAt,
   title,
   "slug": slug.current,
   mainImage{${IMAGE_FIELDS}},

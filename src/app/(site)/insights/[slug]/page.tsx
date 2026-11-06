@@ -7,6 +7,7 @@ import { POST_COLUMN } from "@/components/post/layout";
 import { PostBody } from "@/components/post/PostBody";
 import { PostHeader } from "@/components/post/PostHeader";
 import { PostPoster } from "@/components/post/PostPoster";
+import { ArticleJsonLd } from "@/components/seo/JsonLd";
 import { toCroppedImage, toOpenGraphImage } from "@/sanity/lib/image";
 import { insightHref } from "@/sanity/lib/insights";
 import { decodeSlugParam } from "@/sanity/slug";
@@ -59,14 +60,19 @@ export async function generateMetadata({
 
 export default async function InsightPage({ params }: PageProps<"/insights/[slug]">) {
   const insight = await loadInsight(params);
+  const title = insight.title?.trim() || "제목 없음";
 
   return (
     <main>
+      <ArticleJsonLd
+        path={insightHref(insight.slug)}
+        title={title}
+        image={toOpenGraphImage(insight.mainImage)?.url}
+        publishedAt={insight.publishedAt}
+        updatedAt={insight._updatedAt}
+      />
       <article className="pb-3xl lg:pb-7xl">
-        <PostHeader
-          title={insight.title?.trim() || "제목 없음"}
-          image={toCroppedImage(insight.mainImage)}
-        />
+        <PostHeader title={title} image={toCroppedImage(insight.mainImage)} />
         <InsightMeta projectName={insight.projectName} partner={insight.partner} />
         {/* 시안의 구분선은 두께 없는 선이라 위아래 간격을 선 자리에서 잰다. 선 두께(1px)만큼 아래 간격을 줄인다. */}
         <hr className={`${POST_COLUMN} mt-4xl -mb-px border-border-strong lg:mt-5xl`} />
