@@ -31,6 +31,7 @@ type NoticeAttachmentRow = {
  */
 export type Notice = {
   _id: string;
+  _updatedAt: string;
   title: string | null;
   slug: string;
   publishedAt: string | null;

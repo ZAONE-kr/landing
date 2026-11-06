@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 
+// 실제 사이트 주소. 메타데이터의 상대 주소와 구조화 데이터(src/components/seo/JsonLd.tsx)의 절대 주소가 이것을 기준으로 한다.
+export const SITE_URL = "https://zaone.org";
+
 // metadata는 얕게 병합된다. 하위 페이지가 openGraph를 지정하면 루트의 openGraph가 통째로
 // 바뀌므로, 페이지마다 같아야 하는 필드는 여기서 나눠 쓴다.
 export const siteOpenGraph = {

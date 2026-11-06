@@ -6,6 +6,7 @@ import { pageOpenGraph } from "@/app/shared-metadata";
 import { describePostBody } from "@/components/post/describe";
 import { PostBody, type PostBodySpacing, type PostBodyValue } from "@/components/post/PostBody";
 import { PostHeader } from "@/components/post/PostHeader";
+import { ArticleJsonLd } from "@/components/seo/JsonLd";
 import { aboutStoryHref } from "@/sanity/aboutStory";
 import { type SanityImageSource, toCroppedImage, toOpenGraphImage } from "@/sanity/lib/image";
 import { sanityFetch } from "@/sanity/lib/live";
@@ -28,6 +29,7 @@ export const revalidate = 3600;
 // ABOUT_STORY_QUERY 결과. Studio가 필수 칸을 막지만 API로 들어온 글은 비어 있을 수 있어 null을 받아 둔다.
 type AboutStory = {
   _id: string;
+  _updatedAt: string;
   title: string | null;
   slug: string;
   mainImage: SanityImageSource | null;
@@ -75,14 +77,18 @@ export async function generateMetadata({ params }: PageProps<"/about/[slug]">): 
 
 export default async function AboutStoryPage({ params }: PageProps<"/about/[slug]">) {
   const story = await loadAboutStory(params);
+  const title = story.title?.trim() || "제목 없음";
 
   return (
     <main>
+      <ArticleJsonLd
+        path={aboutStoryHref(story.slug)}
+        title={title}
+        image={toOpenGraphImage(story.mainImage)?.url}
+        updatedAt={story._updatedAt}
+      />
       <article className="pb-3xl lg:pb-7xl">
-        <PostHeader
-          title={story.title?.trim() || "제목 없음"}
-          image={toCroppedImage(story.mainImage)}
-        />
+        <PostHeader title={title} image={toCroppedImage(story.mainImage)} />
         {story.body && (
           <PostBody
             value={story.body}
