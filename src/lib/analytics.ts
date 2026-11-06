@@ -1,4 +1,4 @@
-import type { Mixpanel, OverridedMixpanel } from "mixpanel-browser";
+import type { Mixpanel } from "mixpanel-browser";
 
 /*
  * Mixpanel 기록. 대표가 Claude·ChatGPT에 Mixpanel 커넥터를 붙여 "이번 달 후원 버튼 몇 번 눌렸어?"처럼 물어볼 수 있게
@@ -25,17 +25,33 @@ export const TRACK_EVENT_ATTRIBUTE = "data-track-event";
 let client: Mixpanel | null = null;
 let starting: Promise<void> | null = null;
 
-// 첫 화면 용량을 늘리지 않게 SDK는 화면이 뜬 뒤 따로 받는다. 화면 녹화(session replay)가 빠진 가벼운 판을 쓴다.
+/*
+ * 첫 화면 용량을 늘리지 않게 SDK는 화면이 뜬 뒤 따로 받는다.
+ * 화면 녹화(session replay) 모듈은 SDK에 넣지 않은 판을 쓰고, 녹화하기로 뽑힌 방문에서만 Mixpanel CDN에서 받는다.
+ */
 export function startAnalytics(token: string) {
-  starting ??= import("mixpanel-browser/src/loaders/loader-module-core").then((module) => {
-    // 이 경로의 타입 선언에는 default가 빠져 있어(실제로는 있다) 본 패키지의 타입을 붙인다.
-    const mixpanel = module.default as unknown as OverridedMixpanel;
-    mixpanel.init(token, {
-      // 주소 경로가 바뀔 때만 페이지 조회로 센다. CONTACT의 ?type=처럼 같은 페이지 안에서 바뀌는 값은 세지 않는다.
-      autocapture: { pageview: "url-with-path" },
-    });
-    client = mixpanel;
-  });
+  /*
+   * README가 안내하는 src/loaders/loader-module-with-async-modules는 녹화 모듈 파일 이름이 빌드 전 자리표시자
+   * (__MP_RECORDER_FILENAME__)로 남아 CDN에서 받지 못한다. 이름이 채워진 빌드본(dist)을 쓴다.
+   */
+  starting ??= import("mixpanel-browser/dist/mixpanel-with-async-modules.cjs.js").then(
+    ({ default: mixpanel }) => {
+      mixpanel.init(token, {
+        // 주소 경로가 바뀔 때만 페이지 조회로 센다. CONTACT의 ?type=처럼 같은 페이지 안에서 바뀌는 값은 세지 않는다.
+        autocapture: { pageview: "url-with-path" },
+        /*
+         * 방문의 절반을 녹화한다(사용자 결정, 방문자가 많지 않아 넉넉히). 녹화는 사람이 Mixpanel 화면에서 보는 기능이라
+         * Claude·ChatGPT 커넥터로는 볼 수 없다.
+         * SDK 기본값은 화면 글자를 모두 *로, 사진·영상을 회색 상자로 바꿔 녹화해서 무엇을 보는지 알아볼 수 없다.
+         * 이 사이트의 글·사진은 누구나 보는 공개 내용이라 그대로 녹화하고, 방문자가 쓰는 입력칸만 가린다(기본값 유지).
+         */
+        record_sessions_percent: 50,
+        record_mask_all_text: false,
+        record_block_selector: "",
+      });
+      client = mixpanel;
+    },
+  );
   return starting;
 }
 
