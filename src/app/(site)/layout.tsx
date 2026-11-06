@@ -1,3 +1,4 @@
+import { GoogleAnalytics } from "@next/third-parties/google";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 
@@ -13,7 +14,16 @@ export const dynamic = "force-static";
 export const fetchCache = "force-no-store";
 export const revalidate = 3600;
 
-// /admin(Sanity Studio)은 이 그룹 밖이라 헤더·푸터가 붙지 않는다.
+/*
+ * Google Analytics 4. 옛 아임웹 사이트에서 쓰던 측정 ID를 그대로 써서 예전 기록에 이어 쌓인다.
+ * 실제 사이트(Vercel production)에서만 붙인다. 로컬 개발·미리보기 배포에서 연 페이지가 방문으로 잡히지 않게 하기 위해서다.
+ * 페이지 이동은 새로고침 없이 일어나서, GA 데이터 스트림의 향상된 측정 중
+ * "브라우저 기록 이벤트 기반 페이지 변경"이 켜져 있어야 이동한 페이지도 기록된다(기본값은 켜짐).
+ */
+const GA_MEASUREMENT_ID = "G-S1XVGCKM40";
+const isProduction = process.env.VERCEL_ENV === "production";
+
+// /admin(Sanity Studio)은 이 그룹 밖이라 헤더·푸터·GA가 붙지 않는다.
 // break-keep: 한글이 단어 중간에서 줄바꿈되지 않게 한다.
 // antialiased: Mac 브라우저가 글자 획을 부풀려 그리지 않게 해 Figma 시안과 같은 굵기로 보이게 한다.
 // 기본값이면 같은 굵기도 한 단계 굵어 보이고, 어두운 바탕의 밝은 글자에서 특히 두드러진다. Windows에는 영향이 없다.
@@ -23,6 +33,7 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
       <SiteHeader />
       {children}
       <SiteFooter />
+      {isProduction && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
     </div>
   );
 }
