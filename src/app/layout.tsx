@@ -23,7 +23,7 @@ const axiformaBold = localFont({
   preload: false,
 });
 
-const title = "산업폐기물의 재사용, 배움의 재료가 되다";
+const title = "자원(ZAONE) - 산업폐기물의 재사용, 배움의 재료가 되다";
 const description =
   "자원(ZAONE)은 기업의 생산 과정에서 버려지는 자재를 검토·분류해 교육 현장의 재료로 연결합니다. 산업폐기물의 창의적 재사용을 통해 새로운 배움의 환경을 만듭니다.";
 
