@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/Button";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { linkTargetProps } from "@/lib/links";
 import { loadSection } from "@/sanity/lib/sections";
 import { DONATION_CTA } from "@/sanity/sections/donation";
@@ -28,6 +29,7 @@ export async function DonationCtaSection() {
         <Button
           href={button.href}
           {...linkTargetProps(button.href)}
+          data-track-event={ANALYTICS_EVENTS.donate}
           className="w-[12.5rem] px-xl py-md text-body-xs-b lg:w-[15rem] lg:px-6xl lg:py-xl lg:text-body-sm-b"
         >
           {button.label}

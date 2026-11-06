@@ -3,6 +3,7 @@ import Image from "next/image";
 import heroImage from "@/assets/donation/hero-child-drilling.jpg";
 import { SanityImage } from "@/components/post/SanityImage";
 import { Button } from "@/components/ui/Button";
+import { ANALYTICS_EVENTS } from "@/lib/analytics";
 import { linkTargetProps } from "@/lib/links";
 import { toCroppedImage } from "@/sanity/lib/image";
 import { loadSection } from "@/sanity/lib/sections";
@@ -56,6 +57,7 @@ export async function DonationHeroSection() {
           <Button
             href={button.href}
             {...linkTargetProps(button.href)}
+            data-track-event={ANALYTICS_EVENTS.donate}
             className="px-4xl py-md text-detail-s-b lg:text-title-s-b"
           >
             {button.label}

@@ -3,6 +3,7 @@
 import { type FormEvent, useRef, useState } from "react";
 
 import { ArrowRightIcon } from "@/components/ui/icons";
+import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 import {
   DEFAULT_INQUIRY_TYPE,
   INQUIRY_FORMS,
@@ -123,6 +124,9 @@ export function ContactInquiry() {
         body: JSON.stringify(body),
       });
       if (!response.ok) throw new Error(`문의 접수 실패(${response.status})`);
+      trackEvent(ANALYTICS_EVENTS.inquiry, {
+        "문의 종류": INQUIRY_FORMS[type].cardTitle.join(" "),
+      });
       setValues({});
       setConsent(false);
       setTouched({});
