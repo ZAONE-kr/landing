@@ -3,6 +3,7 @@
 import { type FormEvent, useState } from "react";
 
 import { Button } from "@/components/ui/Button";
+import { ANALYTICS_EVENTS, trackEvent } from "@/lib/analytics";
 import { EMAIL_MESSAGE, isEmail } from "@/lib/email";
 import { cleanEmail, NEWSLETTER_API_PATH, type NewsletterRequest } from "@/lib/newsletter";
 
@@ -51,6 +52,7 @@ export function NewsletterForm({
         body: JSON.stringify(body),
       });
       if (!response.ok) throw new Error(`구독 접수 실패(${response.status})`);
+      trackEvent(ANALYTICS_EVENTS.newsletter);
       // 알림창이 떠 있는 동안에는 쓴 이메일이 보이고, 닫으면 칸이 비워진다.
       window.alert(doneMessage);
       form.reset();

@@ -2,6 +2,8 @@ import { GoogleAnalytics } from "@next/third-parties/google";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 
+import { MixpanelAnalytics } from "./_components/MixpanelAnalytics";
+
 /*
  * 사이트 페이지는 정적으로 만들어 두고, 글·푸터·태그가 Sanity에서 바뀌면 다시 만든다(푸터가 모든 페이지에 붙어서 여기서 정한다).
  * - 게시를 Studio(/admin)가 받으면 그 문서의 캐시 태그를 무효화해, 다음 방문 때 새로 만든다(src/sanity/lib/live.ts).
@@ -23,7 +25,13 @@ export const revalidate = 3600;
 const GA_MEASUREMENT_ID = "G-S1XVGCKM40";
 const isProduction = process.env.VERCEL_ENV === "production";
 
-// /admin(Sanity Studio)은 이 그룹 밖이라 헤더·푸터·GA가 붙지 않는다.
+/*
+ * Mixpanel(src/lib/analytics.ts). 대표가 Claude·ChatGPT에 커넥터로 붙여 지표를 물어보는 용도다. GA와 같이 실제 사이트에서만 켠다.
+ * 프로젝트 토큰은 브라우저로 그대로 나가는 공개 값이다. 데이터 위치가 US인 프로젝트라 보내는 주소를 따로 정하지 않는다.
+ */
+const MIXPANEL_TOKEN = "421814a20416a86cc89160ef6218370a";
+
+// /admin(Sanity Studio)은 이 그룹 밖이라 헤더·푸터·GA·Mixpanel이 붙지 않는다.
 // break-keep: 한글이 단어 중간에서 줄바꿈되지 않게 한다.
 // antialiased: Mac 브라우저가 글자 획을 부풀려 그리지 않게 해 Figma 시안과 같은 굵기로 보이게 한다.
 // 기본값이면 같은 굵기도 한 단계 굵어 보이고, 어두운 바탕의 밝은 글자에서 특히 두드러진다. Windows에는 영향이 없다.
@@ -34,6 +42,7 @@ export default function SiteLayout({ children }: LayoutProps<"/">) {
       {children}
       <SiteFooter />
       {isProduction && <GoogleAnalytics gaId={GA_MEASUREMENT_ID} />}
+      {isProduction && <MixpanelAnalytics token={MIXPANEL_TOKEN} />}
     </div>
   );
 }
