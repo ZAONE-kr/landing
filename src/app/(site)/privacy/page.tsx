@@ -17,7 +17,9 @@ export const metadata: Metadata = {
 };
 
 // 본문은 기존 사이트(zaone.org/privacy, 아임웹) 문구를 옮기고, 뉴스레터 이메일 수집(1·2·5항),
-// 개인정보관리 책임자(9항), 홈페이지 문의 폼(1·2·5항, 4항 위탁·국외 이전)만 더했다. 내용은 단체가 정한다.
+// 개인정보관리 책임자(10항), 홈페이지 문의 폼(1·2·5항, 4항 위탁·국외 이전)만 더했다. 내용은 단체가 정한다.
+// 8항(자동 수집장치)은 원문 목차에만 있고 본문이 없었다. Google Analytics를 붙이면서(2026-11-06) 본문을 채우고
+// 뒤 항 번호를 하나씩 미뤘다. 보유 기간 14개월은 GA4 표준 속성에서 고를 수 있는 가장 긴 보관 기간이다.
 // 뉴스레터 구독 이메일도 문의와 같은 구글 시트에 쌓여서(2026-10-27) 4항의 Google 위탁·국외 이전에 더했다.
 // 홈페이지 문의는 옛 사이트의 "파트너십 문의"를 대신해서 그 줄을 바꿨다(PARTNER WITH US가 CONTACT로 합쳐짐).
 // 위탁 업체 정보는 2026-10-19 각 회사 공개 자료 기준이다(Resend: resend.com/security·privacy-policy,
@@ -262,7 +264,37 @@ export default function PrivacyPage() {
           </p>
         </LegalSection>
 
-        <LegalSection level={3} title="8) 개인정보 관리를 위한 기술적, 관리적 보호조치">
+        <LegalSection
+          level={3}
+          title="8) 개인정보 자동 수집장치의 설치 운영 및 그 거부에 관한 사항"
+        >
+          <p>
+            회사는 홈페이지 이용 현황을 파악하기 위해 Google LLC의 웹 분석 서비스인 Google
+            Analytics를 사용합니다. Google Analytics는 이용자의 브라우저에 쿠키를 저장해 아래 정보를
+            수집합니다. 쿠키는 홈페이지가 이용자의 브라우저에 보내 이용자의 기기에 저장되는 작은
+            텍스트 파일입니다.
+          </p>
+          <BulletList>
+            <li>
+              수집 항목: 방문한 페이지, 방문 일시, 유입 경로, 접속 기기·브라우저 정보, 대략적인 접속
+              지역
+            </li>
+            <li>이용 목적: 방문자 수와 이용 현황을 분석해 홈페이지 개선</li>
+            <li>보유 기간: 수집일로부터 최대 14개월(Google Analytics 데이터 보관 설정에 따름)</li>
+          </BulletList>
+          <p>
+            수집된 정보는 Google LLC가 미국 등 Google 데이터 센터가 있는 국가에서 처리하며, 회사는
+            이 정보로 이용자 개인을 식별하지 않습니다.
+          </p>
+          <p>
+            이용자는 웹 브라우저 설정에서 쿠키 저장을 거부하거나 저장된 쿠키를 삭제할 수 있습니다.
+            Google Analytics 수집만 거부하려면 Google이 제공하는 차단 브라우저 부가기능
+            (tools.google.com/dlpage/gaoptout)을 설치하시면 됩니다. 쿠키 저장을 거부해도 홈페이지
+            이용에는 제한이 없습니다.
+          </p>
+        </LegalSection>
+
+        <LegalSection level={3} title="9) 개인정보 관리를 위한 기술적, 관리적 보호조치">
           <p>
             회사는 이용자의 개인정보를 취급함에 있어 개인정보가 분실, 도난, 누출, 변조 또는 훼손되지
             않도록 안전성 확보를 위하여 다음과 같은 기술적 대책을 강구하고 있습니다.
@@ -294,7 +326,7 @@ export default function PrivacyPage() {
           </p>
         </LegalSection>
 
-        <LegalSection level={3} title="9) 개인정보관리 책임자">
+        <LegalSection level={3} title="10) 개인정보관리 책임자">
           <p>
             회사는 개인정보 처리에 관한 업무를 총괄해서 책임지고, 개인정보 처리와 관련한 정보주체의
             불만처리 및 피해구제 등을 위하여 아래와 같이 개인정보 보호책임자를 지정하고 있습니다.
@@ -310,7 +342,7 @@ export default function PrivacyPage() {
           </p>
         </LegalSection>
 
-        <LegalSection level={3} title="10) 처리방침 변경에 대한 고지의 의무">
+        <LegalSection level={3} title="11) 처리방침 변경에 대한 고지의 의무">
           <p>
             현 개인정보취급방침의 내용 추가, 삭제 및 수정이 있을 시에는 개정 최소 7일전부터
             홈페이지의 ‘공지사항’을 통해 고지할 것입니다.
