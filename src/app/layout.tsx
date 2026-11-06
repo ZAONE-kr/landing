@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css";
 import "./globals.css";
-import { siteOpenGraph } from "./shared-metadata";
+import { SITE_URL, siteOpenGraph } from "./shared-metadata";
 
 // 라틴 전용 폰트(글리프 641개). 한글은 globals.css의 --font-display 스택에서 Pretendard로 넘어간다.
 const axiforma = localFont({
@@ -28,7 +28,7 @@ const description =
   "자원(ZAONE)은 기업의 생산 과정에서 버려지는 자재를 검토·분류해 교육 현장의 재료로 연결합니다. 산업폐기물의 창의적 재사용을 통해 새로운 배움의 환경을 만듭니다.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://zaone.org"),
+  metadataBase: new URL(SITE_URL),
   title,
   description,
   alternates: {

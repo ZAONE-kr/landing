@@ -1,3 +1,5 @@
+import { SiteJsonLd } from "@/components/seo/JsonLd";
+
 import { BrandVideoSection } from "./_components/BrandVideoSection";
 import { ClimateStorySection } from "./_components/ClimateStorySection";
 import { DormantResourceSection, EnvironmentSection } from "./_components/FeatureSections";
@@ -10,6 +12,7 @@ import { SupporterMarquee } from "./_components/SupporterMarquee";
 export default function Home() {
   return (
     <main>
+      <SiteJsonLd />
       <HeroSection />
       <ClimateStorySection />
       <BrandVideoSection />
