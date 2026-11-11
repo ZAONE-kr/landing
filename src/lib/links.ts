@@ -5,7 +5,8 @@ import { ABOUT_STORY_PATH } from "@/sanity/aboutStory";
  */
 
 // 교육·훈련 프로그램을 운영하는 외부 사이트. 이 사이트의 ZAONE LAB 소개(/zaone-lab)와 다른 곳이고 새 탭으로 연다.
-export const ZAONE_LAB_PROGRAMS_URL = "https://lab.zaone.org/";
+// TODO: lab.zaone.org로 바꾸기.
+export const ZAONE_LAB_PROGRAMS_URL = "https://zaone-lab.imweb.me/";
 
 // 후원 결제 페이지(Donus). 헤더·푸터의 후원하기는 후원하기 페이지(/donation)로 가고, 그 페이지의 버튼이 여기를 새 탭으로 연다.
 export const DONUS_DONATE_URL = "https://secure.donus.org/zaone/pay/step1";
