@@ -21,6 +21,7 @@ export const metadata: Metadata = {
 // 8항(자동 수집장치)은 원문 목차에만 있고 본문이 없었다. Google Analytics·Mixpanel을 붙이면서(2026-11-06) 본문을 채우고
 // 뒤 항 번호를 하나씩 미뤘다. 보유 기간 14개월은 GA4 표준 속성에서 고를 수 있는 가장 긴 보관 기간이다.
 // 뉴스레터 구독 이메일도 문의와 같은 구글 시트에 쌓여서(2026-10-27) 4항의 Google 위탁·국외 이전에 더했다.
+// 뉴스레터 구독도 담당자 알림 메일을 보내게 되어(2026-11-25) 4항의 Resend 위탁·국외 이전에도 더했다.
 // 홈페이지 문의는 옛 사이트의 "파트너십 문의"를 대신해서 그 줄을 바꿨다(PARTNER WITH US가 CONTACT로 합쳐짐).
 // 위탁 업체 정보는 2026-10-19 각 회사 공개 자료 기준이다(Resend: resend.com/security·privacy-policy,
 // Google: policies.google.com/privacy/additional?gl=kr).
@@ -159,7 +160,9 @@ export default function PrivacyPage() {
             위탁합니다.
           </p>
           <BulletList>
-            <li>Plus Five Five, Inc.(서비스명 Resend): 홈페이지 문의 알림 메일 발송</li>
+            <li>
+              Plus Five Five, Inc.(서비스명 Resend): 홈페이지 문의·뉴스레터 구독 알림 메일 발송
+            </li>
             <li>
               Google LLC(서비스명 Google 스프레드시트): 홈페이지 문의 기록 보관, 뉴스레터 구독자
               명단 보관
@@ -174,9 +177,11 @@ export default function PrivacyPage() {
               Plus Five Five, Inc.(Resend, support@resend.com)
               <BulletList className="mt-xs">
                 <li>이전되는 국가: 미국</li>
-                <li>이전되는 항목: 1)의 홈페이지 문의 항목</li>
-                <li>이전 시기 및 방법: 문의를 접수할 때 네트워크를 통해 전송</li>
-                <li>이용 목적: 담당자에게 문의 알림 메일 발송</li>
+                <li>이전되는 항목: 1)의 홈페이지 문의 항목, 뉴스레터 구독 이메일</li>
+                <li>
+                  이전 시기 및 방법: 문의를 접수하거나 뉴스레터를 구독할 때 네트워크를 통해 전송
+                </li>
+                <li>이용 목적: 담당자에게 문의·뉴스레터 구독 알림 메일 발송</li>
                 <li>보유 및 이용 기간: 발송 후 30일이 지나면 삭제</li>
               </BulletList>
             </li>
@@ -201,8 +206,8 @@ export default function PrivacyPage() {
             폼으로 접수하면 위와 같이 국외로 이전됩니다.
           </p>
           <p>
-            뉴스레터 구독자 명단은 위 Google 스프레드시트에만 보관하므로, 국외 이전을 원하지
-            않으시면 뉴스레터를 구독하실 수 없습니다.
+            뉴스레터 구독 이메일은 위와 같이 국외로 이전되므로, 국외 이전을 원하지 않으시면
+            뉴스레터를 구독하실 수 없습니다.
           </p>
         </LegalSection>
 
