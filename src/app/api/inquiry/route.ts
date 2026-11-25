@@ -16,7 +16,7 @@ import { saveInquiryToSheet } from "./sheet";
  * 긴 문의를 다 쓰고 보내면 "Failed to find Server Action"으로 실패한다. 이 주소는 배포해도 그대로다.
  */
 
-// 응답 뒤의 시트 저장까지 이 시간 안에 끝난다(메일 10초·시트 15초 제한, mail.ts·../_lib/sheet.ts).
+// 응답 뒤의 시트 저장까지 이 시간 안에 끝난다(메일 10초·시트 15초 제한, ../_lib/mail.ts·../_lib/sheet.ts).
 export const maxDuration = 30;
 
 // 폼 값은 많아야 수 KB다. 큰 본문은 읽기 전에 거절한다.
